@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>HW6</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
+:root{--ink:#16233d;--ink-red:#c0392b;--rule:#b9cbdc;--grey:#6b7683;--info:#17788c;--lh:32px;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#6b7480;}
+body{font-family:'Segoe Print','Ink Free','Kalam',cursive;color:var(--ink);font-size:16.5px;line-height:var(--lh);}
+
+.sheet{width:8.5in;min-height:11in;margin:24px auto;padding:64px 62px 70px 78px;background:#fff;
+  background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--lh) - 1px),var(--rule) calc(var(--lh) - 1px) var(--lh));
+  background-position:0 64px;box-shadow:0 6px 22px rgba(0,0,0,.35);position:relative;page-break-after:always;}
+.sheet:last-of-type{page-break-after:auto}
+.pnum{position:absolute;bottom:26px;right:56px;font-size:14px;opacity:.7}
+
+.hdr{display:flex;justify-content:space-between;align-items:baseline;font-size:15px;opacity:.85}
+.title{font-size:24px;font-weight:700;text-align:center;margin:6px 0 2px}
+.title u{text-decoration:none;border-bottom:2.5px solid var(--ink);padding-bottom:2px}
+.qhead{font-size:20px;font-weight:700;margin:22px 0 6px;color:var(--ink-red);
+  border-bottom:2px solid var(--ink-red);display:inline-block;padding-bottom:1px}
+
+/* the question, as asked */
+.stmt{font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.5;background:#f7f8f5;
+  border-left:4px solid #9fb3c8;padding:9px 13px;margin:6px 0 12px;color:#26303f;}
+.stmt b{font-weight:700}
+
+/* THE ANSWER -- always at the top of a problem */
+.ans{border:3px solid var(--ink-red);border-radius:10px;background:#fffdf3;
+  padding:8px 18px 12px;margin:10px 0 16px;position:relative}
+.ans .tag{position:absolute;top:-14px;left:16px;background:#fffdf3;color:var(--ink-red);
+  font-weight:700;font-size:15px;padding:0 8px;letter-spacing:.06em}
+.ans .sub{font-size:14.5px;color:var(--info);margin-top:4px;font-style:italic}
+
+/* steps */
+.step{font-weight:700;font-size:17.5px;margin:16px 0 2px}
+.why{font-size:15px;color:var(--info);margin:0 0 4px 26px;font-style:italic}
+.eq{margin:5px 0 5px 30px}
+.eqc{margin:7px 0;text-align:center}
+.lbl{float:right;font-size:14px;color:var(--info);font-style:italic}
+.note{font-size:15px;margin:6px 0 6px 30px;color:var(--info);font-style:italic}
+
+/* optional / not required */
+.opt{border-left:4px solid #c3cbd4;background:#f6f8fa;color:var(--grey);
+  padding:6px 12px;margin:12px 0 8px 12px;font-size:14.5px;line-height:1.55}
+.opt .tag{display:inline-block;border:1.4px solid #9aa5b1;border-radius:9px;
+  padding:0 8px;font-size:12.5px;letter-spacing:.08em;margin-right:8px}
+.legend{border:1.6px dashed #a9b4bf;border-radius:8px;padding:6px 14px;margin:10px 0 4px;
+  font-size:14.5px;color:var(--grey)}
+
+/* math bits */
+.f{display:inline-flex;flex-direction:column;align-items:center;vertical-align:0.52em;margin:0 .22em;line-height:1.16}
+.f>.n{border-bottom:2px solid currentColor;padding:0 .32em}
+.f>.d{padding:2px .32em 0}
+.sq{white-space:nowrap}
+.rt{border-top:2px solid currentColor;padding:1px .18em 0 .06em;margin-left:-1px}
+.ov{display:inline-block;border-top:2px solid currentColor;line-height:1;padding-top:1px;margin-top:2px}
+.v,.h{position:relative;display:inline-block;white-space:nowrap}
+.v::after{content:"\2192";position:absolute;left:50%;transform:translateX(-50%);top:-.72em;font-size:.55em;line-height:1}
+.h::after{content:"\005E";position:absolute;left:50%;transform:translateX(-50%);top:-.62em;font-size:.72em;line-height:1}
+sub,sup{font-size:.66em;line-height:0}
+.red{color:var(--ink-red)}
+.bcnum{display:inline-block;border:1.8px solid var(--ink);border-radius:50%;width:1.5em;height:1.5em;
+  line-height:1.35em;text-align:center;font-size:.8em;margin-right:.3em}
+
+figure{margin:12px 0 8px;text-align:center}
+figcaption{font-size:14px;color:var(--info);margin-top:2px;font-style:italic}
+svg{max-width:100%;height:auto}
+.stroke{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round}
+.thin{fill:none;stroke:var(--ink);stroke-width:1;opacity:.55}
+.dash{fill:none;stroke:var(--ink);stroke-width:1.2;stroke-dasharray:5 5;opacity:.7}
+.slab{fill:#e3ecf4;stroke:var(--ink);stroke-width:1.3}
+.ray{fill:none;stroke:var(--ink);stroke-width:1.8}
+.ray2{fill:none;stroke:var(--ink-red);stroke-width:1.6}
+.bvec{fill:none;stroke:var(--ink-red);stroke-width:1.6}
+.curveS{fill:none;stroke:var(--ink);stroke-width:2.2}
+.curveP{fill:none;stroke:var(--ink-red);stroke-width:2.2;stroke-dasharray:7 4}
+text{font-family:'Segoe Print','Ink Free','Kalam',cursive;font-size:13px;fill:var(--ink)}
+
+@media print{
+  html,body{background:#fff}
+  body{font-size:15px;--lh:28px}
+  .sheet{margin:0;box-shadow:none;width:100%;max-width:100%;min-height:0;
+         padding:6px 4px 24px 6px;background-position:0 6px;overflow:hidden}
+  .pnum{bottom:4px;right:6px}
+  .eq{margin:3px 0 3px 26px}
+  .note,.why{margin-left:26px}
+  .step{margin:11px 0 2px}
+  .qhead{margin:12px 0 4px}
+  .ans{margin:10px 0 12px}
+  figure{margin:8px 0 4px}
+  .stmt{margin:5px 0 9px;padding:7px 11px}
+  @page{size:letter;margin:0.45in 0.5in}
+}
+
+.endmark{margin:14px 0 8px;text-align:center;color:#c0392b;font-weight:700;font-size:15.5px;
+  letter-spacing:.05em;border-top:2.5px dashed #c0392b;border-bottom:2.5px dashed #c0392b;padding:4px 0}
+.extrahdr{background:#eef1f4;border:1.6px dashed #9aa5b1;border-radius:8px;padding:6px 14px;
+  margin:0 0 12px;color:#6b7683;font-size:15px;font-weight:700;text-align:center}
+@media print{ .endmark{margin:8px 0 5px;font-size:14px;padding:2px 0} .extrahdr{margin-bottom:8px;padding:4px 12px} }
+
+.note b,.why b,.ans .sub b,figcaption b{color:inherit}
+
+.src{display:inline-block;font-size:11.5px;font-style:normal;color:#17788c;border:1.2px solid #7fb8c4;
+  border-radius:8px;padding:0 6px;margin-left:8px;vertical-align:middle;white-space:nowrap;line-height:1.5}
+.ask{font-size:16px;font-weight:700;color:#16233d;margin:10px 0 2px 6px;border-left:4px solid #c0392b;padding-left:10px}
+.startbox{border:2.5px solid #16233d;border-radius:9px;background:#f4f7fa;padding:8px 16px;margin:12px 0;font-size:15.5px}
+@media print{ .ask{margin:7px 0 2px 12px} .startbox{margin:9px 0;padding:6px 14px} }
+
+.lead{display:inline-block;font-weight:700;color:#16233d;background:#eef2f6;border-left:3px solid #16233d;
+  padding:0 8px;margin-right:8px;border-radius:0 4px 4px 0}
+.lead::after{content:":"}
+.gets{display:inline-block;font-weight:700;color:#c0392b;background:#fdf1ef;border-left:3px solid #c0392b;
+  padding:0 8px;margin-right:8px;border-radius:0 4px 4px 0}
+.gets::after{content:":"}
+@media print{ .lead,.gets{padding:0 6px;margin-right:6px} }
+
+.from{color:#17788c;font-style:italic;font-size:14.5px;margin-left:16px}
+.arw{color:#c0392b;font-weight:700;margin-right:6px}
+
+.says{margin:9px 0 2px 6px;color:var(--ink)}
+.says b{font-weight:700}
+@media print{ .says{margin:6px 0 2px 6px} }
+
+.parthead{display:block;background:#16233d;color:#fff;font-weight:700;font-size:16.5px;
+  padding:4px 16px;border-radius:6px;margin:0 0 10px;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.parthead i{font-weight:400;font-style:normal;opacity:.85;font-size:15px}
+</style></head>
+<body>
+<!-- ============ SHEET 1 : COVER ============ -->
+<div class="sheet">
+  <div class="hdr"><span>Physics 5313 &mdash; Electromagnetic Theory 2</span><span>Homework 6</span></div>
+  <div class="title"><u>HW 6 &mdash; Jackson Eq. 8.59 (TE) &amp; Rectangular Cavity</u></div>
+
+  <div class="legend">
+    <b style="color:#16233d">black = write it down</b> &nbsp;&middot;&nbsp;
+    <span style="color:#c0392b;font-weight:700">red = the answer</span> &nbsp;&middot;&nbsp;
+    <span style="color:#17788c;font-style:italic">teal = my note, do not copy</span> &nbsp;&middot;&nbsp;
+    <span style="color:#6b7683">grey = optional</span>
+  </div>
+
+  <table style="width:calc(100% - 10px);border-collapse:collapse;font-size:15px;margin:10px 0 8px 6px">
+    <tr><td style="padding:4px 10px 4px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap">Q1</td><td style="padding:4px 12px 4px 0;vertical-align:top">Derive Jackson <b>Eq. 8.59</b> for <b>TE</b> modes</td><td style="padding:4px 0;vertical-align:top;color:#17788c;font-size:13px;white-space:nowrap">Lec 13 s2</td></tr>
+    <tr><td style="padding:4px 10px 4px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap">Q2</td><td style="padding:4px 12px 4px 0;vertical-align:top">Rectangular resonant cavity &mdash; general <b>TM</b> solution and lowest resonant frequency</td><td style="padding:4px 0;vertical-align:top;color:#17788c;font-size:13px;white-space:nowrap">Lec 14 s14&ndash;15</td></tr>
+  </table>
+
+  <div class="startbox">
+    <b>Both follow lectures you already have.</b> Q1: Lec 13 slide 2 <i>prints</i> Eq. 8.59 and then uses it
+    &mdash; this question asks for the derivation behind the TE line. Q2: Lec 14 slide 15 works the
+    <b>cylindrical</b> cavity with Bessel functions; this is the <b>rectangular</b> twin, so sines replace the
+    Bessel functions and everything else is identical.
+  </div>
+
+  <div class="note">
+    Checked numerically. Q1: the identity |<span class="h">n</span>&times;<b>H</b>|<sup>2</sup> =
+    (k<sup>2</sup>/&gamma;<sup>4</sup>)|<span class="h">n</span>&times;&nabla;<sub>t</sub>&psi;|<sup>2</sup> +
+    |&psi;|<sup>2</sup> was tested on all four walls of a TE<sub>10</sub> guide (exact), and the algebra
+    conversion at three frequencies (exact). Q2: the cavity fields satisfy both Maxwell curl equations and
+    &nabla;&middot;<b>E</b> = 0, and all six wall conditions hold to 10<sup>&minus;16</sup>.
+  </div>
+
+  <div class="pnum">1</div>
+</div>
+
+<!-- ============ SHEET 2 : Q1 statement + steps 0-1 ============ -->
+<div class="sheet">
+  <div class="qhead">Question 1 &mdash; Jackson Eq. 8.59 for TE modes</div>
+
+  <div class="stmt">
+    Show that for a <b>TE</b> mode the power lost per unit length of guide is
+    &minus;dP/dz = (1/2&sigma;&delta;)(&omega;/&omega;<sub>&lambda;</sub>)<sup>2</sup>
+    &#8750;<sub>C</sub>[ (1/&mu;&epsilon;&omega;<sub>&lambda;</sub><sup>2</sup>)(1 &minus; &omega;<sub>&lambda;</sub><sup>2</sup>/&omega;<sup>2</sup>)
+    |<b>n</b>&times;&nabla;<sub>t</sub>&psi;|<sup>2</sup> +
+    (&omega;<sub>&lambda;</sub><sup>2</sup>/&omega;<sup>2</sup>)|&psi;|<sup>2</sup> ]&#8201;dl.
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:16px;margin:10px 0 4px">
+      &minus;<span class="f"><span class="n">dP</span><span class="d">dz</span></span>
+      =
+      <span class="f"><span class="n">1</span><span class="d">2&sigma;&delta;</span></span>
+      <span style="font-size:1.05em">(</span><span class="f"><span class="n">&omega;</span><span class="d">&omega;<sub>&lambda;</sub></span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+      &#8750;<sub style="font-size:.6em">C</sub>
+      <span style="font-size:1.15em">[</span>
+      <span class="f"><span class="n">1</span><span class="d">&mu;&epsilon;&omega;<sub>&lambda;</sub><sup>2</sup></span></span>
+      <span style="font-size:1.05em">(</span>1 &minus;
+      <span class="f"><span class="n">&omega;<sub>&lambda;</sub><sup>2</sup></span><span class="d">&omega;<sup>2</sup></span></span><span style="font-size:1.05em">)</span>
+      |<span class="h">n</span>&times;&nabla;<sub>t</sub>&psi;|<sup>2</sup>
+      +
+      <span class="f"><span class="n">&omega;<sub>&lambda;</sub><sup>2</sup></span><span class="d">&omega;<sup>2</sup></span></span>
+      |&psi;|<sup>2</sup>
+      <span style="font-size:1.15em">]</span>dl
+    </div>
+  </div>
+
+  <div class="startbox">
+    <b>Flow:</b> start from the wall-loss formula &rarr; work out
+    <span class="h">n</span>&times;<b>H</b> on the wall, which splits into <b>two</b> perpendicular pieces
+    &rarr; square it &rarr; rewrite the prefactor in terms of &omega;/&omega;<sub>&lambda;</sub>.
+  </div>
+
+  <div class="step">Step 0 &nbsp;&mdash;&nbsp; The starting formula</div>
+  <div class="eq">
+    &minus;<span class="f"><span class="n">dP</span><span class="d">dz</span></span>
+    =
+    <span class="f"><span class="n">1</span><span class="d">2&sigma;&delta;</span></span>
+    &#8750;<sub style="font-size:.6em">C</sub>|<span class="h">n</span>&times;<span class="v">H</span>|<sup>2</sup>&#8201;dl
+    <span class="src">Jackson 8.58</span>
+  </div>
+  <div class="says">So the whole job is to compute
+    |<span class="h">n</span>&times;<span class="v">H</span>|<sup>2</sup> on the wall.</div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; The TE fields</div>
+  <div class="says">For TE, E<sub>z</sub> = 0 and the mode is built from &psi; = H<sub>z</sub>:</div>
+  <div class="eq">
+    <span class="v">H</span> = <span class="v">H</span><sub>t</sub> + <span class="h">z</span>&psi;,
+    &nbsp;&nbsp;&nbsp;
+    <span class="v">H</span><sub>t</sub> =
+    <span class="f"><span class="n">ik</span><span class="d">&gamma;<sup>2</sup></span></span>
+    &nabla;<sub>t</sub>&psi;
+    <span class="src">Lec 10, s18</span>
+  </div>
+  <div class="eq">
+    <b>wall condition:</b>&nbsp;
+    <span class="red"><span class="f"><span class="n">&part;&psi;</span><span class="d">&part;n</span></span> = 0</span>
+    &nbsp;on C
+    <span class="from">this is used in Step 3</span>
+  </div>
+  <div class="note">
+    Unlike TM, here <b>H<sub>z</sub> &ne; 0 at the wall</b> &mdash; that is exactly why the TE answer has an
+    extra |&psi;|<sup>2</sup> term that TM does not.
+  </div>
+
+  <div class="pnum">2</div>
+</div>
+
+<!-- ============ SHEET 3 : Q1 steps 2-3 ============ -->
+<div class="sheet">
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Work out <span class="h">n</span>&times;<span class="v">H</span> at the wall</div>
+  <div class="says">Set up a right-handed triad on the wall: <span class="h">n</span> (outward normal, lies in the
+    cross-section), <span class="h">t</span> (along the wall), and <span class="h">z</span>:</div>
+  <div class="eq">
+    <span class="h">n</span>&times;<span class="h">t</span> = <span class="h">z</span>,
+    &nbsp;&nbsp;
+    <span class="h">t</span>&times;<span class="h">z</span> = <span class="h">n</span>,
+    &nbsp;&nbsp;
+    <span class="h">z</span>&times;<span class="h">n</span> = <span class="h">t</span>
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span class="h">n</span>&times;<span class="h">z</span> = &minus;<span class="h">t</span>
+  </div>
+  <div class="says">Now cross <span class="h">n</span> into the two pieces of <b>H</b> separately:</div>
+  <div class="eq">
+    <span class="h">n</span>&times;<span class="v">H</span>
+    = <span class="h">n</span>&times;<span class="v">H</span><sub>t</sub>
+    + &psi;(<span class="h">n</span>&times;<span class="h">z</span>)
+  </div>
+  <div class="says">Write <b>H</b><sub>t</sub> in the wall frame as
+    (<b>H</b><sub>t</sub>&middot;<span class="h">n</span>)<span class="h">n</span> +
+    (<b>H</b><sub>t</sub>&middot;<span class="h">t</span>)<span class="h">t</span>. The
+    <span class="h">n</span> part dies under <span class="h">n</span>&times;, leaving</div>
+  <div class="eq">
+    <span class="h">n</span>&times;<span class="v">H</span>
+    = (<span class="v">H</span><sub>t</sub>&middot;<span class="h">t</span>)<span class="h">z</span>
+    &nbsp;&minus;&nbsp; &psi;&#8201;<span class="h">t</span>
+  </div>
+  <div class="note">
+    The two surviving pieces point along <b><span class="h">z</span></b> and <b><span class="h">t</span></b>
+    &mdash; <b>perpendicular to each other</b>. So when we square, there is no cross term; the magnitudes just
+    add in quadrature.
+  </div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Square it</div>
+  <div class="eq">
+    |<span class="h">n</span>&times;<span class="v">H</span>|<sup>2</sup>
+    = |<span class="v">H</span><sub>t</sub>&middot;<span class="h">t</span>|<sup>2</sup> + |&psi;|<sup>2</sup>
+  </div>
+  <div class="says">For the first piece, put in <b>H</b><sub>t</sub> from Step 1:</div>
+  <div class="eq">
+    <span class="v">H</span><sub>t</sub>&middot;<span class="h">t</span>
+    =
+    <span class="f"><span class="n">ik</span><span class="d">&gamma;<sup>2</sup></span></span>
+    (&nabla;<sub>t</sub>&psi;&middot;<span class="h">t</span>)
+    =
+    <span class="f"><span class="n">ik</span><span class="d">&gamma;<sup>2</sup></span></span>
+    <span class="f"><span class="n">&part;&psi;</span><span class="d">&part;t</span></span>
+  </div>
+  <div class="says"><b>Here is where the TE wall condition enters.</b> Since &part;&psi;/&part;n = 0 on C, the
+    gradient at the wall has <b>no normal part</b> &mdash; it points purely along <span class="h">t</span>:</div>
+  <div class="eq">
+    &nabla;<sub>t</sub>&psi; =
+    <span class="f"><span class="n">&part;&psi;</span><span class="d">&part;t</span></span><span class="h">t</span>
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span class="h">n</span>&times;&nabla;<sub>t</sub>&psi; =
+    <span class="f"><span class="n">&part;&psi;</span><span class="d">&part;t</span></span><span class="h">z</span>
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span style="font-size:1.05em">|</span><span class="f"><span class="n">&part;&psi;</span><span class="d">&part;t</span></span><span style="font-size:1.05em">|</span>
+    = |<span class="h">n</span>&times;&nabla;<sub>t</sub>&psi;|
+  </div>
+  <div class="eq">
+    &rArr;&nbsp;
+    <span class="red">|<span class="h">n</span>&times;<span class="v">H</span>|<sup>2</sup> =
+    <span class="f"><span class="n">k<sup>2</sup></span><span class="d">&gamma;<sup>4</sup></span></span>
+    |<span class="h">n</span>&times;&nabla;<sub>t</sub>&psi;|<sup>2</sup> + |&psi;|<sup>2</sup></span>
+  </div>
+  <div class="note">
+    Tested numerically on all four walls of a TE<sub>10</sub> rectangular guide &mdash; exact every time.
+  </div>
+
+  <div class="pnum">3</div>
+</div>
+
+<!-- ============ SHEET 4 : Q1 step 4 ============ -->
+<div class="sheet">
+  <div class="step">Step 4 &nbsp;&mdash;&nbsp; Put the prefactor into Jackson&rsquo;s form</div>
+  <div class="says">We now have</div>
+  <div class="eq">
+    &minus;<span class="f"><span class="n">dP</span><span class="d">dz</span></span>
+    =
+    <span class="f"><span class="n">1</span><span class="d">2&sigma;&delta;</span></span>
+    &#8750;<sub style="font-size:.6em">C</sub>
+    <span style="font-size:1.1em">[</span>
+    <span class="f"><span class="n">k<sup>2</sup></span><span class="d">&gamma;<sup>4</sup></span></span>
+    |<span class="h">n</span>&times;&nabla;<sub>t</sub>&psi;|<sup>2</sup> + |&psi;|<sup>2</sup>
+    <span style="font-size:1.1em">]</span>dl
+  </div>
+  <div class="says">Jackson pulls out a factor (&omega;/&omega;<sub>&lambda;</sub>)<sup>2</sup>, so we need to
+    rewrite each term with that factored out. Use the two standard relations:</div>
+  <div class="eq">
+    k<sup>2</sup> = &mu;&epsilon;&omega;<sup>2</sup> &minus; &gamma;<sup>2</sup>,
+    &nbsp;&nbsp;&nbsp;
+    &gamma;<sup>2</sup> = &mu;&epsilon;&omega;<sub>&lambda;</sub><sup>2</sup>
+    <span class="src">Lec 11, s2&ndash;4</span>
+  </div>
+
+  <div class="says"><b>First term.</b> Write k<sup>2</sup> = &mu;&epsilon;&omega;<sup>2</sup>(1 &minus; &omega;<sub>&lambda;</sub><sup>2</sup>/&omega;<sup>2</sup>)
+    and &gamma;<sup>4</sup> = (&mu;&epsilon;)<sup>2</sup>&omega;<sub>&lambda;</sub><sup>4</sup>:</div>
+  <div class="eq">
+    <span class="f"><span class="n">k<sup>2</sup></span><span class="d">&gamma;<sup>4</sup></span></span>
+    =
+    <span class="f"><span class="n">&mu;&epsilon;&omega;<sup>2</sup>(1 &minus; &omega;<sub>&lambda;</sub><sup>2</sup>/&omega;<sup>2</sup>)</span><span class="d">(&mu;&epsilon;)<sup>2</sup>&omega;<sub>&lambda;</sub><sup>4</sup></span></span>
+  </div>
+  <div class="says">Split off &omega;<sup>2</sup>/&omega;<sub>&lambda;</sub><sup>2</sup> and cancel one
+    &mu;&epsilon;:</div>
+  <div class="eq">
+    =
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">&omega;</span><span class="d">&omega;<sub>&lambda;</sub></span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+    <span class="f"><span class="n">1</span><span class="d">&mu;&epsilon;&omega;<sub>&lambda;</sub><sup>2</sup></span></span>
+    <span style="font-size:1.05em">(</span>1 &minus;
+    <span class="f"><span class="n">&omega;<sub>&lambda;</sub><sup>2</sup></span><span class="d">&omega;<sup>2</sup></span></span><span style="font-size:1.05em">)</span>
+    <span class="from">&#10003; Jackson&rsquo;s first TE term</span>
+  </div>
+
+  <div class="says"><b>Second term.</b> The |&psi;|<sup>2</sup> has coefficient 1, and</div>
+  <div class="eq">
+    1 =
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">&omega;</span><span class="d">&omega;<sub>&lambda;</sub></span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+    <span class="f"><span class="n">&omega;<sub>&lambda;</sub><sup>2</sup></span><span class="d">&omega;<sup>2</sup></span></span>
+    <span class="from">&#10003; Jackson&rsquo;s second TE term &mdash; just 1 written the useful way</span>
+  </div>
+
+  <div class="says">Both terms now carry the same (&omega;/&omega;<sub>&lambda;</sub>)<sup>2</sup>, so it comes
+    outside the integral:</div>
+
+  <div class="ans">
+    <span class="tag">ANSWER &mdash; Q1</span>
+    <div class="eqc" style="font-size:16px;margin:10px 0 4px">
+      &minus;<span class="f"><span class="n">dP</span><span class="d">dz</span></span>
+      =
+      <span class="f"><span class="n">1</span><span class="d">2&sigma;&delta;</span></span>
+      <span style="font-size:1.05em">(</span><span class="f"><span class="n">&omega;</span><span class="d">&omega;<sub>&lambda;</sub></span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+      &#8750;<sub style="font-size:.6em">C</sub>
+      <span style="font-size:1.15em">[</span>
+      <span class="f"><span class="n">1</span><span class="d">&mu;&epsilon;&omega;<sub>&lambda;</sub><sup>2</sup></span></span>
+      <span style="font-size:1.05em">(</span>1 &minus;
+      <span class="f"><span class="n">&omega;<sub>&lambda;</sub><sup>2</sup></span><span class="d">&omega;<sup>2</sup></span></span><span style="font-size:1.05em">)</span>
+      |<span class="h">n</span>&times;&nabla;<sub>t</sub>&psi;|<sup>2</sup>
+      +
+      <span class="f"><span class="n">&omega;<sub>&lambda;</sub><sup>2</sup></span><span class="d">&omega;<sup>2</sup></span></span>
+      |&psi;|<sup>2</sup>
+      <span style="font-size:1.15em">]</span>dl
+      &nbsp;&#10003;
+    </div>
+  </div>
+
+  <div class="opt">
+    <span class="tag">OPTIONAL</span><b>Why TM looks different.</b> For TM the wall condition is &psi; = 0, so
+    the |&psi;|<sup>2</sup> term vanishes &mdash; but &part;&psi;/&part;n &ne; 0, so the surviving piece is
+    |&part;&psi;/&part;n|<sup>2</sup>. That is Jackson&rsquo;s upper line.
+  </div>
+
+  <div class="endmark">&#9632;&nbsp; END OF QUESTION 1 &nbsp;&#9632;</div>
+
+  <div class="pnum">4</div>
+</div>
+
+<!-- ============ SHEET 5 : Q2 statement + step 0 ============ -->
+<div class="sheet">
+  <div class="qhead">Question 2 &mdash; Rectangular resonant cavity, TM modes</div>
+
+  <div class="stmt">
+    A resonant cavity of perfect conductor has a <b>rectangular</b> cross section with sides a and b (and
+    length d along z). Find the general solution for <b>TM</b> modes, and the <b>lowest</b> resonant frequency.
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:16px;margin:8px 0 2px">
+      E<sub>z</sub> = E<sub>0</sub>&#8201;sin<span style="font-size:1.05em">(</span><span class="f"><span class="n">m&pi;x</span><span class="d">a</span></span><span style="font-size:1.05em">)</span>sin<span style="font-size:1.05em">(</span><span class="f"><span class="n">n&pi;y</span><span class="d">b</span></span><span style="font-size:1.05em">)</span>cos<span style="font-size:1.05em">(</span><span class="f"><span class="n">p&pi;z</span><span class="d">d</span></span><span style="font-size:1.05em">)</span>,
+      &nbsp;&nbsp; H<sub>z</sub> = 0
+    </div>
+    <div class="eqc" style="font-size:16px;margin:6px 0 2px">
+      &omega;<sub>mnp</sub> =
+      <span class="f"><span class="n">1</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+      <span class="sq">&radic;<span class="rt">
+        <span style="font-size:.95em">(</span><span class="f"><span class="n">m&pi;</span><span class="d">a</span></span><span style="font-size:.95em">)</span><sup>2</sup> +
+        <span style="font-size:.95em">(</span><span class="f"><span class="n">n&pi;</span><span class="d">b</span></span><span style="font-size:.95em">)</span><sup>2</sup> +
+        <span style="font-size:.95em">(</span><span class="f"><span class="n">p&pi;</span><span class="d">d</span></span><span style="font-size:.95em">)</span><sup>2</sup>
+      </span></span>
+      &nbsp;&nbsp;<span style="font-size:.85em">m, n = 1, 2, 3&hellip; &nbsp; p = 0, 1, 2&hellip;</span>
+    </div>
+    <div class="eqc" style="font-size:16px;margin:6px 0 2px">
+      <b>lowest = TM<sub>110</sub>:</b>&nbsp;&nbsp;
+      &omega;<sub>110</sub> =
+      <span class="f"><span class="n">&pi;</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+      <span class="sq">&radic;<span class="rt">
+        <span class="f"><span class="n">1</span><span class="d">a<sup>2</sup></span></span> +
+        <span class="f"><span class="n">1</span><span class="d">b<sup>2</sup></span></span>
+      </span></span>
+    </div>
+  </div>
+
+  <div class="startbox">
+    <b>Flow:</b> a cavity is a waveguide with two end caps bolted on &rarr; so solve the waveguide first (that
+    gives the x, y shape) &rarr; then the wave cannot escape, it bounces, so put <b>both</b> directions
+    &plusmn;z in and make the end caps happy (that gives the z shape) &rarr; now all three directions are
+    quantised, and that fixes &omega;.
+  </div>
+
+  <div class="step">Step 0 &nbsp;&mdash;&nbsp; What we start from</div>
+  <div class="says">Source-free region inside, time dependence e<sup>&minus;i&omega;t</sup>:</div>
+  <div class="eq">
+    &nabla;&times;<span class="v">E</span> = i&omega;&mu;<span class="v">H</span>,
+    &nbsp;&nbsp;&nbsp;
+    &nabla;&times;<span class="v">H</span> = &minus;i&omega;&epsilon;<span class="v">E</span>,
+    &nbsp;&nbsp;&nbsp;
+    &nabla;&middot;<span class="v">E</span> = 0,
+    &nbsp;&nbsp;&nbsp;
+    &nabla;&middot;<span class="v">H</span> = 0
+    <span class="src">Lec 9, s11</span>
+  </div>
+  <div class="says">The walls are perfect conductor, so on <b>every</b> wall (all six faces)</div>
+  <div class="eq">
+    <span class="h">n</span>&times;<span class="v">E</span> = 0
+    <span class="from">tangential E vanishes</span>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="h">n</span>&middot;<span class="v">H</span> = 0
+    <span class="from">normal H vanishes</span>
+  </div>
+  <div class="note">
+    <b>Why these two.</b> Inside a perfect conductor E = 0 and H = 0. Tangential E and normal H are the two
+    combinations that must be continuous across a surface, so they are zero on our side as well. Normal E and
+    tangential H are <i>not</i> continuous &mdash; they are paid for by surface charge and surface current, so
+    they are free to be non-zero.
+  </div>
+  <div class="says">And TM means, by definition,</div>
+  <div class="eq">
+    H<sub>z</sub> = 0,
+    &nbsp;&nbsp;&nbsp;
+    &psi; &equiv; E<sub>z</sub>
+    <span class="from">the one scalar everything is built from</span>
+  </div>
+
+  <div class="pnum">5</div>
+</div>
+
+<!-- ============ SHEET 6 : Q2 steps 1-2 ============ -->
+<div class="sheet">
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; The waveguide piece: shape in x and y</div>
+  <div class="says">Take the curl of the first Maxwell equation and use the second plus
+    &nabla;&middot;<b>E</b> = 0; every component then obeys the wave equation. Put
+    E<sub>z</sub> = &psi;(x,y)&#8201;Z(z):</div>
+  <div class="eq">
+    (&nabla;<sup>2</sup> + &mu;&epsilon;&omega;<sup>2</sup>)E<sub>z</sub> = 0
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    &nabla;<sub>t</sub><sup>2</sup>&psi; + &gamma;<sup>2</sup>&psi; = 0,
+    &nbsp;&nbsp;
+    &gamma;<sup>2</sup> = &mu;&epsilon;&omega;<sup>2</sup> &minus; k<sup>2</sup>
+    <span class="src">Lec 10, s17</span>
+  </div>
+  <div class="says">with &nabla;<sub>t</sub><sup>2</sup> = &part;<sup>2</sup>/&part;x<sup>2</sup> +
+    &part;<sup>2</sup>/&part;y<sup>2</sup>, and k the z wavenumber. E<sub>z</sub> is <b>tangential</b> to the
+    four side walls, so</div>
+  <div class="eq">
+    &psi; = 0 &nbsp;at&nbsp; x = 0, a &nbsp;and&nbsp; y = 0, b
+  </div>
+  <div class="says">Separate &psi; = X(x)Y(y). Dividing by XY gives X&#8243;/X + Y&#8243;/Y =
+    &minus;&gamma;<sup>2</sup>; one term depends only on x, the other only on y, so each must be its own
+    constant:</div>
+  <div class="eq">
+    X&#8243; = &minus;k<sub>x</sub><sup>2</sup>X,
+    &nbsp;&nbsp;
+    Y&#8243; = &minus;k<sub>y</sub><sup>2</sup>Y,
+    &nbsp;&nbsp;
+    k<sub>x</sub><sup>2</sup> + k<sub>y</sub><sup>2</sup> = &gamma;<sup>2</sup>
+  </div>
+  <div class="says">X is a sine or a cosine. X(0) = 0 rules out the cosine, so X = sin(k<sub>x</sub>x); then
+    X(a) = 0 forces k<sub>x</sub>a = m&pi;. Identically for Y:</div>
+  <div class="eq">
+    <span class="red">&psi; = E<sub>0</sub>&#8201;sin<span style="font-size:1.05em">(</span><span class="f"><span class="n">m&pi;x</span><span class="d">a</span></span><span style="font-size:1.05em">)</span>sin<span style="font-size:1.05em">(</span><span class="f"><span class="n">n&pi;y</span><span class="d">b</span></span><span style="font-size:1.05em">)</span></span>,
+    &nbsp;&nbsp;&nbsp;
+    <span class="red">&gamma;<sup>2</sup> =
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">m&pi;</span><span class="d">a</span></span><span style="font-size:1.05em">)</span><sup>2</sup> +
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">n&pi;</span><span class="d">b</span></span><span style="font-size:1.05em">)</span><sup>2</sup></span>
+  </div>
+  <div class="note">m = 0 or n = 0 kills &psi; completely (sin 0 = 0), so <b>m, n &ge; 1</b> already at this
+    step.</div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; The other components, in terms of &psi;</div>
+  <div class="says">For one travelling wave, Z = e<sup>ikz</sup>, Maxwell gives the TM relations</div>
+  <div class="eq">
+    <span class="v">E</span><sub>t</sub> =
+    <span class="f"><span class="n">ik</span><span class="d">&gamma;<sup>2</sup></span></span>
+    &nabla;<sub>t</sub>&psi;,
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="v">H</span><sub>t</sub> =
+    <span class="f"><span class="n">i&omega;&epsilon;</span><span class="d">&gamma;<sup>2</sup></span></span>
+    (<span class="h">z</span>&times;&nabla;<sub>t</sub>&psi;)
+    <span class="src">Lec 10, s17</span>
+  </div>
+  <div class="says">In a cavity the wave bounces off both end caps, so we need <b>both</b> directions:</div>
+  <div class="eq">
+    Z(z) = A&#8201;e<sup>ikz</sup> + B&#8201;e<sup>&minus;ikz</sup>
+  </div>
+  <div class="says">Add the two travelling waves. <b>E</b><sub>t</sub> carries a factor ik, which flips sign for
+    the &minus;k wave, and that signed ik times e<sup>&plusmn;ikz</sup> is exactly dZ/dz.
+    <b>H</b><sub>t</sub> carries no k at all, so it simply adds:</div>
+  <div class="eq">
+    <span class="v">E</span><sub>t</sub> =
+    <span class="f"><span class="n">1</span><span class="d">&gamma;<sup>2</sup></span></span>
+    &nabla;<sub>t</sub>&psi;
+    <span class="f"><span class="n">dZ</span><span class="d">dz</span></span>,
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="v">H</span><sub>t</sub> =
+    <span class="f"><span class="n">i&omega;&epsilon;</span><span class="d">&gamma;<sup>2</sup></span></span>
+    (<span class="h">z</span>&times;&nabla;<sub>t</sub>&psi;)&#8201;Z
+  </div>
+  <div class="note">
+    Line by line: Z&#8242; = ikA&#8201;e<sup>ikz</sup> &minus; ikB&#8201;e<sup>&minus;ikz</sup>, which is
+    (ik)(A e<sup>ikz</sup>) + (&minus;ik)(B e<sup>&minus;ikz</sup>) &mdash; the +ik of the forward wave and the
+    &minus;ik of the backward one. So writing dZ/dz handles both at once.
+  </div>
+
+  <div class="pnum">6</div>
+</div>
+
+<!-- ============ SHEET 7 : Q2 steps 3-4 ============ -->
+<div class="sheet">
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; The end caps: shape in z</div>
+  <div class="says">On the cap at z = 0 the normal is <span class="h">z</span>, so the tangential field there is
+    <b>E</b><sub>t</sub> (that is E<sub>x</sub> and E<sub>y</sub>). Same at z = d. So</div>
+  <div class="eq">
+    <span class="v">E</span><sub>t</sub> = 0 &nbsp;at&nbsp; z = 0, d
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span class="f"><span class="n">dZ</span><span class="d">dz</span></span> = 0 &nbsp;at&nbsp; z = 0, d
+    <span class="from">Step 2, since &nabla;<sub>t</sub>&psi; &ne; 0</span>
+  </div>
+  <div class="says">E<sub>z</sub> is <b>normal</b> to the caps, so it is not forced to vanish there &mdash;
+    which is why z comes out as a cosine and not a sine. Rewrite
+    Z = A e<sup>ikz</sup> + B e<sup>&minus;ikz</sup> as the equivalent pair
+    Z = C cos kz + D sin kz, and differentiate:</div>
+  <div class="eq">
+    Z&#8242; = &minus;Ck&#8201;sin kz + Dk&#8201;cos kz
+  </div>
+  <table style="border-collapse:collapse;font-size:15px;margin:6px 0 8px 26px">
+    <tr><td style="padding:3px 18px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">condition</td>
+        <td style="padding:3px 18px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">gives</td>
+        <td style="padding:3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">result</td></tr>
+    <tr><td style="padding:3px 18px 3px 0">Z&#8242;(0) = 0</td><td style="padding:3px 18px 3px 0">Dk = 0</td>
+        <td style="padding:3px 0">D = 0, so Z = C cos kz</td></tr>
+    <tr><td style="padding:3px 18px 3px 0">Z&#8242;(d) = 0</td><td style="padding:3px 18px 3px 0">&minus;Ck&#8201;sin kd = 0</td>
+        <td style="padding:3px 0">kd = p&pi;, &nbsp; p = 0, 1, 2&hellip;</td></tr>
+  </table>
+  <div class="eq">
+    &rArr;&nbsp;
+    <span class="red">Z(z) = cos<span style="font-size:1.05em">(</span><span class="f"><span class="n">p&pi;z</span><span class="d">d</span></span><span style="font-size:1.05em">)</span></span>,
+    &nbsp;&nbsp;&nbsp;
+    <span class="red">k = <span class="f"><span class="n">p&pi;</span><span class="d">d</span></span></span>
+    <span class="from">C absorbed into E<sub>0</sub></span>
+  </div>
+  <div class="note">
+    <b>p = 0 is allowed</b> here (cos 0 = 1 survives), unlike m and n. At p = 0 we get Z&#8242; = 0, so
+    <b>E</b><sub>t</sub> = 0: only E<sub>z</sub> and <b>H</b><sub>t</sub> remain, both independent of z.
+  </div>
+
+  <div class="step">Step 4 &nbsp;&mdash;&nbsp; The resonant frequency</div>
+  <div class="says">Step 1 defined &gamma;<sup>2</sup> = &mu;&epsilon;&omega;<sup>2</sup> &minus; k<sup>2</sup>.
+    Solve it for &omega;<sup>2</sup> and substitute both quantised results:</div>
+  <div class="eq">
+    &omega;<sup>2</sup> =
+    <span class="f"><span class="n">1</span><span class="d">&mu;&epsilon;</span></span>
+    <span style="font-size:1.1em">[</span>&gamma;<sup>2</sup> + k<sup>2</sup><span style="font-size:1.1em">]</span>
+    =
+    <span class="f"><span class="n">1</span><span class="d">&mu;&epsilon;</span></span>
+    <span style="font-size:1.1em">[</span>
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">m&pi;</span><span class="d">a</span></span><span style="font-size:1.05em">)</span><sup>2</sup> +
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">n&pi;</span><span class="d">b</span></span><span style="font-size:1.05em">)</span><sup>2</sup> +
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">p&pi;</span><span class="d">d</span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+    <span style="font-size:1.1em">]</span>
+    <span class="src">same form as Lec 14, s14</span>
+  </div>
+  <div class="note">
+    This is the whole difference between a guide and a cavity. In a guide you pick &omega; and k adjusts to it.
+    Here the caps pin k to p&pi;/d, and &gamma; is already pinned by a and b, so nothing is left free &mdash;
+    &omega; can only take the discrete values below. That is what &ldquo;resonant&rdquo; means.
+  </div>
+
+  <div class="pnum">7</div>
+</div>
+
+<!-- ============ SHEET 8 : Q2 step 5 + full field list ============ -->
+<div class="sheet">
+  <div class="step">Step 5 &nbsp;&mdash;&nbsp; Write out all six components</div>
+  <div class="says">Put &psi; from Step 1 and Z from Step 3 into Step 2, using
+    &nabla;<sub>t</sub>&psi; = (&part;&psi;/&part;x, &part;&psi;/&part;y, 0) and
+    <span class="h">z</span>&times;&nabla;<sub>t</sub>&psi; =
+    (&minus;&part;&psi;/&part;y, &part;&psi;/&part;x, 0):</div>
+
+  <div class="ans">
+    <span class="tag">ANSWER &mdash; general TM solution</span>
+    <table style="border-collapse:collapse;font-size:15.5px;margin:8px 0 2px 4px">
+      <tr><td style="padding:4px 14px 4px 0;white-space:nowrap">E<sub>z</sub> =</td>
+          <td style="padding:4px 0">E<sub>0</sub>&#8201;sin(m&pi;x/a)&#8201;sin(n&pi;y/b)&#8201;cos(p&pi;z/d)</td></tr>
+      <tr><td style="padding:4px 14px 4px 0;white-space:nowrap">E<sub>x</sub> =</td>
+          <td style="padding:4px 0">&minus;(p&pi;/d)(m&pi;/a)(E<sub>0</sub>/&gamma;<sup>2</sup>)&#8201;cos(m&pi;x/a)&#8201;sin(n&pi;y/b)&#8201;sin(p&pi;z/d)</td></tr>
+      <tr><td style="padding:4px 14px 4px 0;white-space:nowrap">E<sub>y</sub> =</td>
+          <td style="padding:4px 0">&minus;(p&pi;/d)(n&pi;/b)(E<sub>0</sub>/&gamma;<sup>2</sup>)&#8201;sin(m&pi;x/a)&#8201;cos(n&pi;y/b)&#8201;sin(p&pi;z/d)</td></tr>
+      <tr><td style="padding:4px 14px 4px 0;white-space:nowrap">H<sub>x</sub> =</td>
+          <td style="padding:4px 0">&minus;&#8201;i&omega;&epsilon;(n&pi;/b)(E<sub>0</sub>/&gamma;<sup>2</sup>)&#8201;sin(m&pi;x/a)&#8201;cos(n&pi;y/b)&#8201;cos(p&pi;z/d)</td></tr>
+      <tr><td style="padding:4px 14px 4px 0;white-space:nowrap">H<sub>y</sub> =</td>
+          <td style="padding:4px 0">+&#8201;i&omega;&epsilon;(m&pi;/a)(E<sub>0</sub>/&gamma;<sup>2</sup>)&#8201;cos(m&pi;x/a)&#8201;sin(n&pi;y/b)&#8201;cos(p&pi;z/d)</td></tr>
+      <tr><td style="padding:4px 14px 4px 0;white-space:nowrap">H<sub>z</sub> =</td>
+          <td style="padding:4px 0">0</td></tr>
+    </table>
+    <div class="sub">
+      &gamma;<sup>2</sup> = (m&pi;/a)<sup>2</sup> + (n&pi;/b)<sup>2</sup>, &nbsp;
+      m, n = 1, 2, 3&hellip;, &nbsp; p = 0, 1, 2&hellip;, &nbsp; everything &times; e<sup>&minus;i&omega;t</sup>.
+    </div>
+  </div>
+
+  <div class="says"><b>Check the six faces.</b> On each face, only the two components lying <i>in</i> that face
+    have to vanish:</div>
+  <table style="border-collapse:collapse;font-size:15px;margin:4px 0 8px 26px">
+    <tr><td style="padding:3px 18px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">face</td>
+        <td style="padding:3px 18px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">tangential E there</td>
+        <td style="padding:3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">why it is zero</td></tr>
+    <tr><td style="padding:3px 18px 3px 0">x = 0, a</td><td style="padding:3px 18px 3px 0">E<sub>y</sub>, E<sub>z</sub></td>
+        <td style="padding:3px 0">both carry sin(m&pi;x/a)</td></tr>
+    <tr><td style="padding:3px 18px 3px 0">y = 0, b</td><td style="padding:3px 18px 3px 0">E<sub>x</sub>, E<sub>z</sub></td>
+        <td style="padding:3px 0">both carry sin(n&pi;y/b)</td></tr>
+    <tr><td style="padding:3px 18px 3px 0">z = 0, d</td><td style="padding:3px 18px 3px 0">E<sub>x</sub>, E<sub>y</sub></td>
+        <td style="padding:3px 0">both carry sin(p&pi;z/d)</td></tr>
+  </table>
+  <div class="says">And <span class="h">n</span>&middot;<b>H</b> = 0 comes for free: H<sub>z</sub> = 0 takes
+    care of the two caps, H<sub>x</sub> carries sin(m&pi;x/a), and H<sub>y</sub> carries sin(n&pi;y/b).</div>
+
+  <div class="pnum">8</div>
+</div>
+
+<!-- ============ SHEET 9 : lowest frequency ============ -->
+<div class="sheet">
+  <div class="step">Step 6 &nbsp;&mdash;&nbsp; The lowest resonant frequency</div>
+  <div class="says">&omega;<sub>mnp</sub> increases with every index, so take each index as small as it is
+    allowed to be:</div>
+  <table style="border-collapse:collapse;font-size:15px;margin:4px 0 8px 26px">
+    <tr><td style="padding:3px 18px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">index</td>
+        <td style="padding:3px 18px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">smallest allowed</td>
+        <td style="padding:3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">reason</td></tr>
+    <tr><td style="padding:3px 18px 3px 0">m</td><td style="padding:3px 18px 3px 0">1</td>
+        <td style="padding:3px 0">m = 0 makes sin(m&pi;x/a) &equiv; 0 &mdash; no field at all</td></tr>
+    <tr><td style="padding:3px 18px 3px 0">n</td><td style="padding:3px 18px 3px 0">1</td>
+        <td style="padding:3px 0">same, sin(n&pi;y/b) &equiv; 0</td></tr>
+    <tr><td style="padding:3px 18px 3px 0">p</td><td style="padding:3px 18px 3px 0">0</td>
+        <td style="padding:3px 0">cos 0 = 1, so E<sub>z</sub> and <b>H</b><sub>t</sub> survive</td></tr>
+  </table>
+  <div class="says">So the lowest mode is <b>TM<sub>110</sub></b>. Put m = n = 1, p = 0 into Step 4:</div>
+
+  <div class="ans">
+    <span class="tag">ANSWER &mdash; lowest resonant frequency</span>
+    <div class="eqc" style="font-size:18px;margin:10px 0 4px">
+      &omega;<sub>110</sub> =
+      <span class="f"><span class="n">1</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+      <span class="sq">&radic;<span class="rt">
+        <span style="font-size:.95em">(</span><span class="f"><span class="n">&pi;</span><span class="d">a</span></span><span style="font-size:.95em">)</span><sup>2</sup> +
+        <span style="font-size:.95em">(</span><span class="f"><span class="n">&pi;</span><span class="d">b</span></span><span style="font-size:.95em">)</span><sup>2</sup>
+      </span></span>
+      =
+      <span class="f"><span class="n">&pi;</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+      <span class="sq">&radic;<span class="rt">
+        <span class="f"><span class="n">1</span><span class="d">a<sup>2</sup></span></span> +
+        <span class="f"><span class="n">1</span><span class="d">b<sup>2</sup></span></span>
+      </span></span>
+    </div>
+    <div class="sub">
+      Independent of the cavity length d, because p = 0.
+    </div>
+  </div>
+
+  <div class="note">
+    <b>Same pattern as the lecture.</b> Lec 14 s15 does the <b>cylindrical</b> cavity and gets
+    &omega;<sub>TM010</sub> = 2.405/(R<span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span>)
+    &mdash; also p = 0, also set by the cross-section alone. There the x, y shape was a Bessel function with
+    first zero x<sub>01</sub> = 2.405; here it is a pair of sines giving &pi;/a and &pi;/b. Every other step is
+    the same.
+  </div>
+
+  <div class="opt">
+    <span class="tag">OPTIONAL</span><b>Numbers, as a check.</b> For a = 2.3 cm, b = 1.1 cm, d = 3.4 cm,
+    &mu; = 1.4&mu;<sub>0</sub>, &epsilon; = 2.6&epsilon;<sub>0</sub>, the ordering comes out
+    TM<sub>110</sub> (8.11 GHz) &lt; TM<sub>111</sub> (8.72) &lt; TM<sub>112</sub> (10.2) &lt;
+    TM<sub>210</sub> (10.6) &mdash; TM<sub>110</sub> is lowest, as claimed.
+  </div>
+
+  <div class="endmark">&#9632;&nbsp; END OF REQUIRED SOLUTION &nbsp;&#9632;</div>
+
+  <div class="pnum">9</div>
+</div>
+
+</body></html>

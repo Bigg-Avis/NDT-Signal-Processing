@@ -1,0 +1,1249 @@
+<meta charset="utf-8"><title>Ch 7 - 9 Lecture Examples Solved</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
+:root{--ink:#16233d;--ink-red:#c0392b;--rule:#b9cbdc;--grey:#6b7683;--info:#17788c;--lh:32px;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#6b7480;}
+body{font-family:'Segoe Print','Ink Free','Kalam',cursive;color:var(--ink);font-size:16.5px;line-height:var(--lh);}
+
+.sheet{width:8.5in;min-height:11in;margin:24px auto;padding:64px 62px 70px 78px;background:#fff;
+  background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--lh) - 1px),var(--rule) calc(var(--lh) - 1px) var(--lh));
+  background-position:0 64px;box-shadow:0 6px 22px rgba(0,0,0,.35);position:relative;page-break-after:always;}
+.sheet:last-of-type{page-break-after:auto}
+.pnum{position:absolute;bottom:26px;right:56px;font-size:14px;opacity:.7}
+
+.hdr{display:flex;justify-content:space-between;align-items:baseline;font-size:15px;opacity:.85}
+.title{font-size:24px;font-weight:700;text-align:center;margin:6px 0 2px}
+.title u{text-decoration:none;border-bottom:2.5px solid var(--ink);padding-bottom:2px}
+.qhead{font-size:20px;font-weight:700;margin:22px 0 6px;color:var(--ink-red);
+  border-bottom:2px solid var(--ink-red);display:inline-block;padding-bottom:1px}
+
+/* the question, as asked */
+.stmt{font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.5;background:#f7f8f5;
+  border-left:4px solid #9fb3c8;padding:9px 13px;margin:6px 0 12px;color:#26303f;}
+.stmt b{font-weight:700}
+
+/* THE ANSWER -- always at the top of a problem */
+.ans{border:3px solid var(--ink-red);border-radius:10px;background:#fffdf3;
+  padding:8px 18px 12px;margin:10px 0 16px;position:relative}
+.ans .tag{position:absolute;top:-14px;left:16px;background:#fffdf3;color:var(--ink-red);
+  font-weight:700;font-size:15px;padding:0 8px;letter-spacing:.06em}
+.ans .sub{font-size:14.5px;color:var(--info);margin-top:4px;font-style:italic}
+
+/* steps */
+.step{font-weight:700;font-size:17.5px;margin:16px 0 2px}
+.why{font-size:15px;color:var(--info);margin:0 0 4px 26px;font-style:italic}
+.eq{margin:5px 0 5px 30px}
+.eqc{margin:7px 0;text-align:center}
+.lbl{float:right;font-size:14px;color:var(--info);font-style:italic}
+.note{font-size:15px;margin:6px 0 6px 30px;color:var(--info);font-style:italic}
+
+/* optional / not required */
+.opt{border-left:4px solid #c3cbd4;background:#f6f8fa;color:var(--grey);
+  padding:6px 12px;margin:12px 0 8px 12px;font-size:14.5px;line-height:1.55}
+.opt .tag{display:inline-block;border:1.4px solid #9aa5b1;border-radius:9px;
+  padding:0 8px;font-size:12.5px;letter-spacing:.08em;margin-right:8px}
+.legend{border:1.6px dashed #a9b4bf;border-radius:8px;padding:6px 14px;margin:10px 0 4px;
+  font-size:14.5px;color:var(--grey)}
+
+/* math bits */
+.f{display:inline-flex;flex-direction:column;align-items:center;vertical-align:0.52em;margin:0 .22em;line-height:1.16}
+.f>.n{border-bottom:2px solid currentColor;padding:0 .32em}
+.f>.d{padding:2px .32em 0}
+.sq{white-space:nowrap}
+.rt{border-top:2px solid currentColor;padding:1px .18em 0 .06em;margin-left:-1px}
+.ov{display:inline-block;border-top:2px solid currentColor;line-height:1;padding-top:1px;margin-top:2px}
+.v,.h{position:relative;display:inline-block;white-space:nowrap}
+.v::after{content:"\2192";position:absolute;left:50%;transform:translateX(-50%);top:-.72em;font-size:.55em;line-height:1}
+.h::after{content:"\005E";position:absolute;left:50%;transform:translateX(-50%);top:-.62em;font-size:.72em;line-height:1}
+sub,sup{font-size:.66em;line-height:0}
+.red{color:var(--ink-red)}
+.bcnum{display:inline-block;border:1.8px solid var(--ink);border-radius:50%;width:1.5em;height:1.5em;
+  line-height:1.35em;text-align:center;font-size:.8em;margin-right:.3em}
+
+figure{margin:12px 0 8px;text-align:center}
+figcaption{font-size:14px;color:var(--info);margin-top:2px;font-style:italic}
+svg{max-width:100%;height:auto}
+.stroke{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round}
+.thin{fill:none;stroke:var(--ink);stroke-width:1;opacity:.55}
+.dash{fill:none;stroke:var(--ink);stroke-width:1.2;stroke-dasharray:5 5;opacity:.7}
+.slab{fill:#e3ecf4;stroke:var(--ink);stroke-width:1.3}
+.ray{fill:none;stroke:var(--ink);stroke-width:1.8}
+.ray2{fill:none;stroke:var(--ink-red);stroke-width:1.6}
+.bvec{fill:none;stroke:var(--ink-red);stroke-width:1.6}
+.curveS{fill:none;stroke:var(--ink);stroke-width:2.2}
+.curveP{fill:none;stroke:var(--ink-red);stroke-width:2.2;stroke-dasharray:7 4}
+text{font-family:'Segoe Print','Ink Free','Kalam',cursive;font-size:13px;fill:var(--ink)}
+
+@media print{
+  html,body{background:#fff}
+  body{font-size:15px;--lh:28px}
+  .sheet{margin:0;box-shadow:none;width:100%;max-width:100%;min-height:0;
+         padding:6px 4px 24px 6px;background-position:0 6px;overflow:hidden}
+  .pnum{bottom:4px;right:6px}
+  .eq{margin:3px 0 3px 26px}
+  .note,.why{margin-left:26px}
+  .step{margin:11px 0 2px}
+  .qhead{margin:12px 0 4px}
+  .ans{margin:10px 0 12px}
+  figure{margin:8px 0 4px}
+  .stmt{margin:5px 0 9px;padding:7px 11px}
+  @page{size:letter;margin:0.45in 0.5in}
+}
+
+.endmark{margin:14px 0 8px;text-align:center;color:#c0392b;font-weight:700;font-size:15.5px;
+  letter-spacing:.05em;border-top:2.5px dashed #c0392b;border-bottom:2.5px dashed #c0392b;padding:4px 0}
+.extrahdr{background:#eef1f4;border:1.6px dashed #9aa5b1;border-radius:8px;padding:6px 14px;
+  margin:0 0 12px;color:#6b7683;font-size:15px;font-weight:700;text-align:center}
+@media print{ .endmark{margin:8px 0 5px;font-size:14px;padding:2px 0} .extrahdr{margin-bottom:8px;padding:4px 12px} }
+
+.note b,.why b,.ans .sub b,figcaption b{color:inherit}
+
+.src{display:inline-block;font-size:11.5px;font-style:normal;color:#17788c;border:1.2px solid #7fb8c4;
+  border-radius:8px;padding:0 6px;margin-left:8px;vertical-align:middle;white-space:nowrap;line-height:1.5}
+.ask{font-size:16px;font-weight:700;color:#16233d;margin:10px 0 2px 6px;border-left:4px solid #c0392b;padding-left:10px}
+.startbox{border:2.5px solid #16233d;border-radius:9px;background:#f4f7fa;padding:8px 16px;margin:12px 0;font-size:15.5px}
+@media print{ .ask{margin:7px 0 2px 12px} .startbox{margin:9px 0;padding:6px 14px} }
+
+.lead{display:inline-block;font-weight:700;color:#16233d;background:#eef2f6;border-left:3px solid #16233d;
+  padding:0 8px;margin-right:8px;border-radius:0 4px 4px 0}
+.lead::after{content:":"}
+.gets{display:inline-block;font-weight:700;color:#c0392b;background:#fdf1ef;border-left:3px solid #c0392b;
+  padding:0 8px;margin-right:8px;border-radius:0 4px 4px 0}
+.gets::after{content:":"}
+@media print{ .lead,.gets{padding:0 6px;margin-right:6px} }
+
+.from{color:#17788c;font-style:italic;font-size:14.5px;margin-left:16px}
+.arw{color:#c0392b;font-weight:700;margin-right:6px}
+
+.says{margin:9px 0 2px 6px;color:var(--ink)}
+.says b{font-weight:700}
+@media print{ .says{margin:6px 0 2px 6px} }
+
+.parthead{display:block;background:#16233d;color:#fff;font-weight:700;font-size:16.5px;
+  padding:4px 16px;border-radius:6px;margin:0 0 10px;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.parthead i{font-weight:400;font-style:normal;opacity:.85;font-size:15px}
+
+</style>
+<!-- ============ SHEET 1 : COVER ============ -->
+<div class="sheet">
+  <div class="hdr"><span>Physics 5313 &mdash; Electromagnetic Theory 2</span><span>Exam revision</span></div>
+  <div class="title"><u>Chapter 7 &mdash; All 9 Lecture Examples</u></div>
+
+  <div class="legend">
+    <b style="color:#16233d">black = write it down</b> &nbsp;&middot;&nbsp;
+    <span style="color:#c0392b;font-weight:700">red = the answer</span> &nbsp;&middot;&nbsp;
+    <span style="color:#17788c;font-style:italic">teal = where it came from / my note</span> &nbsp;&middot;&nbsp;
+    <span style="color:#6b7683">grey = optional</span>
+  </div>
+
+  <div class="startbox">
+    <b>Every example is solved the professor&rsquo;s way.</b> Where he skipped algebra, the missing lines are
+    filled in and marked. Each one opens with <b>Given &rarr; Want &rarr; Route</b> so the flow is visible before
+    the algebra starts, and every imported equation carries the slide it comes from.
+  </div>
+
+  <table style="width:calc(100% - 10px);border-collapse:collapse;font-size:15px;margin:8px 0 6px 6px">
+    <tr><td style="padding:2px 8px 2px 0;color:#c0392b;font-weight:700;white-space:nowrap">Ex 1</td><td style="padding:2px 10px 2px 0">Faraday Rotation &mdash; find z where the wave is y-polarized</td><td style="padding:2px 0;color:#17788c;font-size:13px;white-space:nowrap">Lec 2 s19, Lec 3 s2&ndash;4</td></tr>
+    <tr><td style="padding:2px 8px 2px 0;color:#c0392b;font-weight:700;white-space:nowrap">Ex 2</td><td style="padding:2px 10px 2px 0">Faraday Rotation applied &mdash; the angle &theta;(z) &nbsp;<b>[HW 1]</b></td><td style="padding:2px 0;color:#17788c;font-size:13px;white-space:nowrap">Lec 3 s5</td></tr>
+    <tr><td style="padding:2px 8px 2px 0;color:#c0392b;font-weight:700;white-space:nowrap">Ex 3</td><td style="padding:2px 10px 2px 0">Total Internal Reflection &mdash; the critical angle</td><td style="padding:2px 0;color:#17788c;font-size:13px;white-space:nowrap">Lec 4 s7</td></tr>
+    <tr><td style="padding:2px 8px 2px 0;color:#c0392b;font-weight:700;white-space:nowrap">Ex 4</td><td style="padding:2px 10px 2px 0">Optical Fiber &mdash; largest guided ray angle</td><td style="padding:2px 0;color:#17788c;font-size:13px;white-space:nowrap">Lec 4 s11&ndash;12</td></tr>
+    <tr><td style="padding:2px 8px 2px 0;color:#c0392b;font-weight:700;white-space:nowrap">Ex 5</td><td style="padding:2px 10px 2px 0">Brewster&rsquo;s angle &nbsp;<b>[HW 2]</b></td><td style="padding:2px 0;color:#17788c;font-size:13px;white-space:nowrap">Lec 4 s13</td></tr>
+    <tr><td style="padding:2px 8px 2px 0;color:#c0392b;font-weight:700;white-space:nowrap">Ex 6</td><td style="padding:2px 10px 2px 0">X-ray &mdash; almost total external reflection, R &prop; q<sup>&minus;4</sup></td><td style="padding:2px 0;color:#17788c;font-size:13px;white-space:nowrap">Lec 6 s4&ndash;5</td></tr>
+    <tr><td style="padding:2px 8px 2px 0;color:#c0392b;font-weight:700;white-space:nowrap">Ex 7</td><td style="padding:2px 10px 2px 0">Plasma &mdash; &epsilon;(&omega;) and the plasma frequency</td><td style="padding:2px 0;color:#17788c;font-size:13px;white-space:nowrap">Lec 6 s6&ndash;7</td></tr>
+    <tr><td style="padding:2px 8px 2px 0;color:#c0392b;font-weight:700;white-space:nowrap">Ex 8</td><td style="padding:2px 10px 2px 0">Reflection from a good conductor at normal incidence</td><td style="padding:2px 0;color:#17788c;font-size:13px;white-space:nowrap">Lec 7 s9</td></tr>
+    <tr><td style="padding:2px 8px 2px 0;color:#c0392b;font-weight:700;white-space:nowrap">Ex 9</td><td style="padding:2px 10px 2px 0">Gaussian modulated oscillation &mdash; a spreading pulse</td><td style="padding:2px 0;color:#17788c;font-size:13px;white-space:nowrap">Lec 9 s2&ndash;5</td></tr>
+  </table>
+
+  <div class="note">
+    <b>Exam scope.</b> Chapter 7 runs from Lec 1 to <b>Lec 9 slide 9</b>. Lec 9 slides 10&ndash;17 (waveguides,
+    cavities, 2D Laplace) are Jackson <b>Chapter 8</b> and are not in Chapter 7.
+  </div>
+
+  <div class="pnum">1</div>
+</div>
+
+<!-- ============ SHEET 2 : EX 1 ============ -->
+<div class="sheet">
+  <div class="qhead">Example 1 &mdash; Faraday Rotation <span class="src">Lec 2 s19, Lec 3 s2&ndash;4</span></div>
+
+  <div class="stmt">
+    For propagation along the z-axis, a medium supports left circular polarization with index
+    <i>n<sub>L</sub></i> and right circular polarization with index <i>n<sub>R</sub></i>. A plane wave in this
+    medium has <b>E</b>(z = 0, t) = <b>x&#770;</b>E exp(&minus;i&omega;t). Find the values of z where the wave is
+    <b>linearly polarized along the y-axis</b>.
+  </div>
+
+  <div class="startbox">
+    <b>Flow:</b> split the wave into LCP + RCP &rarr; fix both from z = 0 &rarr; let each run at its own speed
+    &rarr; set E<sub>x</sub> = 0.
+  </div>
+
+  <div class="says" style="color:#17788c;font-style:italic;font-size:14.5px">These are his slide lines, in his
+    order. One correction is marked in Step 4.</div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; Write it as LCP + RCP</div>
+  <div class="says">The medium gives the two circular polarizations different indices, so each needs its own k.</div>
+  <div class="eq">
+    <span class="v">E</span>(<span class="v">x</span>,t) =
+    <span class="v">E</span><sub>L</sub>&#8201;e<sup>&#8201;i(k<sub>L</sub>z &minus; &omega;t)</sup>
+    + <span class="v">E</span><sub>R</sub>&#8201;e<sup>&#8201;i(k<sub>R</sub>z &minus; &omega;t)</sup>
+    <span class="src">Lec 3, s2</span>
+  </div>
+  <div class="eq">
+    <span class="v">E</span><sub>L</sub> = &#603;<sub>L</sub><span class="h">e</span><sub>+</sub>,
+    &nbsp;&nbsp; <span class="v">E</span><sub>R</sub> = &#603;<sub>R</sub><span class="h">e</span><sub>&minus;</sub>
+  </div>
+  <div class="eq">
+    <span class="h">e</span><sub>+</sub> = <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>( <b>x&#770;</b> + i<b>y&#770;</b> ),
+    &nbsp;&nbsp;&nbsp; <span class="h">e</span><sub>&minus;</sub> = <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>( <b>x&#770;</b> &minus; i<b>y&#770;</b> )
+    <span class="src">Lec 2, s15</span>
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Put z = 0 into the Step 1 equation</div>
+  <div class="says">z = 0 is the <b>only</b> place the problem tells us the field, so it is the only place we
+    can pin down &#603;<sub>L</sub> and &#603;<sub>R</sub>. Setting z = 0 above, both exponentials become
+    e<sup>&minus;i&omega;t</sup>:</div>
+  <div class="eq">
+    <span class="v">E</span>(0,t) = <span class="v">E</span><sub>L</sub>&#8201;e<sup>&minus;i&omega;t</sup>
+    + <span class="v">E</span><sub>R</sub>&#8201;e<sup>&minus;i&omega;t</sup>
+  </div>
+  <div class="says">and the problem states what that equals:</div>
+  <div class="eq">
+    <span class="v">E</span>(0,t) = <b>x&#770;</b>E&#8201;e<sup>&minus;i&omega;t</sup>
+    <span class="from">given in the question</span>
+  </div>
+  <div class="says">Set the two equal:</div>
+  <div class="eq">
+    <span class="v">E</span><sub>L</sub>&#8201;e<sup>&minus;i&omega;t</sup>
+    + <span class="v">E</span><sub>R</sub>&#8201;e<sup>&minus;i&omega;t</sup>
+    = <b>x&#770;</b>E&#8201;e<sup>&minus;i&omega;t</sup>
+    <span class="src">Lec 3, s2</span>
+  </div>
+  <div class="says">e<sup>&minus;i&omega;t</sup> is never zero, so cancel it from all three terms (this is the
+    strike-through on his slide), then put in
+    <span class="v">E</span><sub>L</sub> = &#603;<sub>L</sub><span class="h">e</span><sub>+</sub> and
+    <span class="v">E</span><sub>R</sub> = &#603;<sub>R</sub><span class="h">e</span><sub>&minus;</sub>:</div>
+  <div class="eq">
+    &#603;<sub>L</sub><span class="h">e</span><sub>+</sub> + &#603;<sub>R</sub><span class="h">e</span><sub>&minus;</sub>
+    = <b>x&#770;</b>E
+  </div>
+
+  <div class="pnum">2</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 1, continued</div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Match the <b>x&#770;</b> and <b>y&#770;</b> parts</div>
+  <div class="eq">
+    &#603;<sub>L</sub><span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>(<b>x&#770;</b> + i<b>y&#770;</b>)
+    &nbsp;+&nbsp; &#603;<sub>R</sub><span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>(<b>x&#770;</b> &minus; i<b>y&#770;</b>)
+    &nbsp;=&nbsp; <b>x&#770;</b>E
+    <span class="src">Lec 3, s3</span>
+  </div>
+  <div class="says">Multiply out and collect the <b>x&#770;</b> and <b>y&#770;</b> parts:</div>
+  <table style="border-collapse:collapse;font-size:15px;margin:4px 0 8px 26px">
+    <tr><td style="padding:3px 14px 3px 0;vertical-align:middle;font-weight:700;border-bottom:1.5px solid #b9cbdc">direction</td><td style="padding:3px 14px 3px 0;vertical-align:middle;font-weight:700;border-bottom:1.5px solid #b9cbdc">left side</td><td style="padding:3px 14px 3px 0;vertical-align:middle;font-weight:700;border-bottom:1.5px solid #b9cbdc">right side</td></tr>
+    <tr><td style="padding:3px 14px 3px 0;vertical-align:middle"><b>x&#770;</b></td>
+        <td style="padding:3px 14px 3px 0;vertical-align:middle"><span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>( &#603;<sub>L</sub> + &#603;<sub>R</sub> )</td>
+        <td style="padding:3px 14px 3px 0;vertical-align:middle">E</td></tr>
+    <tr><td style="padding:3px 14px 3px 0;vertical-align:middle"><b>y&#770;</b></td>
+        <td style="padding:3px 14px 3px 0;vertical-align:middle">i&#8201;<span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>( &#603;<sub>L</sub> &minus; &#603;<sub>R</sub> )</td>
+        <td style="padding:3px 14px 3px 0;vertical-align:middle"><b>0</b></td></tr>
+  </table>
+  <div class="note">
+    <b>x&#770;</b> and <b>y&#770;</b> are independent directions &mdash; no amount of <b>x&#770;</b> can make a
+    <b>y&#770;</b>. So the two rows must hold <b>separately</b>. Same as resolving forces: if the resultant
+    points purely along x, the y-components must sum to zero.
+  </div>
+
+  <div class="says">The <b>y&#770;</b> row: i and <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>are not zero, so the bracket must be:</div>
+  <div class="eq">
+    i&#8201;<span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>( &#603;<sub>L</sub> &minus; &#603;<sub>R</sub> ) = 0
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span class="red">&#603;<sub>L</sub> = &#603;<sub>R</sub></span>
+  </div>
+
+  <div class="says">The <b>x&#770;</b> row, with &#603;<sub>R</sub> replaced by &#603;<sub>L</sub>:</div>
+  <div class="eq">
+    <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>( &#603;<sub>L</sub> + &#603;<sub>L</sub> ) = E
+    &nbsp;&rArr;&nbsp; <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>( 2&#603;<sub>L</sub> ) = E
+    &nbsp;&rArr;&nbsp; <span class="sq">&radic;<span class="rt">2</span></span>&#8201;&#603;<sub>L</sub> = E
+  </div>
+  <div class="eq">
+    &#603;<sub>L</sub> =
+    <span class="f"><span class="n">E</span><span class="d"><span class="sq">&radic;<span class="rt">2</span></span></span></span>
+    =
+    <span class="f"><span class="n">E</span><span class="d"><span class="sq">&radic;<span class="rt">2</span></span></span></span>
+    &times;
+    <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d"><span class="sq">&radic;<span class="rt">2</span></span></span></span>
+    =
+    <span class="f"><span class="n">E<span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>
+    <span class="from">same number, no root underneath</span>
+  </div>
+
+  <div class="eq">
+    <span class="red">&#603;<sub>L</sub> = &#603;<sub>R</sub> = <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>E</span>
+  </div>
+  <div class="note">
+    <b>What this means.</b> Equal amounts of left- and right-circular. That is what a linear polarization
+    <i>is</i>: two counter-rotating circles of the same size add up to a straight line. Unequal amounts would
+    give an ellipse.
+  </div>
+
+  <div class="pnum">3</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 1, continued</div>
+
+  <div class="step">Step 4 &nbsp;&mdash;&nbsp; Put them back, take the x-part</div>
+  <div class="eq">
+    <span class="v">E</span>(<span class="v">x</span>,t) = <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>E&#8201;<span class="h">e</span><sub>+</sub>&#8201;e<sup>&#8201;i(k<sub>L</sub>z&minus;&omega;t)</sup>
+    + <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>E&#8201;<span class="h">e</span><sub>&minus;</sub>&#8201;e<sup>&#8201;i(k<sub>R</sub>z&minus;&omega;t)</sup>
+    <span class="src">Lec 3, s3</span>
+  </div>
+  <div class="says">Now put <span class="h">e</span><sub>+</sub> and
+    <span class="h">e</span><sub>&minus;</sub> in <b>full</b>, from Step 1:</div>
+  <div class="eq" style="margin-left:18px">
+    <span class="v">E</span> = <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>E&#8201;<b>&middot;</b>&#8201;<span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>(<b>x&#770;</b>+i<b>y&#770;</b>)&#8201;e<sup>&#8201;i(k<sub>L</sub>z&minus;&omega;t)</sup>
+    + <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>E&#8201;<b>&middot;</b>&#8201;<span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>(<b>x&#770;</b>&minus;i<b>y&#770;</b>)&#8201;e<sup>&#8201;i(k<sub>R</sub>z&minus;&omega;t)</sup>
+  </div>
+
+  <div class="says">The number in front of each term is <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>&times; <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">2</span></span></span><span class="d">2</span></span>:</div>
+  <div class="eq">
+    <span class="sq">&radic;<span class="rt">2</span></span> &times;
+    <span class="sq">&radic;<span class="rt">2</span></span> = 2,
+    &nbsp;&nbsp; 2 &times; 2 = 4,
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span class="f"><span class="n">2</span><span class="d">4</span></span> = <span class="f"><span class="n">1</span><span class="d">2</span></span>
+  </div>
+  <div class="eq">
+    <span class="v">E</span> = <span class="f"><span class="n">1</span><span class="d">2</span></span>E&#8201;(<b>x&#770;</b> + i<b>y&#770;</b>)&#8201;e<sup>&#8201;i(k<sub>L</sub>z&minus;&omega;t)</sup>
+    + <span class="f"><span class="n">1</span><span class="d">2</span></span>E&#8201;(<b>x&#770;</b> &minus; i<b>y&#770;</b>)&#8201;e<sup>&#8201;i(k<sub>R</sub>z&minus;&omega;t)</sup>
+  </div>
+
+  <div class="says">Collect <b>x&#770;</b> and <b>y&#770;</b>, same as Step 3:</div>
+  <table style="border-collapse:collapse;font-size:15px;margin:4px 0 8px 26px">
+    <tr><td style="padding:3px 14px 3px 0;vertical-align:middle;font-weight:700;border-bottom:1.5px solid #b9cbdc">direction</td><td style="padding:3px 14px 3px 0;vertical-align:middle;font-weight:700;border-bottom:1.5px solid #b9cbdc">what multiplies it</td></tr>
+    <tr><td style="padding:3px 14px 3px 0;vertical-align:middle"><b>x&#770;</b></td>
+        <td style="padding:3px 14px 3px 0;vertical-align:middle"><span class="f"><span class="n">1</span><span class="d">2</span></span>E&#8201;e<sup>&#8201;i(k<sub>L</sub>z&minus;&omega;t)</sup>
+          <b>+</b> <span class="f"><span class="n">1</span><span class="d">2</span></span>E&#8201;e<sup>&#8201;i(k<sub>R</sub>z&minus;&omega;t)</sup></td></tr>
+    <tr><td style="padding:3px 14px 3px 0;vertical-align:middle"><b>y&#770;</b></td>
+        <td style="padding:3px 14px 3px 0;vertical-align:middle"><span class="f"><span class="n">1</span><span class="d">2</span></span><b>i</b>E&#8201;e<sup>&#8201;i(k<sub>L</sub>z&minus;&omega;t)</sup>
+          <b>&minus;</b> <span class="f"><span class="n">1</span><span class="d">2</span></span><b>i</b>E&#8201;e<sup>&#8201;i(k<sub>R</sub>z&minus;&omega;t)</sup></td></tr>
+  </table>
+
+  <div class="says">The top row is E<sub>x</sub>:</div>
+  <div class="eq">
+    <span class="red">E<sub>x</sub>(<span class="v">x</span>,t) = <span class="f"><span class="n">1</span><span class="d">2</span></span>E&#8201;
+    ( e<sup>&#8201;i(k<sub>L</sub>z&minus;&omega;t)</sup> + e<sup>&#8201;i(k<sub>R</sub>z&minus;&omega;t)</sup> )</span>
+  </div>
+  <div class="note">
+    <b>Correction.</b> The slide writes &frac12;&#8201;<b>i</b>&#8201;E here. Look at the table above: the
+    <b>i</b> sits in the <b>y&#770;</b> row, and that row has a <b>minus</b> between the exponentials. He took
+    the i from E<sub>y</sub> but kept the plus of E<sub>x</sub>. It does not change the final answer (a constant
+    in front cannot move a zero), but E<sub>x</sub> has no i.
+  </div>
+
+  <div class="pnum">4</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 1, continued</div>
+
+  <div class="step">Step 5 &nbsp;&mdash;&nbsp; Along y means E<sub>x</sub> = 0</div>
+  <div class="eq">
+    e<sup>&#8201;i(k<sub>L</sub>z&minus;&omega;t)</sup> = &minus;&#8201;e<sup>&#8201;i(k<sub>R</sub>z&minus;&omega;t)</sup>
+    <span class="src">Lec 3, s4</span>
+  </div>
+  <div class="says">Two numbers of the same size are opposite when their phases differ by an <b>odd</b> multiple
+    of &pi;:</div>
+  <div class="eq">
+    ( k<sub>L</sub>z &minus; &omega;t ) &minus; ( k<sub>R</sub>z &minus; &omega;t ) = (2m+1)&pi;
+    <span class="from">m is an integer</span>
+  </div>
+  <div class="eq">
+    &rArr;&nbsp; k<sub>L</sub>z &minus; k<sub>R</sub>z = (2m+1)&pi;
+    <span class="from">&omega;t cancels &mdash; the answer does not depend on time</span>
+  </div>
+
+  <div class="step">Step 6 &nbsp;&mdash;&nbsp; Put in k = &omega;n/c</div>
+  <div class="eq">
+    k = <span class="f"><span class="n">&omega;n</span><span class="d">c</span></span>
+    <span class="src">Lec 2, s18</span>
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:20px;margin:10px 0 4px">
+      z =
+      <span class="f"><span class="n">(2m+1)&pi;</span><span class="d">k<sub>L</sub> &minus; k<sub>R</sub></span></span>
+      =
+      <span class="f"><span class="n">(2m+1)&pi;&#8201;c</span><span class="d">&omega;&#8201;(n<sub>L</sub> &minus; n<sub>R</sub>)</span></span>
+    </div>
+    <div class="sub">m = 0, 1, 2, &hellip; &mdash; a series of planes, evenly spaced.</div>
+  </div>
+
+  <div class="opt">
+    <span class="tag">OPTIONAL</span><b>Faster route.</b> Example 2 gives &theta;(z) = &minus;(k<sub>L</sub>&minus;k<sub>R</sub>)z/2.
+    Along <b>y&#770;</b> means &theta; = &plusmn;90&deg;, which gives the same z in one line. If both come up in
+    the exam, do Example 2 first.
+  </div>
+
+  <div class="pnum">5</div>
+</div>
+
+<!-- ============ SHEET 3 : EX 2 ============ -->
+<div class="sheet">
+  <div class="qhead">Example 2 &mdash; Application of Faraday Rotation <span class="src">Lec 3 s5</span></div>
+
+  <div class="stmt">
+    With tan&#8201;&theta; = E<sub>y</sub>/E<sub>x</sub>, find the rotation angle <b>&theta;(z)</b> of the
+    polarization direction. &nbsp;<b>[He wrote &ldquo;HW 1&rdquo; here and left it unsolved.]</b>
+  </div>
+
+  <div class="startbox">
+    <b>Given:</b> the same field as Example 1.&nbsp;&nbsp;
+    <b>Want:</b> &theta;(z), the angle the polarization line makes with <b>x̂</b>.<br>
+    <b>Route:</b> take E<sub>x</sub> and E<sub>y</sub> from Example 1 &rarr; pull out the common phase &rarr; the
+    ratio becomes a single tangent.
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; Both components, from Example 1</div>
+  <div class="says">E<sub>x</sub> is Step 3 of Example 1. For E<sub>y</sub>, note
+    <span class="h">e</span><sub>+</sub> carries +i/<span class="sq">&radic;<span class="rt">2</span></span> of
+    <b>ŷ</b> and <span class="h">e</span><sub>&minus;</sub> carries &minus;i/<span class="sq">&radic;<span class="rt">2</span></span>:</div>
+  <div class="eq">
+    E<sub>x</sub> =
+    <span class="f"><span class="n">E</span><span class="d">2</span></span>
+    ( e<sup>&#8201;ik<sub>L</sub>z</sup> + e<sup>&#8201;ik<sub>R</sub>z</sup> )&#8201;e<sup>&minus;i&omega;t</sup>
+  </div>
+  <div class="eq">
+    E<sub>y</sub> =
+    <span class="f"><span class="n">iE</span><span class="d">2</span></span>
+    ( e<sup>&#8201;ik<sub>L</sub>z</sup> &minus; e<sup>&#8201;ik<sub>R</sub>z</sup> )&#8201;e<sup>&minus;i&omega;t</sup>
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Pull out the common phase</div>
+
+  <div class="says">Split each wavenumber into <b>average &plusmn; half-difference</b>:</div>
+  <div class="eq">
+    <span class="ov">k</span> =
+    <span class="f"><span class="n">k<sub>L</sub> + k<sub>R</sub></span><span class="d">2</span></span>,
+    &nbsp;&nbsp;&nbsp; &Delta; =
+    <span class="f"><span class="n">(k<sub>L</sub> &minus; k<sub>R</sub>)&#8201;z</span><span class="d">2</span></span>
+    <span class="from">&Delta; is an <b>angle</b>, not a wavenumber &mdash; the z and the &frac12; are inside it</span>
+  </div>
+  <div class="eq">
+    k<sub>L</sub>z = <span class="ov">k</span>z <b>+</b> &Delta;,
+    &nbsp;&nbsp;&nbsp; k<sub>R</sub>z = <span class="ov">k</span>z <b>&minus;</b> &Delta;
+  </div>
+  <div class="note">
+    Same as writing 7 and 3 as 5 + 2 and 5 &minus; 2: mean, plus and minus half the gap.
+    Check: <span class="ov">k</span>z + &Delta; = (k<sub>L</sub>+k<sub>R</sub>)z/2 + (k<sub>L</sub>&minus;k<sub>R</sub>)z/2
+    = k<sub>L</sub>z &#10003;
+  </div>
+
+  <div class="says">Substitute, then split and factor the exponentials:</div>
+  <div class="eq" style="margin-left:18px">
+    e<sup>&#8201;ik<sub>L</sub>z</sup> + e<sup>&#8201;ik<sub>R</sub>z</sup>
+    = e<sup>&#8201;i(<span class="ov">k</span>z + &Delta;)</sup> + e<sup>&#8201;i(<span class="ov">k</span>z &minus; &Delta;)</sup>
+  </div>
+  <div class="eq" style="margin-left:18px">
+    = e<sup>&#8201;i<span class="ov">k</span>z</sup>e<sup>&#8201;i&Delta;</sup>
+    + e<sup>&#8201;i<span class="ov">k</span>z</sup>e<sup>&minus;i&Delta;</sup>
+    = e<sup>&#8201;i<span class="ov">k</span>z</sup>&#8201;( e<sup>&#8201;i&Delta;</sup> + e<sup>&minus;i&Delta;</sup> )
+  </div>
+
+  <div class="pnum">6</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 2, continued</div>
+
+  <div class="says">The bracket is now <b>Euler&rsquo;s formula</b>. Since
+    e<sup>&#8201;i&theta;</sup> = cos&#8201;&theta; + i&#8201;sin&#8201;&theta; and
+    e<sup>&minus;i&theta;</sup> = cos&#8201;&theta; &minus; i&#8201;sin&#8201;&theta;:</div>
+  <div class="eq">
+    e<sup>&#8201;i&theta;</sup> + e<sup>&minus;i&theta;</sup> = 2&#8201;cos&#8201;&theta;
+    <span class="from">the sines cancel</span>
+  </div>
+  <div class="eq">
+    e<sup>&#8201;i&theta;</sup> &minus; e<sup>&minus;i&theta;</sup> = 2i&#8201;sin&#8201;&theta;
+    <span class="from">the cosines cancel</span>
+  </div>
+
+  <div class="says">So the two combinations are:</div>
+  <div class="eq">
+    e<sup>&#8201;ik<sub>L</sub>z</sup> + e<sup>&#8201;ik<sub>R</sub>z</sup>
+    = 2&#8201;e<sup>&#8201;i<span class="ov">k</span>z</sup>&#8201;cos&#8201;&Delta;
+  </div>
+  <div class="eq">
+    e<sup>&#8201;ik<sub>L</sub>z</sup> &minus; e<sup>&#8201;ik<sub>R</sub>z</sup>
+    = 2i&#8201;e<sup>&#8201;i<span class="ov">k</span>z</sup>&#8201;sin&#8201;&Delta;
+  </div>
+  <div class="note">
+    <b>Why this helps.</b> Before, E<sub>x</sub> and E<sub>y</sub> were sums of two exponentials that would not
+    combine. Now both carry the <b>same</b> factor e<sup>i<span class="ov">k</span>z</sup> and differ only by
+    cos&#8201;&Delta; against sin&#8201;&Delta; &mdash; so dividing them gives a tangent, which is exactly what
+    tan&#8201;&theta; = E<sub>y</sub>/E<sub>x</sub> needs.
+  </div>
+
+  <div class="pnum">7</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 2, continued</div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Substitute back</div>
+  <div class="eq">
+    E<sub>x</sub> = E&#8201;e<sup>&#8201;i(<span class="ov">k</span>z&minus;&omega;t)</sup>&#8201;cos&#8201;&Delta;
+  </div>
+  <div class="eq">
+    E<sub>y</sub> =
+    <span class="f"><span class="n">iE</span><span class="d">2</span></span>&#8201;
+    (2i&#8201;e<sup>&#8201;i<span class="ov">k</span>z</sup>&#8201;sin&#8201;&Delta;)&#8201;e<sup>&minus;i&omega;t</sup>
+    = &minus;E&#8201;e<sup>&#8201;i(<span class="ov">k</span>z&minus;&omega;t)</sup>&#8201;sin&#8201;&Delta;
+    <span class="from">i &times; i = &minus;1</span>
+  </div>
+  <div class="note">
+    Both components now carry the <b>same</b> phase factor e<sup>i(<span class="ov">k</span>z&minus;&omega;t)</sup>.
+    That is what makes the wave <b>linearly</b> polarized at every z &mdash; only the direction of the line turns.
+  </div>
+
+  
+  <div class="pnum">8</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 2, continued</div>
+
+<div class="step">Step 4 &nbsp;&mdash;&nbsp; Form the ratio</div>
+  <div class="eq">
+    tan&#8201;&theta; =
+    <span class="f"><span class="n">E<sub>y</sub></span><span class="d">E<sub>x</sub></span></span>
+    = &minus;
+    <span class="f"><span class="n">sin&#8201;&Delta;</span><span class="d">cos&#8201;&Delta;</span></span>
+    = &minus;tan&#8201;&Delta;
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp; &theta; = &minus;&Delta;
+  </div>
+  <div class="says">Finally put &Delta; back, with k = &omega;n/c:</div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:20px;margin:10px 0 4px">
+      &theta;(z) = &minus;
+      <span class="f"><span class="n">(k<sub>L</sub> &minus; k<sub>R</sub>)&#8201;z</span><span class="d">2</span></span>
+      =
+      <span class="f"><span class="n">&omega;</span><span class="d">2c</span></span>
+      ( n<sub>R</sub> &minus; n<sub>L</sub> )&#8201;z
+    </div>
+    <div class="sub">
+      The plane of polarization turns <b>steadily</b> with z, at the constant rate
+      d&theta;/dz = (&omega;/2c)(n<sub>R</sub> &minus; n<sub>L</sub>).
+    </div>
+  </div>
+
+  <div class="opt">
+    <span class="tag">OPTIONAL</span><b>Consistency with Example 1.</b> The wave is along <b>ŷ</b> when
+    &theta; = &plusmn;&pi;/2, i.e. &Delta; = (2m+1)&pi;/2. That gives z = (2m+1)&pi;/(k<sub>L</sub>&minus;k<sub>R</sub>)
+    &mdash; exactly the answer to Example 1. &#10003;
+  </div>
+
+  <div class="pnum">9</div>
+</div>
+
+<!-- ============ SHEET 4 : EX 3 + EX 4 ============ -->
+<div class="sheet">
+  <div class="qhead">Example 3 &mdash; Total Internal Reflection <span class="src">Lec 4 s7</span></div>
+
+  <div class="stmt">
+    When n &gt; n&prime;, the refraction angle r exceeds the incidence angle i. <b>What happens if sin&#8201;r &gt; 1?</b>
+  </div>
+
+  <div class="startbox">
+    <b>Given:</b> wave going from dense (n) to less dense (n&prime;).&nbsp;&nbsp;
+    <b>Want:</b> when the transmitted wave stops existing.<br>
+    <b>Route:</b> Snell &rarr; sin&#8201;r can exceed 1 &rarr; cos&#8201;r turns imaginary &rarr; critical angle.
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; Snell&rsquo;s law</div>
+  <div class="eq">
+    n&#8201;sin&#8201;i = n&prime;&#8201;sin&#8201;r
+    <span class="from">from phase matching at the surface</span>
+    <span class="src">Lec 3, s12</span>
+  </div>
+  <div class="eq">
+    sin&#8201;r =
+    <span class="f"><span class="n">n</span><span class="d">n&prime;</span></span>
+    sin&#8201;i
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; If n &gt; n&prime;, this can exceed 1</div>
+  <div class="says">n/n&prime; &gt; 1, so for large enough i the right-hand side passes 1 &mdash; and no <i>real</i>
+    angle r has sin&#8201;r &gt; 1.</div>
+  <div class="eq">
+    cos&#8201;r = <span class="sq">&radic;<span class="rt">1 &minus; sin<sup>2</sup>r</span></span>
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp; <b>cos&#8201;r is imaginary</b> when sin&#8201;r &gt; 1
+  </div>
+  <div class="note">
+    An imaginary cos&#8201;r means the transmitted wave no longer propagates &mdash; it becomes an
+    <b>evanescent</b> wave that decays away from the surface. <span class="src">Lec 4, s8</span>
+  </div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; The boundary case sin&#8201;r = 1</div>
+  <div class="says">The changeover is exactly where sin&#8201;r = 1, i.e. r = 90&deg;:</div>
+  <div class="eq">
+    <span class="f"><span class="n">n</span><span class="d">n&prime;</span></span>
+    sin&#8201;i<sub>0</sub> = 1
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:20px;margin:10px 0 4px">
+      i<sub>0</sub> = arcsin
+      <span class="f"><span class="n">n&prime;</span><span class="d">n</span></span>
+      &nbsp;&nbsp;&mdash;&nbsp;&nbsp; if i &gt; i<sub>0</sub>, <b>total internal reflection</b>
+    </div>
+    <div class="sub">Glass to air (n = 1.5, n&prime; = 1): i<sub>0</sub> = 41.8&deg;.</div>
+  </div>
+
+  
+  <div class="pnum">10</div>
+</div>
+
+<div class="sheet">
+<div class="qhead" style="margin-top:20px">Example 4 &mdash; Optical Fiber <span class="src">Lec 4 s11&ndash;12</span></div>
+
+  <div class="stmt">
+    A fiber has core index n<sub>1</sub> and cladding index n<sub>0</sub>, with n<sub>0</sub> &lt; n<sub>1</sub>
+    (difference only ~1%). Find the largest angle <b>&theta;<sub>max</sub></b>, measured from the fiber
+    <b>axis</b>, for which a ray stays trapped in the core.
+  </div>
+
+  <div class="startbox">
+    <b>Given:</b> n<sub>1</sub> core, n<sub>0</sub> cladding.&nbsp;&nbsp;
+    <b>Want:</b> &theta;<sub>max</sub> from the axis.<br>
+    <b>Route:</b> trapping = TIR at the core wall &rarr; but &theta; is measured from the <i>axis</i>, not the
+    wall normal &rarr; convert.
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; Trapping means TIR at the wall</div>
+  <div class="says">The ray must be totally internally reflected every time it hits the core&ndash;cladding
+    boundary. From Example 3, with the core as the dense medium:</div>
+  <div class="eq">
+    i &gt; i<sub>0</sub>, &nbsp;&nbsp; sin&#8201;i<sub>0</sub> =
+    <span class="f"><span class="n">n<sub>0</sub></span><span class="d">n<sub>1</sub></span></span>
+    <span class="from">Example 3, with n &rarr; n<sub>1</sub>, n&prime; &rarr; n<sub>0</sub></span>
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Convert the wall angle to the axis angle</div>
+  <div class="says">i is measured from the <b>wall normal</b>, which points across the fiber. &theta; is measured
+    from the <b>axis</b>, which runs along it. The two directions are perpendicular, so</div>
+  <div class="eq">
+    i = 90&deg; &minus; &theta;
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp; sin&#8201;i = cos&#8201;&theta;
+    <span class="from">this is the only geometry step &mdash; read it off the figure</span>
+  </div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Rewrite the condition</div>
+  <div class="eq">
+    cos&#8201;&theta; &gt;
+    <span class="f"><span class="n">n<sub>0</sub></span><span class="d">n<sub>1</sub></span></span>
+  </div>
+  <div class="says">cos is decreasing, so a <i>larger</i> cos means a <i>smaller</i> &theta;. The limit is</div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:20px;margin:10px 0 4px">
+      &theta;<sub>max</sub> = cos<sup>&minus;1</sup>
+      <span class="f"><span class="n">n<sub>0</sub></span><span class="d">n<sub>1</sub></span></span>
+    </div>
+    <div class="sub">
+      n<sub>0</sub> = 1.45, n<sub>1</sub> = 1.465 gives &theta;<sub>max</sub> &asymp; 8.2&deg; &mdash; only rays
+      almost parallel to the axis are guided.
+    </div>
+  </div>
+
+  <div class="pnum">11</div>
+</div>
+
+<!-- ============ SHEET 5 : EX 5 ============ -->
+<div class="sheet">
+  <div class="qhead">Example 5 &mdash; Brewster&rsquo;s angle <span class="src">Lec 4 s13</span></div>
+
+  <div class="stmt">
+    Assume &mu; = &mu;&prime;. For a <b>p-polarized</b> wave, find the incidence angle at which the reflected
+    wave vanishes. &nbsp;<b>[He wrote &ldquo;HW 2&rdquo; before the last algebra step.]</b>
+  </div>
+
+  <div class="startbox">
+    <b>Given:</b> p-polarization, &mu; = &mu;&prime;.&nbsp;&nbsp;
+    <b>Want:</b> i<sub>B</sub> with E<sub>0</sub>&Prime; = 0.<br>
+    <b>Route:</b> p-polarized reflection coefficient &rarr; set its numerator to zero &rarr; bring in Z = &mu;c/n
+    and Snell &rarr; solve for tan&#8201;i.
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; The p-polarized reflection coefficient</div>
+  <div class="eq">
+    <span class="f"><span class="n">E<sub>0</sub>&Prime;</span><span class="d">E<sub>0</sub></span></span>
+    =
+    <span class="f"><span class="n">Z&#8201;cos&#8201;i &minus; Z&prime;&#8201;cos&#8201;r</span><span class="d">Z&#8201;cos&#8201;i + Z&prime;&#8201;cos&#8201;r</span></span>
+    <span class="src">Lec 4, s2&ndash;3</span>
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; No reflection means the numerator vanishes</div>
+  <div class="eq">
+    E<sub>0</sub>&Prime; = 0 &nbsp;&rArr;&nbsp; Z&#8201;cos&#8201;i = Z&prime;&#8201;cos&#8201;r
+  </div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Turn the impedances into indices</div>
+  <div class="eq">
+    Z = <span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span> =
+    <span class="f"><span class="n">&mu;c</span><span class="d">n</span></span>
+    <span class="src">Lec 2, s18</span>
+  </div>
+  <div class="says">With &mu; = &mu;&prime; the &mu;c cancels in the ratio, leaving</div>
+  <div class="eq">
+    <span class="f"><span class="n">Z</span><span class="d">Z&prime;</span></span>
+    =
+    <span class="f"><span class="n">n&prime;</span><span class="d">n</span></span>
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp; n&prime;&#8201;cos&#8201;i = n&#8201;cos&#8201;r
+    <span class="from">&#9312;</span>
+  </div>
+
+  <div class="step">Step 4 &nbsp;&mdash;&nbsp; Bring in Snell&rsquo;s law</div>
+  <div class="eq">
+    n&#8201;sin&#8201;i = n&prime;&#8201;sin&#8201;r
+    <span class="from">&#9313;</span>
+    <span class="src">Lec 3, s12</span>
+  </div>
+  <div class="note">
+    Two equations, two unknowns (i and r). Eliminate r &mdash; this is the part left as HW 2.
+  </div>
+
+  
+  <div class="pnum">12</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 5, continued</div>
+
+<div class="step">Step 5 &nbsp;&mdash;&nbsp; Eliminate r</div>
+  <div class="says">From &#9312;: cos&#8201;r = (n&prime;/n)&#8201;cos&#8201;i.&nbsp; From &#9313;:
+    sin&#8201;r = (n/n&prime;)&#8201;sin&#8201;i.&nbsp; Put both into sin<sup>2</sup>r + cos<sup>2</sup>r = 1:</div>
+  <div class="eq">
+    <span class="f"><span class="n">n&prime;<sup>2</sup></span><span class="d">n<sup>2</sup></span></span>
+    cos<sup>2</sup>i +
+    <span class="f"><span class="n">n<sup>2</sup></span><span class="d">n&prime;<sup>2</sup></span></span>
+    sin<sup>2</sup>i = 1
+  </div>
+  <div class="says">Multiply through by n<sup>2</sup>n&prime;<sup>2</sup>:</div>
+  <div class="eq">
+    n&prime;<sup>4</sup>cos<sup>2</sup>i + n<sup>4</sup>sin<sup>2</sup>i = n<sup>2</sup>n&prime;<sup>2</sup>
+  </div>
+  <div class="says">Divide by cos<sup>2</sup>i and use 1/cos<sup>2</sup>i = 1 + tan<sup>2</sup>i:</div>
+  <div class="eq">
+    n&prime;<sup>4</sup> + n<sup>4</sup>tan<sup>2</sup>i = n<sup>2</sup>n&prime;<sup>2</sup>(1 + tan<sup>2</sup>i)
+  </div>
+  <div class="says">Collect the tan<sup>2</sup>i terms:</div>
+  <div class="eq">
+    tan<sup>2</sup>i&#8201;( n<sup>4</sup> &minus; n<sup>2</sup>n&prime;<sup>2</sup> )
+    = n<sup>2</sup>n&prime;<sup>2</sup> &minus; n&prime;<sup>4</sup>
+  </div>
+  <div class="eq">
+    tan<sup>2</sup>i&#8201;n<sup>2</sup>(n<sup>2</sup> &minus; n&prime;<sup>2</sup>)
+    = n&prime;<sup>2</sup>(n<sup>2</sup> &minus; n&prime;<sup>2</sup>)
+    <span class="from">the bracket cancels</span>
+  </div>
+  <div class="eq">
+    tan<sup>2</sup>i =
+    <span class="f"><span class="n">n&prime;<sup>2</sup></span><span class="d">n<sup>2</sup></span></span>
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:20px;margin:10px 0 4px">
+      i<sub>B</sub> = arctan
+      <span class="f"><span class="n">n&prime;</span><span class="d">n</span></span>
+    </div>
+    <div class="sub">
+      Air to glass (n = 1, n&prime; = 1.5): i<sub>B</sub> = 56.3&deg;. At this angle the reflected light is
+      <b>purely s-polarized</b> &mdash; which is what a polarizing filter exploits.
+    </div>
+  </div>
+
+  <div class="opt">
+    <span class="tag">OPTIONAL</span>Substituting i<sub>B</sub> back gives i<sub>B</sub> + r = 90&deg; exactly:
+    at Brewster&rsquo;s angle the reflected and transmitted rays are perpendicular.
+  </div>
+
+  <div class="pnum">13</div>
+</div>
+
+<!-- ============ SHEET 6 : EX 6 ============ -->
+<div class="sheet">
+  <div class="qhead">Example 6 &mdash; X-ray: almost total external reflection <span class="src">Lec 6 s4&ndash;5</span></div>
+
+  <div class="stmt">
+    At X-ray frequencies the index of essentially all matter is slightly <b>less</b> than 1: n &asymp; 1 &minus; &delta;
+    with &delta; ~ 10<sup>&minus;5</sup>. A plane wave in vacuum with wave vector <b>k</b><sub>I</sub> reflects
+    from a non-magnetic sample; let <b>q</b> = <b>k</b><sub>R</sub> &minus; <b>k</b><sub>I</sub>. Show that
+    R<sub>s</sub> and R<sub>p</sub> both vary as <b>q<sup>&minus;4</sup></b> when the grazing angle is small, but
+    not small enough for total external reflection.
+  </div>
+
+  <div class="startbox">
+    <b>Given:</b> n = 1 &minus; &delta;, &delta; &#8810; 1; grazing angles &alpha;<sub>1</sub> (in), &alpha;<sub>2</sub> (out).&nbsp;&nbsp;
+    <b>Want:</b> R &prop; q<sup>&minus;4</sup>.<br>
+    <b>Route:</b> Snell in <i>grazing</i> angles &rarr; small-angle expand to get
+    &alpha;<sub>1</sub><sup>2</sup> &minus; &alpha;<sub>2</sub><sup>2</sup> = 2&delta; &rarr; Fresnel &rarr;
+    swap &alpha;<sub>1</sub> for q.
+  </div>
+
+  <div class="note">
+    <b>Why grazing angles.</b> Here the angles are measured from the <b>surface</b> (&alpha;), not from the
+    normal (&theta;), because X-rays only reflect appreciably when they skim the sample.
+    &alpha; = 90&deg; &minus; &theta;, so sin&#8201;&theta; becomes cos&#8201;&alpha;.
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; Snell, rewritten in grazing angles</div>
+  <div class="eq">
+    sin&#8201;&theta;<sub>1</sub> = n&#8201;sin&#8201;&theta;<sub>2</sub>
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    cos&#8201;&alpha;<sub>1</sub> = n&#8201;cos&#8201;&alpha;<sub>2</sub>
+    <span class="src">Lec 3, s12</span>
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Expand for small angles</div>
+  <div class="says">Both grazing angles are tiny, so use cos&#8201;&alpha; &asymp; 1 &minus; &alpha;<sup>2</sup>/2:</div>
+  <div class="eq">
+    1 &minus;
+    <span class="f"><span class="n">&alpha;<sub>1</sub><sup>2</sup></span><span class="d">2</span></span>
+    = n&#8201;&#8722;&#8201;n
+    <span class="f"><span class="n">&alpha;<sub>2</sub><sup>2</sup></span><span class="d">2</span></span>
+  </div>
+  <div class="says">Put n = 1 &minus; &delta;. In the last term n &asymp; 1, since &delta;&alpha;<sup>2</sup> is
+    negligible against everything else:</div>
+  <div class="eq">
+    1 &minus;
+    <span class="f"><span class="n">&alpha;<sub>1</sub><sup>2</sup></span><span class="d">2</span></span>
+    = 1 &minus; &delta; &minus;
+    <span class="f"><span class="n">&alpha;<sub>2</sub><sup>2</sup></span><span class="d">2</span></span>
+  </div>
+  <div class="eq">
+    <span class="red">&alpha;<sub>1</sub><sup>2</sup> &minus; &alpha;<sub>2</sub><sup>2</sup> = 2&delta;</span>
+    <span class="from">the key relation &mdash; used in Step 5</span>
+  </div>
+  <div class="note">
+    Total external reflection happens when &alpha;<sub>1</sub><sup>2</sup> &lt; 2&delta; (then &alpha;<sub>2</sub>
+    has no real solution). The problem says we are <i>above</i> that, so
+    &alpha;<sub>1</sub> &gt; <span class="sq">&radic;<span class="rt">2&delta;</span></span>.
+  </div>
+
+  
+  <div class="pnum">14</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 6, continued</div>
+
+<div class="step">Step 3 &nbsp;&mdash;&nbsp; Fresnel for s-polarization, in grazing angles</div>
+  <div class="eq">
+    r<sub>s</sub> =
+    <span class="f"><span class="n">cos&#8201;&theta;<sub>1</sub> &minus; n&#8201;cos&#8201;&theta;<sub>2</sub></span><span class="d">cos&#8201;&theta;<sub>1</sub> + n&#8201;cos&#8201;&theta;<sub>2</sub></span></span>
+    =
+    <span class="f"><span class="n">sin&#8201;&alpha;<sub>1</sub> &minus; n&#8201;sin&#8201;&alpha;<sub>2</sub></span><span class="d">sin&#8201;&alpha;<sub>1</sub> + n&#8201;sin&#8201;&alpha;<sub>2</sub></span></span>
+    <span class="src">Lec 4, s4</span>
+  </div>
+
+  <div class="step">Step 4 &nbsp;&mdash;&nbsp; Small angles again, and n &asymp; 1</div>
+  <div class="eq">
+    R<sub>s</sub> = |r<sub>s</sub>|<sup>2</sup> =
+    <span style="font-size:1.1em">(</span>
+    <span class="f"><span class="n">&alpha;<sub>1</sub> &minus; &alpha;<sub>2</sub></span><span class="d">&alpha;<sub>1</sub> + &alpha;<sub>2</sub></span></span>
+    <span style="font-size:1.1em">)</span><sup>2</sup>
+    <span class="from">sin&#8201;&alpha; &asymp; &alpha;</span>
+  </div>
+
+  <div class="step">Step 5 &nbsp;&mdash;&nbsp; Bring in Step 2</div>
+  <div class="says">Multiply numerator and denominator by (&alpha;<sub>1</sub> + &alpha;<sub>2</sub>), so the
+    numerator becomes the difference of squares we already know:</div>
+  <div class="eq">
+    R<sub>s</sub> =
+    <span style="font-size:1.1em">(</span>
+    <span class="f"><span class="n">&alpha;<sub>1</sub><sup>2</sup> &minus; &alpha;<sub>2</sub><sup>2</sup></span><span class="d">(&alpha;<sub>1</sub> + &alpha;<sub>2</sub>)<sup>2</sup></span></span>
+    <span style="font-size:1.1em">)</span><sup>2</sup>
+    =
+    <span style="font-size:1.1em">(</span>
+    <span class="f"><span class="n">2&delta;</span><span class="d">(&alpha;<sub>1</sub> + &alpha;<sub>2</sub>)<sup>2</sup></span></span>
+    <span style="font-size:1.1em">)</span><sup>2</sup>
+  </div>
+  <div class="says">Well above the critical angle &alpha;<sub>2</sub> &asymp; &alpha;<sub>1</sub>, so
+    (&alpha;<sub>1</sub>+&alpha;<sub>2</sub>)<sup>2</sup> &asymp; 4&alpha;<sub>1</sub><sup>2</sup>:</div>
+  <div class="eq">
+    R<sub>s</sub> &asymp;
+    <span style="font-size:1.1em">(</span>
+    <span class="f"><span class="n">&delta;</span><span class="d">2&alpha;<sub>1</sub><sup>2</sup></span></span>
+    <span style="font-size:1.1em">)</span><sup>2</sup>
+    &nbsp;&nbsp;&prop;&nbsp;&nbsp; &alpha;<sub>1</sub><sup>&minus;4</sup>
+  </div>
+
+  <div class="step">Step 6 &nbsp;&mdash;&nbsp; Replace &alpha;<sub>1</sub> by q</div>
+  <div class="says"><b>q</b> is the change in wave vector on reflection. Incident and reflected have the same
+    length k and are mirror images in the surface, so the difference is perpendicular to the surface with
+    magnitude</div>
+  <div class="eq">
+    q = 2k&#8201;sin&#8201;&alpha;<sub>1</sub> &asymp; 2k&#8201;&alpha;<sub>1</sub>
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp; &alpha;<sub>1</sub> =
+    <span class="f"><span class="n">q</span><span class="d">2k</span></span>
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:19px;margin:10px 0 4px">
+      R<sub>s</sub> &asymp;
+      <span style="font-size:1.1em">(</span>
+      <span class="f"><span class="n">&delta;</span><span class="d">2&alpha;<sub>1</sub><sup>2</sup></span></span>
+      <span style="font-size:1.1em">)</span><sup>2</sup>
+      =
+      <span style="font-size:1.1em">(</span>
+      <span class="f"><span class="n">2k<sup>2</sup>&delta;</span><span class="d">q<sup>2</sup></span></span>
+      <span style="font-size:1.1em">)</span><sup>2</sup>
+      &nbsp;&prop;&nbsp; q<sup>&minus;4</sup>
+    </div>
+    <div class="sub">R<sub>p</sub> goes the same way: at grazing incidence the s and p formulas coincide.</div>
+  </div>
+
+  <div class="pnum">15</div>
+</div>
+
+<!-- ============ SHEET 7 : EX 7 ============ -->
+<div class="sheet">
+  <div class="qhead">Example 7 &mdash; Plasma <span class="src">Lec 6 s6&ndash;7</span></div>
+
+  <div class="stmt">
+    A plasma is a gas of <b>free</b> electrons: there is no restoring force (&omega;<sub>0</sub> = 0) and no
+    damping (&gamma; = 0). Find &epsilon;(&omega;), define the plasma frequency, and say which waves can pass
+    through.
+  </div>
+
+  <div class="startbox">
+    <b>Given:</b> free electrons, density N, &omega;<sub>0</sub> = 0, &gamma; = 0.&nbsp;&nbsp;
+    <b>Want:</b> &epsilon;(&omega;)/&epsilon;<sub>0</sub> and the cut-off.<br>
+    <b>Route:</b> take the bound-charge result from Lec 5 and switch off the two terms that free electrons do not
+    have.
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; Start from the harmonically bound charge model</div>
+  <div class="says">This is the general dielectric constant already derived in lecture &mdash; nothing new is
+    introduced here, we only specialise it:</div>
+  <div class="eq">
+    <span class="f"><span class="n">&epsilon;(&omega;)</span><span class="d">&epsilon;<sub>0</sub></span></span>
+    = 1 +
+    <span class="f"><span class="n">Ne<sup>2</sup></span><span class="d">&epsilon;<sub>0</sub>m</span></span>
+    &Sigma;<sub>j</sub> f<sub>j</sub>&#8201;( &omega;<sub>j</sub><sup>2</sup> &minus; &omega;<sup>2</sup>
+    &minus; i&omega;&gamma;<sub>j</sub> )<sup>&minus;1</sup>
+    <span class="src">Lec 5, s7</span>
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Switch off binding and damping</div>
+  <div class="says">Free electrons: one species, &omega;<sub>0</sub> = 0 (nothing pulls them back) and &gamma; = 0
+    (no collisions). The bracket collapses to (&minus;&omega;<sup>2</sup>):</div>
+  <div class="eq">
+    <span class="f"><span class="n">&epsilon;</span><span class="d">&epsilon;<sub>0</sub></span></span>
+    = 1 +
+    <span class="f"><span class="n">Ne<sup>2</sup></span><span class="d">&epsilon;<sub>0</sub>m</span></span>
+    <span class="f"><span class="n">1</span><span class="d">&minus;&omega;<sup>2</sup></span></span>
+    = 1 &minus;
+    <span class="f"><span class="n">Ne<sup>2</sup></span><span class="d">&epsilon;<sub>0</sub>m&omega;<sup>2</sup></span></span>
+  </div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Name the constant</div>
+  <div class="says">Everything in front of 1/&omega;<sup>2</sup> is fixed by the material, so give it a name. It
+    has units of frequency squared:</div>
+  <div class="eq">
+    <span class="red">&omega;<sub>p</sub><sup>2</sup> =
+    <span class="f"><span class="n">Ne<sup>2</sup></span><span class="d">&epsilon;<sub>0</sub>m</span></span></span>
+    <span class="from">the <b>plasma frequency</b></span>
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:20px;margin:10px 0 4px">
+      <span class="f"><span class="n">&epsilon;(&omega;)</span><span class="d">&epsilon;<sub>0</sub></span></span>
+      = 1 &minus;
+      <span class="f"><span class="n">&omega;<sub>p</sub><sup>2</sup></span><span class="d">&omega;<sup>2</sup></span></span>,
+      &nbsp;&nbsp;&nbsp; &omega;<sub>p</sub> =
+      <span class="sq">&radic;<span class="rt">Ne<sup>2</sup>/&epsilon;<sub>0</sub>m</span></span>
+    </div>
+  </div>
+
+  
+  <div class="pnum">16</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 7, continued</div>
+
+<div class="step">Step 4 &nbsp;&mdash;&nbsp; Read off the physics</div>
+  <div class="says">If &omega; &lt; &omega;<sub>p</sub> then &epsilon;/&epsilon;<sub>0</sub> &lt; 0, so
+    n = <span class="sq">&radic;<span class="rt">&epsilon;/&epsilon;<sub>0</sub></span></span> is <b>imaginary</b>
+    &mdash; the wave cannot propagate and is reflected. Above &omega;<sub>p</sub> it passes through.</div>
+
+  <div class="opt">
+    <span class="tag">OPTIONAL</span><b>His two numbers.</b>
+    Laboratory plasma, N ~ 10<sup>18</sup> m<sup>&minus;3</sup> &rarr; &omega;<sub>p</sub> &asymp; 6&times;10<sup>10</sup>
+    rad/s &mdash; microwaves. &nbsp;Ionosphere, N ~ 10<sup>12</sup> m<sup>&minus;3</sup> &rarr;
+    &omega;<sub>p</sub> &asymp; 6&times;10<sup>7</sup> rad/s &mdash; radio. That is why AM radio bounces off the
+    ionosphere and reaches beyond the horizon, while higher frequencies go straight through to satellites.
+    <br><i>(The slide labels these &ldquo;Hz&rdquo;; they are &omega;<sub>p</sub> in rad/s. As an ordinary
+    frequency, divide by 2&pi;.)</i>
+  </div>
+
+  <div class="pnum">17</div>
+</div>
+
+<!-- ============ SHEET 8 : EX 8 ============ -->
+<div class="sheet">
+  <div class="qhead">Example 8 &mdash; Reflection from a good conductor, normal incidence <span class="src">Lec 7 s9</span></div>
+
+  <div class="stmt">
+    What is the reflection coefficient of a <b>good conductor</b> at normal incidence (&omega; &#8810; &gamma;<sub>0</sub>)?
+  </div>
+
+  <div class="startbox">
+    <b>Given:</b> insulator n<sub>1</sub> above, conductor n<sub>2</sub> = n<sub>r</sub> + i&#8201;n<sub>i</sub>
+    below, normal incidence.&nbsp;&nbsp;<b>Want:</b> R.<br>
+    <b>Route:</b> Fresnel at i = 0 &rarr; take the modulus squared &rarr; use n<sub>r</sub> = n<sub>i</sub> for a
+    good conductor &rarr; expand for n<sub>r</sub> &#8811; n<sub>1</sub>.
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; Fresnel at normal incidence</div>
+  <div class="says">At i = r = 0 both cosines are 1 and the s and p formulas become the same:</div>
+  <div class="eq">
+    R =
+    <span style="font-size:1.15em">|</span>
+    <span class="f"><span class="n">n<sub>r</sub> + i&#8201;n<sub>i</sub> &minus; n<sub>1</sub></span><span class="d">n<sub>r</sub> + i&#8201;n<sub>i</sub> + n<sub>1</sub></span></span>
+    <span style="font-size:1.15em">|</span><sup>2</sup>
+    <span class="src">Lec 4, s2&ndash;4</span>
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Write out the modulus</div>
+  <div class="says">|a + ib|<sup>2</sup> = a<sup>2</sup> + b<sup>2</sup>, applied top and bottom:</div>
+  <div class="eq">
+    R =
+    <span class="f"><span class="n">(n<sub>r</sub> &minus; n<sub>1</sub>)<sup>2</sup> + n<sub>i</sub><sup>2</sup></span><span class="d">(n<sub>r</sub> + n<sub>1</sub>)<sup>2</sup> + n<sub>i</sub><sup>2</sup></span></span>
+  </div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Use the good-conductor property n<sub>i</sub> = n<sub>r</sub></div>
+  <div class="says">His slide gives, for a good conductor (&sigma; &#8811; &epsilon;<sub>r</sub>&omega;):</div>
+  <div class="eq">
+    n<sub>r</sub> = n<sub>i</sub> = c&#8201;<span class="sq">&radic;<span class="rt"><span class="f" style="vertical-align:0.45em"><span class="n">&mu;&sigma;</span><span class="d">2&omega;</span></span></span></span>
+    <span class="from">both parts of n are equal in a good conductor</span>
+    <span class="src">Lec 7, s3</span>
+  </div>
+  <div class="says">Substituting n<sub>i</sub> = n<sub>r</sub> and expanding the squares:</div>
+  <div class="eq">
+    R =
+    <span class="f"><span class="n">2n<sub>r</sub><sup>2</sup> &minus; 2n<sub>r</sub>n<sub>1</sub> + n<sub>1</sub><sup>2</sup></span><span class="d">2n<sub>r</sub><sup>2</sup> + 2n<sub>r</sub>n<sub>1</sub> + n<sub>1</sub><sup>2</sup></span></span>
+    = 1 &minus;
+    <span class="f"><span class="n">4n<sub>r</sub>n<sub>1</sub></span><span class="d">2n<sub>r</sub><sup>2</sup> + 2n<sub>r</sub>n<sub>1</sub> + n<sub>1</sub><sup>2</sup></span></span>
+  </div>
+  <div class="note">
+    The second form comes from writing numerator = denominator &minus; 4n<sub>r</sub>n<sub>1</sub>. It is the
+    useful form because R is close to 1, and this isolates the small part.
+  </div>
+
+  <div class="pnum">18</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 8, continued</div>
+
+  <div class="step">Step 4 &nbsp;&mdash;&nbsp; A conductor has n<sub>r</sub> &#8811; n<sub>1</sub></div>
+  <div class="says">Of the three terms downstairs, 2n<sub>r</sub><sup>2</sup> is far the largest:</div>
+  <div class="eq">
+    R &asymp; 1 &minus;
+    <span class="f"><span class="n">4n<sub>r</sub>n<sub>1</sub></span><span class="d">2n<sub>r</sub><sup>2</sup></span></span>
+    = 1 &minus;
+    <span class="f"><span class="n">2n<sub>1</sub></span><span class="d">n<sub>r</sub></span></span>
+  </div>
+
+  
+<div class="step">Step 5 &nbsp;&mdash;&nbsp; Put n<sub>r</sub> in terms of &sigma; and &omega;</div>
+  <div class="says">n<sub>1</sub> is the index of the insulator above, so it carries &epsilon;<sub>1</sub>:</div>
+  <div class="eq">
+    n<sub>1</sub> = c&#8201;<span class="sq">&radic;<span class="rt">&mu;<sub>1</sub>&epsilon;<sub>1</sub></span></span>,
+    &nbsp;&nbsp;&nbsp; n<sub>r</sub> = c&#8201;<span class="sq">&radic;<span class="rt"><span class="f" style="vertical-align:0.45em"><span class="n">&mu;<sub>2</sub>&sigma;<sub>2</sub></span><span class="d">2&omega;</span></span></span></span>
+    <span class="src">Lec 2 s18 &middot; Lec 7 s3</span>
+  </div>
+
+  <div class="says">Divide. The <b>c cancels</b> top and bottom:</div>
+  <div class="eq">
+    <span class="f" style="vertical-align:0.45em"><span class="n">2n<sub>1</sub></span><span class="d">n<sub>r</sub></span></span>
+    =
+    <span class="f" style="vertical-align:0.45em"><span class="n">2c&#8201;<span class="sq">&radic;<span class="rt">&mu;<sub>1</sub>&epsilon;<sub>1</sub></span></span></span><span class="d">c&#8201;<span class="sq">&radic;<span class="rt"><span class="f" style="vertical-align:0.45em"><span class="n">&mu;<sub>2</sub>&sigma;<sub>2</sub></span><span class="d">2&omega;</span></span></span></span></span></span>
+    = 2&#8201;<span class="sq">&radic;<span class="rt">&mu;<sub>1</sub>&epsilon;<sub>1</sub> &middot; 2&omega; / &mu;<sub>2</sub>&sigma;<sub>2</sub></span></span>
+  </div>
+
+  <div class="says">Both media are non-magnetic, &mu;<sub>1</sub> = &mu;<sub>2</sub>, so they cancel too:</div>
+  <div class="eq">
+    = 2&#8201;<span class="sq">&radic;<span class="rt"><span class="f" style="vertical-align:0.45em"><span class="n">2&epsilon;<sub>1</sub>&omega;</span><span class="d">&sigma;<sub>2</sub></span></span></span></span>
+  </div>
+
+  <div class="says">Finally take the 2 inside the root. Since 2 = <span class="sq">&radic;<span class="rt">4</span></span>,
+    2<span class="sq">&radic;<span class="rt">X</span></span> = <span class="sq">&radic;<span class="rt">4</span></span>&#8201;<span class="sq">&radic;<span class="rt">X</span></span> = <span class="sq">&radic;<span class="rt">4X</span></span>:</div>
+  <div class="eq">
+    = <span class="sq">&radic;<span class="rt">4 &times; 2&epsilon;<sub>1</sub>&omega;/&sigma;<sub>2</sub></span></span>
+    = <span class="red"><span class="sq">&radic;<span class="rt"><span class="f" style="vertical-align:0.45em"><span class="n">8&epsilon;<sub>1</sub>&omega;</span><span class="d">&sigma;<sub>2</sub></span></span></span></span></span>
+    <span class="from">4 &times; 2 = 8 &mdash; that is where the 8 comes from</span>
+  </div>
+  <div class="note">
+    &epsilon;<sub>1</sub> is there because it arrived with n<sub>1</sub>, not from &epsilon;<sub>0</sub>. The
+    result holds for <b>any</b> insulator above, not just vacuum &mdash; checked against the exact Fresnel
+    formula with glass above (n<sub>1</sub> = 1.5): 0.99958811 against 0.99958803.
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:20px;margin:10px 0 4px">
+      R &asymp; 1 &minus;
+      <span class="f"><span class="n">2n<sub>1</sub></span><span class="d">n<sub>r</sub></span></span>
+      = 1 &minus;
+      <span class="sq">&radic;<span class="rt">
+      <span class="f" style="vertical-align:0.45em"><span class="n">8&epsilon;<sub>1</sub>&omega;</span><span class="d">&sigma;<sub>2</sub></span></span></span></span>
+    </div>
+    <div class="sub">
+      The <b>Hagen&ndash;Rubens relation</b> <span class="src">Lec 7, s10</span>. R &rarr; 1 as &omega; &rarr; 0
+      or &sigma; &rarr; &infin; &mdash; a perfect conductor is a perfect mirror.
+    </div>
+  </div>
+
+  <div class="opt">
+    <span class="tag">OPTIONAL</span>Copper (&sigma; = 5.9&times;10<sup>7</sup> S/m) at 10 GHz:
+    R = 0.99972 &mdash; only 0.03% of the power is absorbed per bounce.
+  </div>
+
+  <div class="pnum">19</div>
+</div>
+
+<!-- ============ SHEET 9 : EX 9 ============ -->
+<div class="sheet">
+  <div class="qhead">Example 9 &mdash; Gaussian modulated oscillation <span class="src">Lec 9 s2&ndash;5</span></div>
+
+  <div class="stmt">
+    A pulse starts as u(x,0) = e<sup>&minus;x<sup>2</sup>/2L<sup>2</sup></sup>&#8201;cos&#8201;k<sub>0</sub>x with
+    &part;u/&part;t(x,0) = 0, in a medium with dispersion relation
+    &omega;(k) = &nu;(1 + a<sup>2</sup>k<sup>2</sup>/2). Find u(x,t).
+  </div>
+
+  <div class="startbox">
+    <b>Given:</b> the initial shape, zero initial velocity, and &omega;(k).&nbsp;&nbsp;
+    <b>Want:</b> u(x,t).<br>
+    <b>Route:</b> 7.91 gives A(k) &rarr; the integral is Gaussian, so it can be done exactly &rarr; put A(k) into
+    7.90 &rarr; read off speed and spreading.
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; A(k) from the initial conditions</div>
+  <div class="says">Because &part;u/&part;t(x,0) = 0, the second term of Eq. 7.91 drops out and only the initial
+    shape is left:</div>
+  <div class="eq">
+    A(k) =
+    <span class="f"><span class="n">1</span><span class="d"><span class="sq">&radic;<span class="rt">2&pi;</span></span></span></span>
+    &int; dx&#8201; e<sup>&minus;ikx</sup>&#8201;u(x,0)
+    <span class="from">Jackson 7.91 with &part;u/&part;t(x,0) = 0</span>
+    <span class="src">Lec 8, s9</span>
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Split the cosine</div>
+  <div class="says">A cosine is two exponentials, and each pairs with e<sup>&minus;ikx</sup> to give a clean
+    Gaussian integral:</div>
+  <div class="eq">
+    cos&#8201;k<sub>0</sub>x =
+    <span class="f"><span class="n">1</span><span class="d">2</span></span>
+    ( e<sup>&#8201;ik<sub>0</sub>x</sup> + e<sup>&minus;ik<sub>0</sub>x</sup> )
+  </div>
+  <div class="eq">
+    A(k) =
+    <span class="f"><span class="n">1</span><span class="d">2<span class="sq">&radic;<span class="rt">2&pi;</span></span></span></span>
+    &int; dx&#8201; e<sup>&minus;x<sup>2</sup>/2L<sup>2</sup></sup>
+    [ e<sup>&minus;i(k&minus;k<sub>0</sub>)x</sup> + e<sup>&minus;i(k+k<sub>0</sub>)x</sup> ]
+  </div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Do the Gaussian integral</div>
+  <div class="says">Standard result &mdash; the Fourier transform of a Gaussian is a Gaussian:</div>
+  <div class="eq">
+    &int; dx&#8201; e<sup>&minus;x<sup>2</sup>/2L<sup>2</sup></sup>&#8201;e<sup>&minus;iqx</sup>
+    = L<span class="sq">&radic;<span class="rt">2&pi;</span></span>&#8201;e<sup>&minus;q<sup>2</sup>L<sup>2</sup>/2</sup>
+  </div>
+  <div class="says">Apply it twice, with q = k &minus; k<sub>0</sub> and q = k + k<sub>0</sub>:</div>
+  <div class="eq">
+    <span class="red">A(k) =
+    <span class="f"><span class="n">L</span><span class="d">2</span></span>
+    [ e<sup>&minus;(L<sup>2</sup>/2)(k&minus;k<sub>0</sub>)<sup>2</sup></sup>
+    + e<sup>&minus;(L<sup>2</sup>/2)(k+k<sub>0</sub>)<sup>2</sup></sup> ]</span>
+  </div>
+  <div class="note">
+    Two Gaussian humps, centred at k = +k<sub>0</sub> and k = &minus;k<sub>0</sub>, each of width 1/L. The
+    +k<sub>0</sub> hump becomes the right-moving pulse, the &minus;k<sub>0</sub> hump the left-moving one.
+  </div>
+
+  
+  <div class="pnum">20</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 9, continued</div>
+
+<div class="step">Step 4 &nbsp;&mdash;&nbsp; Put A(k) into 7.90</div>
+  <div class="eq">
+    u(x,t) =
+    <span class="f"><span class="n">1</span><span class="d">2</span></span>
+    <span class="f"><span class="n">1</span><span class="d"><span class="sq">&radic;<span class="rt">2&pi;</span></span></span></span>
+    &int; dk&#8201; A(k)&#8201;e<sup>&#8201;i[kx &minus; &omega;(k)t]</sup> + c.c.
+    <span class="src">Lec 9, s3</span>
+  </div>
+  <div class="says">With &omega;(k) = &nu;(1 + a<sup>2</sup>k<sup>2</sup>/2) the exponent is <b>quadratic in k</b>,
+    and A(k) is Gaussian &mdash; so the k-integral is Gaussian too and can be done exactly. The result is
+    Jackson 7.98:</div>
+
+  <div class="ans">
+    <span class="tag">ANSWER &mdash; Jackson 7.98</span>
+    <div class="eqc" style="font-size:16px;margin:8px 0 4px;line-height:1.5">
+      u(x,t) =
+      <span class="f"><span class="n">1</span><span class="d">2</span></span>Re
+      <span style="font-size:1.4em">{</span>
+      <span class="f" style="vertical-align:0.3em"><span class="n">exp[ &minus;(x &minus; &nu;a<sup>2</sup>k<sub>0</sub>t)<sup>2</sup> / 2L<sup>2</sup>(1 + ia<sup>2</sup>&nu;t/L<sup>2</sup>) ]</span><span class="d">(1 + ia<sup>2</sup>&nu;t/L<sup>2</sup>)<sup>1/2</sup></span></span>
+      e<sup>&#8201;i[k<sub>0</sub>x &minus; &nu;(1+a<sup>2</sup>k<sub>0</sub><sup>2</sup>/2)t]</sup>
+      &nbsp;+&nbsp;(k<sub>0</sub> &rarr; &minus;k<sub>0</sub>)
+      <span style="font-size:1.4em">}</span>
+    </div>
+  </div>
+
+  <div class="step">Step 5 &nbsp;&mdash;&nbsp; Read the answer</div>
+  <div class="says">Three things can be read straight off, without redoing any algebra:</div>
+  <div class="eq"><span class="bcnum">1</span> the pulse <b>centre</b> sits at x = &nu;a<sup>2</sup>k<sub>0</sub>t,
+    so it travels at the <b>group velocity</b></div>
+  <div class="eq">
+    v<sub>g</sub> =
+    <span class="f"><span class="n">d&omega;</span><span class="d">dk</span></span>
+    <span style="font-size:1.1em">|</span><sub>k<sub>0</sub></sub>
+    = &nu;a<sup>2</sup>k<sub>0</sub>
+    <span class="src">Lec 8, s13</span>
+  </div>
+  <div class="eq"><span class="bcnum">2</span> the <b>carrier</b> e<sup>i[k<sub>0</sub>x&minus;&omega;(k<sub>0</sub>)t]</sup>
+    moves at the phase velocity &omega;(k<sub>0</sub>)/k<sub>0</sub> &mdash; a different speed;</div>
+  <div class="eq"><span class="bcnum">3</span> the <b>width</b> is no longer L but grows with time:</div>
+  <div class="eq">
+    width =
+    <span class="sq">&radic;<span class="rt">L<sup>2</sup> + (a<sup>2</sup>&nu;t/L)<sup>2</sup></span></span>
+    <span class="src">Lec 9, s6</span>
+  </div>
+  <div class="says">A <b>short</b> pulse (small L) spreads fastest, because it needs a wide band of k and the
+    different k travel at different speeds.</div>
+
+  <div class="pnum">21</div>
+</div>

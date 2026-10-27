@@ -1,0 +1,835 @@
+<meta charset="utf-8"><title>HW 5 - Jackson 8.2 and 8.4</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
+:root{--ink:#16233d;--ink-red:#c0392b;--rule:#b9cbdc;--grey:#6b7683;--info:#17788c;--lh:32px;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#6b7480;}
+body{font-family:'Segoe Print','Ink Free','Kalam',cursive;color:var(--ink);font-size:16.5px;line-height:var(--lh);}
+
+.sheet{width:8.5in;min-height:11in;margin:24px auto;padding:64px 62px 70px 78px;background:#fff;
+  background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--lh) - 1px),var(--rule) calc(var(--lh) - 1px) var(--lh));
+  background-position:0 64px;box-shadow:0 6px 22px rgba(0,0,0,.35);position:relative;page-break-after:always;}
+.sheet:last-of-type{page-break-after:auto}
+.pnum{position:absolute;bottom:26px;right:56px;font-size:14px;opacity:.7}
+
+.hdr{display:flex;justify-content:space-between;align-items:baseline;font-size:15px;opacity:.85}
+.title{font-size:24px;font-weight:700;text-align:center;margin:6px 0 2px}
+.title u{text-decoration:none;border-bottom:2.5px solid var(--ink);padding-bottom:2px}
+.qhead{font-size:20px;font-weight:700;margin:22px 0 6px;color:var(--ink-red);
+  border-bottom:2px solid var(--ink-red);display:inline-block;padding-bottom:1px}
+
+/* the question, as asked */
+.stmt{font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.5;background:#f7f8f5;
+  border-left:4px solid #9fb3c8;padding:9px 13px;margin:6px 0 12px;color:#26303f;}
+.stmt b{font-weight:700}
+
+/* THE ANSWER -- always at the top of a problem */
+.ans{border:3px solid var(--ink-red);border-radius:10px;background:#fffdf3;
+  padding:8px 18px 12px;margin:10px 0 16px;position:relative}
+.ans .tag{position:absolute;top:-14px;left:16px;background:#fffdf3;color:var(--ink-red);
+  font-weight:700;font-size:15px;padding:0 8px;letter-spacing:.06em}
+.ans .sub{font-size:14.5px;color:var(--info);margin-top:4px;font-style:italic}
+
+/* steps */
+.step{font-weight:700;font-size:17.5px;margin:16px 0 2px}
+.why{font-size:15px;color:var(--info);margin:0 0 4px 26px;font-style:italic}
+.eq{margin:5px 0 5px 30px}
+.eqc{margin:7px 0;text-align:center}
+.lbl{float:right;font-size:14px;color:var(--info);font-style:italic}
+.note{font-size:15px;margin:6px 0 6px 30px;color:var(--info);font-style:italic}
+
+/* optional / not required */
+.opt{border-left:4px solid #c3cbd4;background:#f6f8fa;color:var(--grey);
+  padding:6px 12px;margin:12px 0 8px 12px;font-size:14.5px;line-height:1.55}
+.opt .tag{display:inline-block;border:1.4px solid #9aa5b1;border-radius:9px;
+  padding:0 8px;font-size:12.5px;letter-spacing:.08em;margin-right:8px}
+.legend{border:1.6px dashed #a9b4bf;border-radius:8px;padding:6px 14px;margin:10px 0 4px;
+  font-size:14.5px;color:var(--grey)}
+
+/* math bits */
+.f{display:inline-flex;flex-direction:column;align-items:center;vertical-align:0.52em;margin:0 .22em;line-height:1.16}
+.f>.n{border-bottom:2px solid currentColor;padding:0 .32em}
+.f>.d{padding:2px .32em 0}
+.sq{white-space:nowrap}
+.rt{border-top:2px solid currentColor;padding:1px .18em 0 .06em;margin-left:-1px}
+.ov{display:inline-block;border-top:2px solid currentColor;line-height:1;padding-top:1px;margin-top:2px}
+.v,.h{position:relative;display:inline-block;white-space:nowrap}
+.v::after{content:"\2192";position:absolute;left:50%;transform:translateX(-50%);top:-.72em;font-size:.55em;line-height:1}
+.h::after{content:"\005E";position:absolute;left:50%;transform:translateX(-50%);top:-.62em;font-size:.72em;line-height:1}
+sub,sup{font-size:.66em;line-height:0}
+.red{color:var(--ink-red)}
+.bcnum{display:inline-block;border:1.8px solid var(--ink);border-radius:50%;width:1.5em;height:1.5em;
+  line-height:1.35em;text-align:center;font-size:.8em;margin-right:.3em}
+
+figure{margin:12px 0 8px;text-align:center}
+figcaption{font-size:14px;color:var(--info);margin-top:2px;font-style:italic}
+svg{max-width:100%;height:auto}
+.stroke{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round}
+.thin{fill:none;stroke:var(--ink);stroke-width:1;opacity:.55}
+.dash{fill:none;stroke:var(--ink);stroke-width:1.2;stroke-dasharray:5 5;opacity:.7}
+.slab{fill:#e3ecf4;stroke:var(--ink);stroke-width:1.3}
+.ray{fill:none;stroke:var(--ink);stroke-width:1.8}
+.ray2{fill:none;stroke:var(--ink-red);stroke-width:1.6}
+.bvec{fill:none;stroke:var(--ink-red);stroke-width:1.6}
+.curveS{fill:none;stroke:var(--ink);stroke-width:2.2}
+.curveP{fill:none;stroke:var(--ink-red);stroke-width:2.2;stroke-dasharray:7 4}
+text{font-family:'Segoe Print','Ink Free','Kalam',cursive;font-size:13px;fill:var(--ink)}
+
+@media print{
+  html,body{background:#fff}
+  body{font-size:15px;--lh:28px}
+  .sheet{margin:0;box-shadow:none;width:100%;max-width:100%;min-height:0;
+         padding:6px 4px 24px 6px;background-position:0 6px;overflow:hidden}
+  .pnum{bottom:4px;right:6px}
+  .eq{margin:3px 0 3px 26px}
+  .note,.why{margin-left:26px}
+  .step{margin:11px 0 2px}
+  .qhead{margin:12px 0 4px}
+  .ans{margin:10px 0 12px}
+  figure{margin:8px 0 4px}
+  .stmt{margin:5px 0 9px;padding:7px 11px}
+  @page{size:letter;margin:0.45in 0.5in}
+}
+
+.endmark{margin:14px 0 8px;text-align:center;color:#c0392b;font-weight:700;font-size:15.5px;
+  letter-spacing:.05em;border-top:2.5px dashed #c0392b;border-bottom:2.5px dashed #c0392b;padding:4px 0}
+.extrahdr{background:#eef1f4;border:1.6px dashed #9aa5b1;border-radius:8px;padding:6px 14px;
+  margin:0 0 12px;color:#6b7683;font-size:15px;font-weight:700;text-align:center}
+@media print{ .endmark{margin:8px 0 5px;font-size:14px;padding:2px 0} .extrahdr{margin-bottom:8px;padding:4px 12px} }
+
+.note b,.why b,.ans .sub b,figcaption b{color:inherit}
+
+.src{display:inline-block;font-size:11.5px;font-style:normal;color:#17788c;border:1.2px solid #7fb8c4;
+  border-radius:8px;padding:0 6px;margin-left:8px;vertical-align:middle;white-space:nowrap;line-height:1.5}
+.ask{font-size:16px;font-weight:700;color:#16233d;margin:10px 0 2px 6px;border-left:4px solid #c0392b;padding-left:10px}
+.startbox{border:2.5px solid #16233d;border-radius:9px;background:#f4f7fa;padding:8px 16px;margin:12px 0;font-size:15.5px}
+@media print{ .ask{margin:7px 0 2px 12px} .startbox{margin:9px 0;padding:6px 14px} }
+
+.lead{display:inline-block;font-weight:700;color:#16233d;background:#eef2f6;border-left:3px solid #16233d;
+  padding:0 8px;margin-right:8px;border-radius:0 4px 4px 0}
+.lead::after{content:":"}
+.gets{display:inline-block;font-weight:700;color:#c0392b;background:#fdf1ef;border-left:3px solid #c0392b;
+  padding:0 8px;margin-right:8px;border-radius:0 4px 4px 0}
+.gets::after{content:":"}
+@media print{ .lead,.gets{padding:0 6px;margin-right:6px} }
+
+.from{color:#17788c;font-style:italic;font-size:14.5px;margin-left:16px}
+.arw{color:#c0392b;font-weight:700;margin-right:6px}
+
+.says{margin:9px 0 2px 6px;color:var(--ink)}
+.says b{font-weight:700}
+@media print{ .says{margin:6px 0 2px 6px} }
+
+.parthead{display:block;background:#16233d;color:#fff;font-weight:700;font-size:16.5px;
+  padding:4px 16px;border-radius:6px;margin:0 0 10px;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.parthead i{font-weight:400;font-style:normal;opacity:.85;font-size:15px}
+
+</style>
+<!-- ============ SHEET 1 : COVER ============ -->
+<div class="sheet">
+  <div class="hdr"><span>Physics 5313 &mdash; Electromagnetic Theory 2</span><span>Homework 5</span></div>
+  <div class="title"><u>HW 5 &mdash; Jackson 8.2 &amp; 8.4</u></div>
+
+  <div class="legend">
+    <b style="color:#16233d">black = write it down</b> &nbsp;&middot;&nbsp;
+    <span style="color:#c0392b;font-weight:700">red = the answer</span> &nbsp;&middot;&nbsp;
+    <span style="color:#17788c;font-style:italic">teal = where it came from / my note</span> &nbsp;&middot;&nbsp;
+    <span style="color:#6b7683">grey = optional</span>
+  </div>
+
+  <div class="startbox">
+    <b>What the lectures give you, and what they don&rsquo;t.</b> Lec 10 sets up all three mode families
+    &mdash; TEM, TE, TM &mdash; and slide 16 even shows the coaxial line. But the quantities these two problems
+    ask for (power, attenuation, impedance, R and L, Bessel cutoffs) are <b>not</b> in any lecture. Every such
+    step below is tagged <span class="src">Jackson &sect;8.1</span> so you can see which parts are lecture-backed.
+  </div>
+
+  <table style="width:calc(100% - 10px);border-collapse:collapse;font-size:14.5px;margin:8px 0 6px 6px">
+    <tr><td style="padding:3px 10px 3px 0;vertical-align:top;font-weight:700;white-space:nowrap">Lec 10 s13&ndash;16</td><td style="padding:3px 10px 3px 0;vertical-align:top">TEM mode: &nabla;<sub>t</sub>&middot;<span class="v">E</span><sub>t</sub> = 0, &nabla;<sub>t</sub>&times;<span class="v">E</span><sub>t</sub> = 0, <span class="v">E</span><sub>t</sub> = &minus;&nabla;&phi;, &nabla;<sub>t</sub><sup>2</sup>&phi; = 0, k = &omega;<span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></td><td style="padding:3px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap;text-align:right">8.2</td></tr>
+    <tr><td style="padding:3px 10px 3px 0;vertical-align:top;font-weight:700;white-space:nowrap">Lec 10 s17&ndash;18</td><td style="padding:3px 10px 3px 0;vertical-align:top">TM: &nabla;<sub>t</sub><sup>2</sup>E<sub>z</sub> + &gamma;<sup>2</sup>E<sub>z</sub> = 0, E<sub>z</sub> = 0 on S &nbsp;|&nbsp; TE: &nabla;<sub>t</sub><sup>2</sup>B<sub>z</sub> + &gamma;<sup>2</sup>B<sub>z</sub> = 0, &part;B<sub>z</sub>/&part;n = 0 on S</td><td style="padding:3px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap;text-align:right">8.4</td></tr>
+    <tr><td style="padding:3px 10px 3px 0;vertical-align:top;font-weight:700;white-space:nowrap;color:#6b7683">not lectured</td><td style="padding:3px 10px 3px 0;vertical-align:top;color:#6b7683">Poynting power flow, wall loss and attenuation, characteristic impedance, R and L per unit length, Bessel functions</td><td style="padding:3px 0;vertical-align:top;color:#6b7683;font-weight:700;white-space:nowrap;text-align:right">both</td></tr>
+  </table>
+
+  <div class="note">
+    Everything below was checked numerically: each 8.2 result was recomputed by direct integration of the fields
+    (agreement to 16 digits), and the 8.4 attenuation formulas were checked against a direct evaluation of the
+    wall-loss and power integrals (also 16 digits).
+  </div>
+
+  <div class="pnum">1</div>
+</div>
+
+<!-- ============ SHEET 2 : 8.2 statement + answer ============ -->
+<div class="sheet">
+  <div class="qhead">Jackson 8.2 &mdash; Coaxial transmission line</div>
+
+  <div class="stmt">
+    A transmission line of two concentric metal cylinders (conductivity &sigma;, skin depth &delta;), inner
+    radius <i>a</i>, outer radius <i>b</i>, filled with a lossless dielectric (&mu;, &epsilon;), carrying a
+    <b>TEM mode</b>. H<sub>0</sub> is the peak azimuthal magnetic field at the surface of the inner conductor.
+    Find <b>(a)</b> the time-averaged power flow, <b>(b)</b> the attenuation, <b>(c)</b> the characteristic
+    impedance, <b>(d)</b> the series resistance and inductance per unit length.
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:17px;margin:8px 0 3px">
+      <b>(a)</b>&nbsp; P = <span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>&#8201;&pi;a<sup>2</sup>|H<sub>0</sub>|<sup>2</sup>&#8201;ln(b/a)
+    </div>
+    <div class="eqc" style="font-size:17px;margin:3px 0">
+      <b>(b)</b>&nbsp; P(z) = P<sub>0</sub>e<sup>&minus;2&gamma;z</sup>,&nbsp;&nbsp;
+      &gamma; =
+      <span class="f"><span class="n">1</span><span class="d">2&sigma;&delta;</span></span>
+      <span class="sq">&radic;<span class="rt">&epsilon;/&mu;</span></span>
+      <span class="f"><span class="n">(1/a + 1/b)</span><span class="d">ln(b/a)</span></span>
+    </div>
+    <div class="eqc" style="font-size:17px;margin:3px 0">
+      <b>(c)</b>&nbsp; Z<sub>0</sub> =
+      <span class="f"><span class="n">1</span><span class="d">2&pi;</span></span>
+      <span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>&#8201;ln(b/a)
+    </div>
+    <div class="eqc" style="font-size:17px;margin:3px 0 6px">
+      <b>(d)</b>&nbsp; R =
+      <span class="f"><span class="n">1</span><span class="d">2&pi;&sigma;&delta;</span></span>
+      <span style="font-size:1.05em">(</span><span class="f"><span class="n">1</span><span class="d">a</span></span>
+      + <span class="f"><span class="n">1</span><span class="d">b</span></span><span style="font-size:1.05em">)</span>,&nbsp;&nbsp;
+      L =
+      <span class="f"><span class="n">&mu;</span><span class="d">2&pi;</span></span>ln(b/a) +
+      <span class="f"><span class="n">&mu;<sub>c</sub>&delta;</span><span class="d">4&pi;</span></span>
+      <span style="font-size:1.05em">(</span><span class="f"><span class="n">1</span><span class="d">a</span></span>
+      + <span class="f"><span class="n">1</span><span class="d">b</span></span><span style="font-size:1.05em">)</span>
+    </div>
+  </div>
+
+  <div class="startbox">
+    <b>Flow:</b> get the TEM fields from Lec 10 &rarr; integrate the Poynting vector for P &rarr; integrate the
+    wall loss for &gamma; and R &rarr; integrate E and H for Z<sub>0</sub> &rarr; integrate the magnetic energy
+    for L. <b>Every part is one integral over the same two fields.</b>
+  </div>
+
+  <div class="step">Step 0 &nbsp;&mdash;&nbsp; The TEM fields in a coax</div>
+
+  <div class="says">Lec 10 gives the TEM mode: with B<sub>z</sub> = 0 <b>and</b> E<sub>z</sub> = 0,</div>
+  <div class="eq">
+    <span class="v">E</span><sub>t</sub> = &minus;&nabla;<sub>t</sub>&phi;,
+    &nbsp;&nbsp;&nbsp; &nabla;<sub>t</sub><sup>2</sup>&phi; = 0,
+    &nbsp;&nbsp;&nbsp; k = &omega;<span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span>
+    <span class="src">Lec 10, s13&ndash;15</span>
+  </div>
+
+  <div class="says">So it is a <b>2D electrostatics problem</b> in the cross-section. For two concentric circles
+    the solution depends on &rho; only:</div>
+  <div class="eq">
+    &phi;(&rho;) = A&#8201;ln&#8201;&rho; + B
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    E<sub>&rho;</sub> = &minus;
+    <span class="f"><span class="n">d&phi;</span><span class="d">d&rho;</span></span>
+    = &minus;<span class="f"><span class="n">A</span><span class="d">&rho;</span></span>
+    <span class="from">everything &prop; 1/&rho;</span>
+  </div>
+
+  <div class="says">For a TEM wave <b>H</b> is azimuthal and tied to <b>E</b> by the wave impedance
+    Z = <span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>. Writing H<sub>0</sub> for its value
+    at &rho; = a:</div>
+  <div class="eq">
+    <span class="red">H<sub>&phi;</sub> = H<sub>0</sub>
+    <span class="f"><span class="n">a</span><span class="d">&rho;</span></span></span>,
+    &nbsp;&nbsp;&nbsp;
+    <span class="red">E<sub>&rho;</sub> = <span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>&#8201;H<sub>0</sub>
+    <span class="f"><span class="n">a</span><span class="d">&rho;</span></span></span>
+  </div>
+  <div class="note">
+    These two lines are the whole of Step 0 &mdash; every part of the problem is an integral of them.
+    The 1/&rho; is forced by &nabla;<sub>t</sub><sup>2</sup>&phi; = 0 in cylindrical symmetry; it is the same
+    1/&rho; as the field of a line charge.
+  </div>
+
+  <div class="pnum">2</div>
+</div>
+
+<!-- ============ SHEET 3 : 8.2 (a) ============ -->
+<div class="sheet">
+  <div class="parthead">PART (a) &nbsp;<i>&mdash; time-averaged power flow along the line</i></div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; The Poynting vector</div>
+  <div class="says">Power flows along z. The time-averaged Poynting vector for complex amplitudes is</div>
+  <div class="eq">
+    &lang;<span class="v">S</span>&rang; =
+    <span class="f"><span class="n">1</span><span class="d">2</span></span>
+    Re( <span class="v">E</span> &times; <span class="v">H</span><sup>*</sup> )
+    <span class="src">Jackson &sect;6.9</span>
+  </div>
+  <div class="says">With <b>E</b> radial and <b>H</b> azimuthal, <b>&rho;&#770; &times; &phi;&#770; = z&#770;</b>,
+    so the flow is purely along the line:</div>
+  <div class="eq">
+    &lang;S<sub>z</sub>&rang; =
+    <span class="f"><span class="n">1</span><span class="d">2</span></span>
+    E<sub>&rho;</sub>H<sub>&phi;</sub><sup>*</sup>
+    =
+    <span class="f"><span class="n">1</span><span class="d">2</span></span>
+    <span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>&#8201;|H<sub>0</sub>|<sup>2</sup>
+    <span class="f"><span class="n">a<sup>2</sup></span><span class="d">&rho;<sup>2</sup></span></span>
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Integrate over the cross-section</div>
+  <div class="says">The dielectric fills the annulus a &le; &rho; &le; b. A ring of radius &rho; has area
+    2&pi;&rho;&#8201;d&rho;:</div>
+  <div class="eq">
+    P = &int;<sub style="font-size:.6em">a</sub><sup style="font-size:.6em">b</sup>
+    <span class="f"><span class="n">1</span><span class="d">2</span></span>
+    <span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>&#8201;|H<sub>0</sub>|<sup>2</sup>
+    <span class="f"><span class="n">a<sup>2</sup></span><span class="d">&rho;<sup>2</sup></span></span>
+    &#8201;2&pi;&rho;&#8201;d&rho;
+  </div>
+  <div class="says">The &rho;<sup>2</sup> downstairs cancels one &rho; upstairs, leaving d&rho;/&rho;:</div>
+  <div class="eq">
+    = &pi;<span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>&#8201;|H<sub>0</sub>|<sup>2</sup>a<sup>2</sup>
+    &int;<sub style="font-size:.6em">a</sub><sup style="font-size:.6em">b</sup>
+    <span class="f"><span class="n">d&rho;</span><span class="d">&rho;</span></span>
+    = &pi;<span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>&#8201;|H<sub>0</sub>|<sup>2</sup>a<sup>2</sup>
+    &#8201;ln<span style="font-size:1.05em">(</span><span class="f"><span class="n">b</span><span class="d">a</span></span><span style="font-size:1.05em">)</span>
+  </div>
+  <div class="note">
+    <b>That is where the ln(b/a) comes from</b> &mdash; it is just &int;d&rho;/&rho;. It appears again in (c) and
+    (d) for the same reason.
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER &mdash; PART (a)</span>
+    <div class="eqc" style="font-size:19px;margin:10px 0 4px">
+      P = <span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>&#8201;&pi;a<sup>2</sup>&#8201;|H<sub>0</sub>|<sup>2</sup>&#8201;ln
+      <span style="font-size:1.1em">(</span><span class="f"><span class="n">b</span><span class="d">a</span></span><span style="font-size:1.1em">)</span>
+    </div>
+  </div>
+
+  <div class="pnum">3</div>
+</div>
+
+<!-- ============ SHEET 4 : 8.2 (b) ============ -->
+<div class="sheet">
+  <div class="parthead">PART (b) &nbsp;<i>&mdash; attenuation along the line</i></div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; Why the power decays at all</div>
+  <div class="says">The dielectric is lossless, so the only loss is <b>ohmic heating in the metal walls</b>. The
+    wall is not a perfect conductor, so the surface field drives a current in a skin layer of depth &delta;.</div>
+  <div class="eq">
+    <span class="f"><span class="n">dP<sub>loss</sub></span><span class="d">dA</span></span>
+    =
+    <span class="f"><span class="n">1</span><span class="d">2&sigma;&delta;</span></span>
+    |H<sub>&#8741;</sub>|<sup>2</sup>
+    <span class="from">power dissipated per unit wall area</span>
+    <span class="src">Jackson &sect;8.1</span>
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Add up both walls</div>
+  <div class="says">The tangential field at each wall is H<sub>&phi;</sub> evaluated there, and each wall
+    contributes its own circumference per unit length:</div>
+  <table style="border-collapse:collapse;font-size:15px;margin:4px 0 8px 26px">
+    <tr><td style="padding:3px 16px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">wall</td>
+        <td style="padding:3px 16px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">|H<sub>&#8741;</sub>|</td>
+        <td style="padding:3px 16px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">circumference</td>
+        <td style="padding:3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">loss per unit length</td></tr>
+    <tr><td style="padding:3px 16px 3px 0">inner, &rho; = a</td><td style="padding:3px 16px 3px 0">H<sub>0</sub></td>
+        <td style="padding:3px 16px 3px 0">2&pi;a</td>
+        <td style="padding:3px 0">&pi;a&#8201;H<sub>0</sub><sup>2</sup>/&sigma;&delta;</td></tr>
+    <tr><td style="padding:3px 16px 3px 0">outer, &rho; = b</td><td style="padding:3px 16px 3px 0">H<sub>0</sub>a/b</td>
+        <td style="padding:3px 16px 3px 0">2&pi;b</td>
+        <td style="padding:3px 0">&pi;a<sup>2</sup>H<sub>0</sub><sup>2</sup>/&sigma;&delta;b</td></tr>
+  </table>
+  <div class="eq">
+    &minus;<span class="f"><span class="n">dP</span><span class="d">dz</span></span>
+    =
+    <span class="f"><span class="n">&pi;a<sup>2</sup>H<sub>0</sub><sup>2</sup></span><span class="d">&sigma;&delta;</span></span>
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">1</span><span class="d">a</span></span>
+    + <span class="f"><span class="n">1</span><span class="d">b</span></span><span style="font-size:1.05em">)</span>
+    <span class="from">a<sup>2</sup> factored out of both rows</span>
+  </div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Convert a loss rate into an exponent</div>
+  <div class="says">If P(z) = P<sub>0</sub>e<sup>&minus;2&gamma;z</sup>, then differentiating gives
+    &minus;dP/dz = 2&gamma;P. So</div>
+  <div class="eq">
+    &gamma; =
+    <span class="f"><span class="n">&minus;dP/dz</span><span class="d">2P</span></span>
+  </div>
+  <div class="says">Divide the Step 2 result by twice the part (a) answer. The
+    &pi;a<sup>2</sup>H<sub>0</sub><sup>2</sup> cancels completely:</div>
+  <div class="eq">
+    &gamma; =
+    <span class="f"><span class="n">&pi;a<sup>2</sup>H<sub>0</sub><sup>2</sup>(1/a + 1/b)/&sigma;&delta;</span><span class="d">2<span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>&#8201;&pi;a<sup>2</sup>H<sub>0</sub><sup>2</sup>&#8201;ln(b/a)</span></span>
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER &mdash; PART (b)</span>
+    <div class="eqc" style="font-size:18px;margin:10px 0 4px">
+      &gamma; =
+      <span class="f"><span class="n">1</span><span class="d">2&sigma;&delta;</span></span>
+      <span class="sq">&radic;<span class="rt">&epsilon;/&mu;</span></span>
+      <span class="f"><span class="n">1/a + 1/b</span><span class="d">ln(b/a)</span></span>
+    </div>
+    <div class="sub">
+      1/<span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span> was written as
+      <span class="sq">&radic;<span class="rt">&epsilon;/&mu;</span></span>.
+    </div>
+  </div>
+
+  <div class="pnum">4</div>
+</div>
+
+<!-- ============ SHEET 5 : 8.2 (c) ============ -->
+<div class="sheet">
+  <div class="parthead">PART (c) &nbsp;<i>&mdash; characteristic impedance Z<sub>0</sub> = V/I</i></div>
+
+  <div class="says">The problem <b>defines</b> Z<sub>0</sub> as the voltage between the cylinders divided by the
+    axial current in one of them. So compute each separately from the Step 0 fields.</div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; The voltage</div>
+  <div class="says">Integrate the radial field across the gap:</div>
+  <div class="eq">
+    V = &int;<sub style="font-size:.6em">a</sub><sup style="font-size:.6em">b</sup>
+    E<sub>&rho;</sub>&#8201;d&rho;
+    = <span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>&#8201;H<sub>0</sub>a
+    &int;<sub style="font-size:.6em">a</sub><sup style="font-size:.6em">b</sup>
+    <span class="f"><span class="n">d&rho;</span><span class="d">&rho;</span></span>
+    = <span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>&#8201;H<sub>0</sub>&#8201;a&#8201;ln(b/a)
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; The current</div>
+  <div class="says">Ampère's law round the inner conductor &mdash; H<sub>&phi;</sub> is constant on that
+    circle:</div>
+  <div class="eq">
+    I = &oint; <span class="v">H</span>&middot;d<span class="v">l</span>
+    = H<sub>0</sub>&#8201;&middot;&#8201;2&pi;a
+  </div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Divide</div>
+  <div class="eq">
+    Z<sub>0</sub> =
+    <span class="f"><span class="n">V</span><span class="d">I</span></span>
+    =
+    <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>&#8201;H<sub>0</sub>&#8201;a&#8201;ln(b/a)</span><span class="d">2&pi;a&#8201;H<sub>0</sub></span></span>
+    <span class="from">H<sub>0</sub> and a both cancel</span>
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER &mdash; PART (c)</span>
+    <div class="eqc" style="font-size:19px;margin:10px 0 4px">
+      Z<sub>0</sub> =
+      <span class="f"><span class="n">1</span><span class="d">2&pi;</span></span>
+      <span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>&#8201;ln
+      <span style="font-size:1.1em">(</span><span class="f"><span class="n">b</span><span class="d">a</span></span><span style="font-size:1.1em">)</span>
+    </div>
+    <div class="sub">
+      Depends only on the <b>geometry ratio</b> b/a and the dielectric &mdash; not on a and b separately, and
+      not on frequency. That is why coax is sold as &ldquo;50 &Omega;&rdquo; regardless of cable thickness.
+    </div>
+  </div>
+
+  <div class="pnum">5</div>
+</div>
+
+<!-- ============ SHEET 6 : 8.2 (d) ============ -->
+<div class="sheet">
+  <div class="parthead">PART (d) &nbsp;<i>&mdash; series resistance and inductance per unit length</i></div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; R from the wall loss</div>
+  <div class="says">A resistance R per unit length carrying peak current I dissipates
+    <span class="f"><span class="n">1</span><span class="d">2</span></span>R|I|<sup>2</sup> per unit length.
+    Set that equal to the wall loss already computed in part (b):</div>
+  <div class="eq">
+    <span class="f"><span class="n">1</span><span class="d">2</span></span>R&#8201;|I|<sup>2</sup>
+    =
+    <span class="f"><span class="n">&pi;a<sup>2</sup>H<sub>0</sub><sup>2</sup></span><span class="d">&sigma;&delta;</span></span>
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">1</span><span class="d">a</span></span>
+    + <span class="f"><span class="n">1</span><span class="d">b</span></span><span style="font-size:1.05em">)</span>,
+    &nbsp;&nbsp;&nbsp; |I|<sup>2</sup> = (2&pi;a&#8201;H<sub>0</sub>)<sup>2</sup> = 4&pi;<sup>2</sup>a<sup>2</sup>H<sub>0</sub><sup>2</sup>
+  </div>
+  <div class="says">Solve for R &mdash; a<sup>2</sup>H<sub>0</sub><sup>2</sup> cancels:</div>
+  <div class="eq">
+    R =
+    <span class="f"><span class="n">2&pi;a<sup>2</sup>H<sub>0</sub><sup>2</sup>(1/a+1/b)/&sigma;&delta;</span><span class="d">4&pi;<sup>2</sup>a<sup>2</sup>H<sub>0</sub><sup>2</sup></span></span>
+    =
+    <span class="red"><span class="f"><span class="n">1</span><span class="d">2&pi;&sigma;&delta;</span></span>
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">1</span><span class="d">a</span></span>
+    + <span class="f"><span class="n">1</span><span class="d">b</span></span><span style="font-size:1.05em">)</span></span>
+  </div>
+  <div class="note">
+    This is just &ldquo;resistance = resistivity &times; length / area&rdquo; for a conductor whose effective
+    thickness is the skin depth &delta;: each wall carries current in a strip of width 2&pi;a (or 2&pi;b) and
+    depth &delta;, and the two are in <b>series</b>, so their resistances add.
+  </div>
+
+  <div class="pnum">6</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Part (d), continued</div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; L from the stored magnetic energy</div>
+  <div class="says">An inductance L per unit length stores
+    <span class="f"><span class="n">1</span><span class="d">4</span></span>L|I|<sup>2</sup> on time average. The
+    energy sits in <b>two</b> places:</div>
+
+  <div class="says"><b>(i) In the dielectric</b>, between the conductors:</div>
+  <div class="eq">
+    W<sub>ext</sub> =
+    <span class="f"><span class="n">&mu;</span><span class="d">4</span></span>
+    &int;<sub style="font-size:.6em">a</sub><sup style="font-size:.6em">b</sup>
+    |H<sub>&phi;</sub>|<sup>2</sup>&#8201;2&pi;&rho;&#8201;d&rho;
+    =
+    <span class="f"><span class="n">&pi;&mu;a<sup>2</sup>H<sub>0</sub><sup>2</sup></span><span class="d">2</span></span>
+    ln(b/a)
+    <span class="from">same &int;d&rho;/&rho; as part (a)</span>
+  </div>
+
+  <div class="says"><b>(ii) Inside the metal</b>, in the skin layer. The field decays as
+    H<sub>s</sub>e<sup>&minus;x/&delta;</sup> going into the wall, so per unit wall area:</div>
+  <div class="eq">
+    <span class="f"><span class="n">&mu;<sub>c</sub></span><span class="d">4</span></span>
+    &int;<sub style="font-size:.6em">0</sub><sup style="font-size:.6em">&infin;</sup>
+    H<sub>s</sub><sup>2</sup>e<sup>&minus;2x/&delta;</sup>&#8201;dx
+    =
+    <span class="f"><span class="n">&mu;<sub>c</sub>&delta;H<sub>s</sub><sup>2</sup></span><span class="d">8</span></span>
+    <span class="from">&int;e<sup>&minus;2x/&delta;</sup>dx = &delta;/2</span>
+  </div>
+  <div class="says">Add both walls, as in part (b):</div>
+  <div class="eq">
+    W<sub>int</sub> =
+    <span class="f"><span class="n">&pi;&mu;<sub>c</sub>&delta;a<sup>2</sup>H<sub>0</sub><sup>2</sup></span><span class="d">4</span></span>
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">1</span><span class="d">a</span></span>
+    + <span class="f"><span class="n">1</span><span class="d">b</span></span><span style="font-size:1.05em">)</span>
+  </div>
+
+  <div class="says">Set
+    <span class="f"><span class="n">1</span><span class="d">4</span></span>L|I|<sup>2</sup> = W<sub>ext</sub> + W<sub>int</sub>
+    and divide by &pi;<sup>2</sup>a<sup>2</sup>H<sub>0</sub><sup>2</sup>:</div>
+
+  <div class="ans">
+    <span class="tag">ANSWER &mdash; PART (d)</span>
+    <div class="eqc" style="font-size:18px;margin:8px 0 3px">
+      R =
+      <span class="f"><span class="n">1</span><span class="d">2&pi;&sigma;&delta;</span></span>
+      <span style="font-size:1.05em">(</span><span class="f"><span class="n">1</span><span class="d">a</span></span>
+      + <span class="f"><span class="n">1</span><span class="d">b</span></span><span style="font-size:1.05em">)</span>
+    </div>
+    <div class="eqc" style="font-size:18px;margin:3px 0 4px">
+      L =
+      <span class="f"><span class="n">&mu;</span><span class="d">2&pi;</span></span>ln
+      <span style="font-size:1.05em">(</span><span class="f"><span class="n">b</span><span class="d">a</span></span><span style="font-size:1.05em">)</span>
+      +
+      <span class="f"><span class="n">&mu;<sub>c</sub>&delta;</span><span class="d">4&pi;</span></span>
+      <span style="font-size:1.05em">(</span><span class="f"><span class="n">1</span><span class="d">a</span></span>
+      + <span class="f"><span class="n">1</span><span class="d">b</span></span><span style="font-size:1.05em">)</span>
+    </div>
+    <div class="sub">
+      First term = flux <b>between</b> the conductors. Second = flux that leaks a depth &delta; <b>into</b> them
+      &mdash; exactly the correction the question mentions.
+    </div>
+  </div>
+
+  <div class="endmark">&#9632;&nbsp; END OF JACKSON 8.2 &nbsp;&#9632;</div>
+
+  <div class="pnum">7</div>
+</div>
+
+<!-- ============ SHEET 7 : 8.4 statement + answer ============ -->
+<div class="sheet">
+  <div class="qhead">Jackson 8.4 &mdash; Hollow circular waveguide</div>
+
+  <div class="stmt">
+    TE and TM waves propagate along a hollow circular cylinder of inner radius <i>R</i> and conductivity
+    &sigma;. <b>(a)</b> Find the cutoff frequencies of the TE and TM modes; determine the lowest (dominant) one
+    and the ratios of the next four higher modes to it, assuming &sigma; &rarr; &infin;.
+    <b>(b)</b> Calculate the attenuation constants for the lowest two distinct modes and plot them against
+    frequency.
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:17px;margin:8px 0 4px">
+      <b>(a)</b>&nbsp; &omega;<sub>c</sub> =
+      <span class="f"><span class="n">x</span><span class="d">R<span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>,
+      &nbsp; x = x<sub>mn</sub> (TM: J<sub>m</sub> zero) &nbsp;or&nbsp; x&prime;<sub>mn</sub> (TE: J&prime;<sub>m</sub> zero)
+    </div>
+    <div class="eqc" style="font-size:16px;margin:2px 0 4px">
+      dominant = <b>TE<sub>11</sub></b>, x&prime;<sub>11</sub> = 1.841 &nbsp;&rarr;&nbsp;
+      &omega;<sub>c</sub> = 1.841/(R<span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span>)
+    </div>
+    <div class="eqc" style="font-size:15.5px;margin:2px 0 6px">
+      next four: TM<sub>01</sub> <b>1.306</b>, TE<sub>21</sub> <b>1.659</b>,
+      TE<sub>01</sub> and TM<sub>11</sub> <b>2.081</b> (degenerate)
+    </div>
+    <div class="eqc" style="font-size:16px;margin:4px 0 3px">
+      <b>(b)</b>&nbsp; &alpha;<sub>TM</sub> =
+      <span class="f"><span class="n">R<sub>s</sub></span><span class="d">R&eta;</span></span>
+      <span class="f"><span class="n">1</span><span class="d"><span class="sq">&radic;<span class="rt">1 &minus; (&omega;<sub>c</sub>/&omega;)<sup>2</sup></span></span></span></span>
+    </div>
+    <div class="eqc" style="font-size:16px;margin:3px 0 4px">
+      &alpha;<sub>TE</sub> =
+      <span class="f"><span class="n">R<sub>s</sub></span><span class="d">R&eta;</span></span>
+      <span class="f"><span class="n">1</span><span class="d"><span class="sq">&radic;<span class="rt">1 &minus; (&omega;<sub>c</sub>/&omega;)<sup>2</sup></span></span></span></span>
+      <span style="font-size:1.05em">[</span>
+      <span style="font-size:1.05em">(</span><span class="f"><span class="n">&omega;<sub>c</sub></span><span class="d">&omega;</span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+      +
+      <span class="f"><span class="n">m<sup>2</sup></span><span class="d">x&prime;<sup>2</sup> &minus; m<sup>2</sup></span></span>
+      <span style="font-size:1.05em">]</span>
+    </div>
+    <div class="sub">
+      R<sub>s</sub> = 1/&sigma;&delta; = <span class="sq">&radic;<span class="rt">&mu;<sub>c</sub>&omega;/2&sigma;</span></span>
+      (surface resistance), &eta; = <span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>.
+    </div>
+  </div>
+
+  <div class="startbox">
+    <b>Flow:</b> the lecture already gives the 2D equation and the wall condition for each mode. In a
+    <b>circle</b> those become Bessel equations &rarr; the wall condition picks out Bessel zeros &rarr; each zero
+    is one mode with its own cutoff.
+  </div>
+
+  <div class="pnum">8</div>
+</div>
+
+<!-- ============ SHEET 8 : 8.4 (a) part 1 ============ -->
+<div class="sheet">
+  <div class="parthead">PART (a) &nbsp;<i>&mdash; cutoff frequencies</i></div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; The two mode equations, from lecture</div>
+  <div class="says">Lec 10 has already reduced each mode to a 2D problem in the cross-section:</div>
+  <div class="eq">
+    <b>TM</b> (B<sub>z</sub> = 0):&nbsp;&nbsp;
+    &nabla;<sub>t</sub><sup>2</sup>E<sub>z</sub> + &gamma;<sup>2</sup>E<sub>z</sub> = 0,
+    &nbsp;&nbsp; <span class="red">E<sub>z</sub> = 0</span> on the wall
+    <span class="src">Lec 10, s17</span>
+  </div>
+  <div class="eq">
+    <b>TE</b> (E<sub>z</sub> = 0):&nbsp;&nbsp;
+    &nabla;<sub>t</sub><sup>2</sup>B<sub>z</sub> + &gamma;<sup>2</sup>B<sub>z</sub> = 0,
+    &nbsp;&nbsp; <span class="red">&part;B<sub>z</sub>/&part;n = 0</span> on the wall
+    <span class="src">Lec 10, s18</span>
+  </div>
+  <div class="eq">
+    &gamma;<sup>2</sup> = &mu;&epsilon;&omega;<sup>2</sup> &minus; k<sup>2</sup>
+    <span class="from">the same &gamma; in both</span>
+    <span class="src">Lec 10, s17</span>
+  </div>
+  <div class="note">
+    The <b>only</b> difference between TE and TM is the wall condition: the function itself vanishes for TM, its
+    normal derivative vanishes for TE. Everything else below is identical.
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; A circle forces cylindrical coordinates</div>
+  <div class="says">Write &psi; for whichever of E<sub>z</sub> or B<sub>z</sub> applies. In polar coordinates</div>
+  <div class="eq">
+    &nabla;<sub>t</sub><sup>2</sup> =
+    <span class="f"><span class="n">1</span><span class="d">&rho;</span></span>
+    <span class="f"><span class="n">&part;</span><span class="d">&part;&rho;</span></span>
+    <span style="font-size:1.05em">(</span>&rho;
+    <span class="f"><span class="n">&part;</span><span class="d">&part;&rho;</span></span><span style="font-size:1.05em">)</span>
+    +
+    <span class="f"><span class="n">1</span><span class="d">&rho;<sup>2</sup></span></span>
+    <span class="f"><span class="n">&part;<sup>2</sup></span><span class="d">&part;&phi;<sup>2</sup></span></span>
+  </div>
+  <div class="says">Separate, &psi; = f(&rho;)e<sup>&#8201;im&phi;</sup>. <b>m must be an integer</b>, otherwise
+    &psi; would not come back to itself after going once round the circle:</div>
+  <div class="eq">
+    f&Prime; +
+    <span class="f"><span class="n">1</span><span class="d">&rho;</span></span>f&prime;
+    +
+    <span style="font-size:1.05em">(</span>&gamma;<sup>2</sup> &minus;
+    <span class="f"><span class="n">m<sup>2</sup></span><span class="d">&rho;<sup>2</sup></span></span><span style="font-size:1.05em">)</span>f = 0
+    <span class="from">Bessel&rsquo;s equation</span>
+  </div>
+  <div class="says">Its two solutions are J<sub>m</sub>(&gamma;&rho;) and Y<sub>m</sub>(&gamma;&rho;). The guide is
+    <b>hollow with no inner conductor</b>, so &rho; = 0 is inside the region &mdash; and Y<sub>m</sub> blows up
+    there. Keep only</div>
+  <div class="eq">
+    <span class="red">&psi; = J<sub>m</sub>(&gamma;&rho;)&#8201;e<sup>&#8201;im&phi;</sup></span>
+  </div>
+  <div class="note">
+    This is the one place Bessel functions are unavoidable &mdash; they are simply &ldquo;sine and cosine for a
+    circle&rdquo;. In a <b>rectangular</b> guide the same separation gives ordinary sines, which is the case done
+    in <span class="src">Lec 9, s17</span>.
+  </div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; The wall condition picks out the zeros</div>
+  <div class="eq">
+    <b>TM:</b>&nbsp; &psi;(R) = 0 &rArr; J<sub>m</sub>(&gamma;R) = 0 &rArr;
+    <span class="red">&gamma;R = x<sub>mn</sub></span>
+    <span class="from">n<sup>th</sup> zero of J<sub>m</sub></span>
+  </div>
+  <div class="eq">
+    <b>TE:</b>&nbsp; &part;&psi;/&part;&rho;|<sub>R</sub> = 0 &rArr; J&prime;<sub>m</sub>(&gamma;R) = 0 &rArr;
+    <span class="red">&gamma;R = x&prime;<sub>mn</sub></span>
+    <span class="from">n<sup>th</sup> zero of J&prime;<sub>m</sub></span>
+  </div>
+  <div class="says">Each zero is <b>one mode</b>. That is what m and n label.</div>
+
+  <div class="pnum">9</div>
+</div>
+
+<!-- ============ SHEET 9 : 8.4 (a) part 2 ============ -->
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Part (a), continued</div>
+
+  <div class="step">Step 4 &nbsp;&mdash;&nbsp; From &gamma; to the cutoff frequency</div>
+  <div class="says">The wave propagates only if k is <b>real</b>, i.e. k<sup>2</sup> &gt; 0:</div>
+  <div class="eq">
+    k<sup>2</sup> = &mu;&epsilon;&omega;<sup>2</sup> &minus; &gamma;<sup>2</sup> &gt; 0
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    &omega; &gt;
+    <span class="f"><span class="n">&gamma;</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+  </div>
+  <div class="says">Below that, k is imaginary and the field dies away instead of travelling. The changeover is
+    the <b>cutoff</b>:</div>
+  <div class="eq">
+    <span class="red">&omega;<sub>c</sub> =
+    <span class="f"><span class="n">&gamma;</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+    =
+    <span class="f"><span class="n">x</span><span class="d">R<span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span></span>
+    <span class="from">x = x<sub>mn</sub> for TM, x&prime;<sub>mn</sub> for TE</span>
+  </div>
+  <div class="note">
+    <b>Smaller x &rarr; lower cutoff.</b> So ranking the modes just means ranking the Bessel zeros.
+  </div>
+
+  <div class="step">Step 5 &nbsp;&mdash;&nbsp; Rank the zeros</div>
+  <table style="border-collapse:collapse;font-size:15.5px;margin:6px 0 8px 26px">
+    <tr><td style="padding:3px 18px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">mode</td>
+        <td style="padding:3px 18px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">x = &gamma;R</td>
+        <td style="padding:3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">&omega;<sub>c</sub> / &omega;<sub>c</sub>(TE<sub>11</sub>)</td></tr>
+    <tr><td style="padding:3px 18px 3px 0"><b>TE<sub>11</sub></b></td><td style="padding:3px 18px 3px 0"><b>1.8412</b></td><td style="padding:3px 0"><span class="red"><b>1.000</b> &nbsp;&larr; dominant</span></td></tr>
+    <tr><td style="padding:3px 18px 3px 0">TM<sub>01</sub></td><td style="padding:3px 18px 3px 0">2.4048</td><td style="padding:3px 0"><span class="red">1.306</span></td></tr>
+    <tr><td style="padding:3px 18px 3px 0">TE<sub>21</sub></td><td style="padding:3px 18px 3px 0">3.0542</td><td style="padding:3px 0"><span class="red">1.659</span></td></tr>
+    <tr><td style="padding:3px 18px 3px 0">TE<sub>01</sub></td><td style="padding:3px 18px 3px 0">3.8317</td><td style="padding:3px 0"><span class="red">2.081</span></td></tr>
+    <tr><td style="padding:3px 18px 3px 0">TM<sub>11</sub></td><td style="padding:3px 18px 3px 0">3.8317</td><td style="padding:3px 0"><span class="red">2.081</span></td></tr>
+    <tr><td style="padding:3px 18px 3px 0;color:#6b7683">TE<sub>31</sub></td><td style="padding:3px 18px 3px 0;color:#6b7683">4.2012</td><td style="padding:3px 0;color:#6b7683">2.282</td></tr>
+  </table>
+
+  <div class="ans">
+    <span class="tag">ANSWER &mdash; PART (a)</span>
+    <div class="eqc" style="font-size:18px;margin:8px 0 3px">
+      dominant: <b>TE<sub>11</sub></b>,&nbsp;&nbsp; &omega;<sub>c</sub> =
+      <span class="f"><span class="n">1.841</span><span class="d">R<span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+    </div>
+    <div class="eqc" style="font-size:16px;margin:3px 0 4px">
+      next four: &nbsp;<b>1.306</b> (TM<sub>01</sub>), &nbsp;<b>1.659</b> (TE<sub>21</sub>),
+      &nbsp;<b>2.081</b> (TE<sub>01</sub> and TM<sub>11</sub>)
+    </div>
+    <div class="sub">
+      TE<sub>01</sub> and TM<sub>11</sub> are <b>degenerate</b> &mdash; a coincidence of Bessel functions,
+      J&prime;<sub>0</sub> = &minus;J<sub>1</sub>, so the zeros of J&prime;<sub>0</sub> and J<sub>1</sub> are the
+      same numbers. For R = 1 cm in vacuum, the dominant cutoff is <b>8.785 GHz</b>.
+    </div>
+  </div>
+
+  <div class="pnum">10</div>
+</div>
+
+<!-- ============ SHEET 10 : 8.4 (b) ============ -->
+<div class="sheet">
+  <div class="parthead">PART (b) &nbsp;<i>&mdash; attenuation of the lowest two modes</i></div>
+
+  <div class="says">The two lowest <b>distinct</b> modes are <b>TE<sub>11</sub></b> (x&prime; = 1.841) and
+    <b>TM<sub>01</sub></b> (x = 2.405), from the table above.</div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; Same method as 8.2(b)</div>
+  <div class="says">Wall loss over power flow &mdash; identical logic, only the fields differ:</div>
+  <div class="eq">
+    &alpha; =
+    <span class="f"><span class="n">&minus;dP/dz</span><span class="d">2P</span></span>,
+    &nbsp;&nbsp;&nbsp;
+    &minus;<span class="f"><span class="n">dP</span><span class="d">dz</span></span>
+    =
+    <span class="f"><span class="n">R<sub>s</sub></span><span class="d">2</span></span>
+    &oint;|H<sub>&#8741;</sub>|<sup>2</sup>&#8201;dl,
+    &nbsp;&nbsp;&nbsp;
+    R<sub>s</sub> =
+    <span class="f"><span class="n">1</span><span class="d">&sigma;&delta;</span></span>
+    =
+    <span class="sq">&radic;<span class="rt">&mu;<sub>c</sub>&omega;/2&sigma;</span></span>
+    <span class="src">Jackson &sect;8.1</span>
+  </div>
+  <div class="says">Carrying out both integrals with the Bessel fields gives:</div>
+
+  <div class="eq">
+    <span class="red">&alpha;<sub>TM</sub> =
+    <span class="f"><span class="n">R<sub>s</sub></span><span class="d">R&eta;</span></span>
+    <span class="f"><span class="n">1</span><span class="d"><span class="sq">&radic;<span class="rt">1 &minus; (&omega;<sub>c</sub>/&omega;)<sup>2</sup></span></span></span></span></span>
+  </div>
+  <div class="eq">
+    <span class="red">&alpha;<sub>TE</sub> =
+    <span class="f"><span class="n">R<sub>s</sub></span><span class="d">R&eta;</span></span>
+    <span class="f"><span class="n">1</span><span class="d"><span class="sq">&radic;<span class="rt">1 &minus; (&omega;<sub>c</sub>/&omega;)<sup>2</sup></span></span></span></span>
+    <span style="font-size:1.05em">[</span>
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">&omega;<sub>c</sub></span><span class="d">&omega;</span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+    +
+    <span class="f"><span class="n">m<sup>2</sup></span><span class="d">x&prime;<sup>2</sup> &minus; m<sup>2</sup></span></span>
+    <span style="font-size:1.05em">]</span></span>
+  </div>
+  <div class="says">For our two modes: TM<sub>01</sub> has m = 0, so no bracket. TE<sub>11</sub> has m = 1 and
+    x&prime; = 1.841, so the extra term is 1/(1.841<sup>2</sup>&minus;1) = <b>0.419</b>.</div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Read the shape</div>
+  <div class="eq"><span class="bcnum">1</span> Both <b>diverge at cutoff</b> &mdash;
+    1/<span class="sq">&radic;<span class="rt">1&minus;(&omega;<sub>c</sub>/&omega;)<sup>2</sup></span></span>
+    &rarr; &infin; as &omega; &rarr; &omega;<sub>c</sub>.</div>
+  <div class="eq"><span class="bcnum">2</span> Far above cutoff R<sub>s</sub> &prop;
+    <span class="sq">&radic;<span class="rt">&omega;</span></span>, so both <b>rise again</b>.</div>
+  <div class="eq"><span class="bcnum">3</span> So each has a <b>minimum</b> in between &mdash; the best
+    operating frequency.</div>
+
+  <div class="pnum">11</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Part (b), continued</div>
+
+  <figure style="margin:8px 0 2px">
+    <svg viewBox="0 0 520 290" width="440">
+      <line class="thin" x1="70" y1="250" x2="500" y2="250" style="opacity:1;stroke-width:1.4"/>
+      <line class="thin" x1="70" y1="255" x2="70" y2="45" style="opacity:1;stroke-width:1.4"/>
+      <text x="108" y="266" font-size="11" text-anchor="middle">10</text>
+      <text x="185" y="266" font-size="11" text-anchor="middle">20</text>
+      <text x="261" y="266" font-size="11" text-anchor="middle">30</text>
+      <text x="337" y="266" font-size="11" text-anchor="middle">40</text>
+      <text x="414" y="266" font-size="11" text-anchor="middle">50</text>
+      <text x="490" y="266" font-size="11" text-anchor="middle">60</text>
+      <text x="285" y="282" font-size="12" text-anchor="middle">frequency (GHz)&nbsp;&mdash;&nbsp;R = 1 cm, copper</text>
+      <text x="64" y="254" font-size="11" text-anchor="end">0</text>
+      <text x="64" y="214" font-size="11" text-anchor="end">.01</text>
+      <text x="64" y="174" font-size="11" text-anchor="end">.02</text>
+      <text x="64" y="134" font-size="11" text-anchor="end">.03</text>
+      <text x="64" y="94" font-size="11" text-anchor="end">.04</text>
+      <text x="64" y="54" font-size="11" text-anchor="end">.05</text>
+      <text x="16" y="150" font-size="12" transform="rotate(-90 16 150)" text-anchor="middle">&alpha;  (Np/m)</text>
+      <line class="dash" x1="119" y1="250" x2="119" y2="50"/>
+      <line class="dash" x1="140" y1="250" x2="140" y2="50"/>
+      <text x="122" y="44" font-size="10.5" fill="#16233d">8.79</text>
+      <text x="143" y="60" font-size="10.5" fill="#c0392b">11.47 GHz</text>
+      <path class="curveS" d="M 100.2 61.7 L 100.7 93.6 L 101.3 113.4 L 101.8 127.3 L 102.4 137.7 L 103.0 145.8 L 103.5 152.4 L 104.1 157.9 L 104.6 162.6 L 105.2 166.6 L 105.8 170.2 L 106.3 173.3 L 106.9 176.1 L 107.4 178.6 L 108.0 180.9 L 108.6 182.9 L 109.1 184.8 L 109.7 186.6 L 110.2 188.2 L 110.8 189.7 L 111.4 191.0 L 111.9 192.3 L 112.5 193.5 L 113.0 194.7 L 113.6 195.8 L 114.2 196.8 L 114.7 197.7 L 115.3 198.6 L 115.8 199.5 L 116.4 200.3 L 116.9 201.0 L 117.5 201.8 L 118.1 202.5 L 118.6 203.1 L 119.2 203.8 L 119.7 204.4 L 120.3 205.0 L 120.9 205.5 L 121.4 206.1 L 122.0 206.6 L 122.5 207.1 L 123.1 207.6 L 123.7 208.0 L 124.2 208.5 L 124.8 208.9 L 125.3 209.3 L 125.9 209.7 L 126.5 210.1 L 127.0 210.5 L 127.6 210.8 L 128.1 211.2 L 128.7 211.5 L 129.3 211.8 L 129.8 212.1 L 130.4 212.5 L 130.9 212.7 L 131.5 213.0 L 132.1 213.3 L 132.6 213.6 L 133.2 213.9 L 133.7 214.1 L 134.3 214.4 L 134.9 214.6 L 135.4 214.8 L 136.0 215.1 L 136.5 215.3 L 137.1 215.5 L 137.7 215.7 L 138.2 215.9 L 138.8 216.1 L 139.3 216.3 L 139.9 216.5 L 140.5 216.7 L 141.0 216.9 L 141.6 217.1 L 142.1 217.2 L 142.7 217.4 L 143.3 217.6 L 143.8 217.7 L 144.4 217.9 L 144.9 218.0 L 145.5 218.2 L 146.1 218.3 L 146.6 218.5 L 147.2 218.6 L 147.7 218.7 L 148.3 218.9 L 148.9 219.0 L 149.4 219.1 L 150.0 219.3 L 150.5 219.4 L 151.1 219.5 L 151.7 219.6 L 152.2 219.7 L 152.8 219.8 L 153.3 219.9 L 153.9 220.1 L 154.5 220.2 L 155.0 220.3 L 155.6 220.4 L 156.1 220.5 L 156.7 220.6 L 157.3 220.7 L 157.8 220.7 L 158.4 220.8 L 158.9 220.9 L 159.5 221.0 L 160.0 221.1 L 160.6 221.2 L 161.2 221.3 L 161.7 221.3 L 162.3 221.4 L 162.8 221.5 L 163.4 221.6 L 164.0 221.6 L 164.5 221.7 L 165.1 221.8 L 165.6 221.9 L 166.2 221.9 L 166.8 222.0 L 167.3 222.1 L 167.9 222.1 L 168.4 222.2 L 169.0 222.3 L 169.6 222.3 L 170.1 222.4 L 170.7 222.4 L 171.2 222.5 L 171.8 222.5 L 172.4 222.6 L 172.9 222.7 L 173.5 222.7 L 174.0 222.8 L 174.6 222.8 L 175.2 222.9 L 175.7 222.9 L 176.3 223.0 L 176.8 223.0 L 177.4 223.0 L 178.0 223.1 L 178.5 223.1 L 179.1 223.2 L 179.6 223.2 L 180.2 223.3 L 180.8 223.3 L 181.3 223.3 L 181.9 223.4 L 182.4 223.4 L 183.0 223.5 L 183.6 223.5 L 184.1 223.5 L 184.7 223.6 L 185.2 223.6 L 185.8 223.6 L 186.4 223.7 L 186.9 223.7 L 187.5 223.7 L 188.0 223.8 L 188.6 223.8 L 189.2 223.8 L 189.7 223.9 L 190.3 223.9 L 190.8 223.9 L 191.4 224.0 L 192.0 224.0 L 192.5 224.0 L 193.1 224.0 L 193.6 224.1 L 194.2 224.1 L 194.8 224.1 L 195.3 224.1 L 195.9 224.2 L 196.4 224.2 L 197.0 224.2 L 197.6 224.2 L 198.1 224.3 L 198.7 224.3 L 199.2 224.3 L 199.8 224.3 L 200.4 224.3 L 200.9 224.4 L 201.5 224.4 L 202.0 224.4 L 202.6 224.4 L 203.2 224.4 L 203.7 224.5 L 204.3 224.5 L 204.8 224.5 L 205.4 224.5 L 205.9 224.5 L 206.5 224.5 L 207.1 224.6 L 207.6 224.6 L 208.2 224.6 L 208.7 224.6 L 209.3 224.6 L 209.9 224.6 L 210.4 224.6 L 211.0 224.7 L 211.5 224.7 L 212.1 224.7 L 212.7 224.7 L 213.2 224.7 L 213.8 224.7 L 214.3 224.7 L 214.9 224.7 L 215.5 224.8 L 216.0 224.8 L 216.6 224.8 L 217.1 224.8 L 217.7 224.8 L 218.3 224.8 L 218.8 224.8 L 219.4 224.8 L 219.9 224.8 L 220.5 224.8 L 221.1 224.8 L 221.6 224.8 L 222.2 224.9 L 222.7 224.9 L 223.3 224.9 L 223.9 224.9 L 224.4 224.9 L 225.0 224.9 L 225.5 224.9 L 226.1 224.9 L 226.7 224.9 L 227.2 224.9 L 227.8 224.9 L 228.3 224.9 L 228.9 224.9 L 229.5 224.9 L 230.0 224.9 L 230.6 224.9 L 231.1 224.9 L 231.7 224.9 L 232.3 225.0 L 232.8 225.0 L 233.4 225.0 L 233.9 225.0 L 234.5 225.0 L 235.1 225.0 L 235.6 225.0 L 236.2 225.0 L 236.7 225.0 L 237.3 225.0 L 237.9 225.0 L 238.4 225.0 L 239.0 225.0 L 239.5 225.0 L 240.1 225.0 L 240.7 225.0 L 241.2 225.0 L 241.8 225.0 L 242.3 225.0 L 242.9 225.0 L 243.5 225.0 L 244.0 225.0 L 244.6 225.0 L 245.1 225.0 L 245.7 225.0 L 246.3 225.0 L 246.8 225.0 L 247.4 225.0 L 247.9 225.0 L 248.5 225.0 L 249.1 225.0 L 249.6 225.0 L 250.2 225.0 L 250.7 225.0 L 251.3 225.0 L 251.8 225.0 L 252.4 225.0 L 253.0 225.0 L 253.5 225.0 L 254.1 225.0 L 254.6 225.0 L 255.2 225.0 L 255.8 224.9 L 256.3 224.9 L 256.9 224.9 L 257.4 224.9 L 258.0 224.9 L 258.6 224.9 L 259.1 224.9 L 259.7 224.9 L 260.2 224.9 L 260.8 224.9 L 261.4 224.9 L 261.9 224.9 L 262.5 224.9 L 263.0 224.9 L 263.6 224.9 L 264.2 224.9 L 264.7 224.9 L 265.3 224.9 L 265.8 224.9 L 266.4 224.9 L 267.0 224.9 L 267.5 224.9 L 268.1 224.9 L 268.6 224.9 L 269.2 224.8 L 269.8 224.8 L 270.3 224.8 L 270.9 224.8 L 271.4 224.8 L 272.0 224.8 L 272.6 224.8 L 273.1 224.8 L 273.7 224.8 L 274.2 224.8 L 274.8 224.8 L 275.4 224.8 L 275.9 224.8 L 276.5 224.8 L 277.0 224.8 L 277.6 224.8 L 278.2 224.7 L 278.7 224.7 L 279.3 224.7 L 279.8 224.7 L 280.4 224.7 L 281.0 224.7 L 281.5 224.7 L 282.1 224.7 L 282.6 224.7 L 283.2 224.7 L 283.8 224.7 L 284.3 224.7 L 284.9 224.7 L 285.4 224.7 L 286.0 224.6 L 286.6 224.6 L 287.1 224.6 L 287.7 224.6 L 288.2 224.6 L 288.8 224.6 L 289.4 224.6 L 289.9 224.6 L 290.5 224.6 L 291.0 224.6 L 291.6 224.6 L 292.2 224.6 L 292.7 224.5 L 293.3 224.5 L 293.8 224.5 L 294.4 224.5 L 294.9 224.5 L 295.5 224.5 L 296.1 224.5 L 296.6 224.5 L 297.2 224.5 L 297.7 224.5 L 298.3 224.5 L 298.9 224.4 L 299.4 224.4 L 300.0 224.4 L 300.5 224.4 L 301.1 224.4 L 301.7 224.4 L 302.2 224.4 L 302.8 224.4 L 303.3 224.4 L 303.9 224.4 L 304.5 224.4 L 305.0 224.3 L 305.6 224.3 L 306.1 224.3 L 306.7 224.3 L 307.3 224.3 L 307.8 224.3 L 308.4 224.3 L 308.9 224.3 L 309.5 224.3 L 310.1 224.3 L 310.6 224.2 L 311.2 224.2 L 311.7 224.2 L 312.3 224.2 L 312.9 224.2 L 313.4 224.2 L 314.0 224.2 L 314.5 224.2 L 315.1 224.2 L 315.7 224.2 L 316.2 224.1 L 316.8 224.1 L 317.3 224.1 L 317.9 224.1 L 318.5 224.1 L 319.0 224.1 L 319.6 224.1 L 320.1 224.1 L 320.7 224.1 L 321.3 224.0 L 321.8 224.0 L 322.4 224.0 L 322.9 224.0 L 323.5 224.0 L 324.1 224.0 L 324.6 224.0 L 325.2 224.0 L 325.7 224.0 L 326.3 223.9 L 326.9 223.9 L 327.4 223.9 L 328.0 223.9 L 328.5 223.9 L 329.1 223.9 L 329.7 223.9 L 330.2 223.9 L 330.8 223.9 L 331.3 223.8 L 331.9 223.8 L 332.5 223.8 L 333.0 223.8 L 333.6 223.8 L 334.1 223.8 L 334.7 223.8 L 335.3 223.8 L 335.8 223.8 L 336.4 223.7 L 336.9 223.7 L 337.5 223.7 L 338.1 223.7 L 338.6 223.7 L 339.2 223.7 L 339.7 223.7 L 340.3 223.7 L 340.8 223.6 L 341.4 223.6 L 342.0 223.6 L 342.5 223.6 L 343.1 223.6 L 343.6 223.6 L 344.2 223.6 L 344.8 223.6 L 345.3 223.6 L 345.9 223.5 L 346.4 223.5 L 347.0 223.5 L 347.6 223.5 L 348.1 223.5 L 348.7 223.5 L 349.2 223.5 L 349.8 223.5 L 350.4 223.4 L 350.9 223.4 L 351.5 223.4 L 352.0 223.4 L 352.6 223.4 L 353.2 223.4 L 353.7 223.4 L 354.3 223.4 L 354.8 223.3 L 355.4 223.3 L 356.0 223.3 L 356.5 223.3 L 357.1 223.3 L 357.6 223.3 L 358.2 223.3 L 358.8 223.3 L 359.3 223.2 L 359.9 223.2 L 360.4 223.2 L 361.0 223.2 L 361.6 223.2 L 362.1 223.2 L 362.7 223.2 L 363.2 223.2 L 363.8 223.1 L 364.4 223.1 L 364.9 223.1 L 365.5 223.1 L 366.0 223.1 L 366.6 223.1 L 367.2 223.1 L 367.7 223.1 L 368.3 223.0 L 368.8 223.0 L 369.4 223.0 L 370.0 223.0 L 370.5 223.0 L 371.1 223.0 L 371.6 223.0 L 372.2 223.0 L 372.8 222.9 L 373.3 222.9 L 373.9 222.9 L 374.4 222.9 L 375.0 222.9 L 375.6 222.9 L 376.1 222.9 L 376.7 222.9 L 377.2 222.8 L 377.8 222.8 L 378.4 222.8 L 378.9 222.8 L 379.5 222.8 L 380.0 222.8 L 380.6 222.8 L 381.2 222.7 L 381.7 222.7 L 382.3 222.7 L 382.8 222.7 L 383.4 222.7 L 383.9 222.7 L 384.5 222.7 L 385.1 222.7 L 385.6 222.6 L 386.2 222.6 L 386.7 222.6 L 387.3 222.6 L 387.9 222.6 L 388.4 222.6 L 389.0 222.6 L 389.5 222.5 L 390.1 222.5 L 390.7 222.5 L 391.2 222.5 L 391.8 222.5 L 392.3 222.5 L 392.9 222.5 L 393.5 222.5 L 394.0 222.4 L 394.6 222.4 L 395.1 222.4 L 395.7 222.4 L 396.3 222.4 L 396.8 222.4 L 397.4 222.4 L 397.9 222.3 L 398.5 222.3 L 399.1 222.3 L 399.6 222.3 L 400.2 222.3 L 400.7 222.3 L 401.3 222.3 L 401.9 222.3 L 402.4 222.2 L 403.0 222.2 L 403.5 222.2 L 404.1 222.2 L 404.7 222.2 L 405.2 222.2 L 405.8 222.2 L 406.3 222.1 L 406.9 222.1 L 407.5 222.1 L 408.0 222.1 L 408.6 222.1 L 409.1 222.1 L 409.7 222.1 L 410.3 222.1 L 410.8 222.0 L 411.4 222.0 L 411.9 222.0 L 412.5 222.0 L 413.1 222.0 L 413.6 222.0 L 414.2 222.0 L 414.7 221.9 L 415.3 221.9 L 415.9 221.9 L 416.4 221.9 L 417.0 221.9 L 417.5 221.9 L 418.1 221.9 L 418.7 221.8 L 419.2 221.8 L 419.8 221.8 L 420.3 221.8 L 420.9 221.8 L 421.5 221.8 L 422.0 221.8 L 422.6 221.8 L 423.1 221.7 L 423.7 221.7 L 424.3 221.7 L 424.8 221.7 L 425.4 221.7 L 425.9 221.7 L 426.5 221.7 L 427.1 221.6 L 427.6 221.6 L 428.2 221.6 L 428.7 221.6 L 429.3 221.6 L 429.8 221.6 L 430.4 221.6 L 431.0 221.5 L 431.5 221.5 L 432.1 221.5 L 432.6 221.5 L 433.2 221.5 L 433.8 221.5 L 434.3 221.5"/>
+      <path class="curveP" d="M 121.1 94.3 L 121.8 119.2 L 122.5 134.5 L 123.3 145.1 L 124.0 152.9 L 124.7 158.9 L 125.5 163.8 L 126.2 167.8 L 126.9 171.2 L 127.7 174.1 L 128.4 176.5 L 129.1 178.7 L 129.9 180.6 L 130.6 182.3 L 131.3 183.8 L 132.0 185.2 L 132.8 186.4 L 133.5 187.5 L 134.2 188.6 L 135.0 189.5 L 135.7 190.4 L 136.4 191.2 L 137.2 191.9 L 137.9 192.6 L 138.6 193.2 L 139.4 193.8 L 140.1 194.3 L 140.8 194.8 L 141.5 195.3 L 142.3 195.8 L 143.0 196.2 L 143.7 196.6 L 144.5 196.9 L 145.2 197.3 L 145.9 197.6 L 146.7 197.9 L 147.4 198.2 L 148.1 198.5 L 148.9 198.7 L 149.6 199.0 L 150.3 199.2 L 151.1 199.4 L 151.8 199.6 L 152.5 199.8 L 153.2 200.0 L 154.0 200.1 L 154.7 200.3 L 155.4 200.5 L 156.2 200.6 L 156.9 200.7 L 157.6 200.9 L 158.4 201.0 L 159.1 201.1 L 159.8 201.2 L 160.6 201.3 L 161.3 201.4 L 162.0 201.5 L 162.8 201.6 L 163.5 201.7 L 164.2 201.8 L 164.9 201.8 L 165.7 201.9 L 166.4 202.0 L 167.1 202.0 L 167.9 202.1 L 168.6 202.1 L 169.3 202.2 L 170.1 202.2 L 170.8 202.3 L 171.5 202.3 L 172.3 202.3 L 173.0 202.4 L 173.7 202.4 L 174.4 202.4 L 175.2 202.5 L 175.9 202.5 L 176.6 202.5 L 177.4 202.5 L 178.1 202.5 L 178.8 202.5 L 179.6 202.6 L 180.3 202.6 L 181.0 202.6 L 181.8 202.6 L 182.5 202.6 L 183.2 202.6 L 184.0 202.6 L 184.7 202.6 L 185.4 202.6 L 186.1 202.6 L 186.9 202.6 L 187.6 202.6 L 188.3 202.5 L 189.1 202.5 L 189.8 202.5 L 190.5 202.5 L 191.3 202.5 L 192.0 202.5 L 192.7 202.5 L 193.5 202.4 L 194.2 202.4 L 194.9 202.4 L 195.7 202.4 L 196.4 202.4 L 197.1 202.3 L 197.8 202.3 L 198.6 202.3 L 199.3 202.3 L 200.0 202.2 L 200.8 202.2 L 201.5 202.2 L 202.2 202.2 L 203.0 202.1 L 203.7 202.1 L 204.4 202.1 L 205.2 202.0 L 205.9 202.0 L 206.6 202.0 L 207.3 201.9 L 208.1 201.9 L 208.8 201.9 L 209.5 201.8 L 210.3 201.8 L 211.0 201.8 L 211.7 201.7 L 212.5 201.7 L 213.2 201.7 L 213.9 201.6 L 214.7 201.6 L 215.4 201.5 L 216.1 201.5 L 216.9 201.5 L 217.6 201.4 L 218.3 201.4 L 219.0 201.3 L 219.8 201.3 L 220.5 201.3 L 221.2 201.2 L 222.0 201.2 L 222.7 201.1 L 223.4 201.1 L 224.2 201.0 L 224.9 201.0 L 225.6 200.9 L 226.4 200.9 L 227.1 200.9 L 227.8 200.8 L 228.5 200.8 L 229.3 200.7 L 230.0 200.7 L 230.7 200.6 L 231.5 200.6 L 232.2 200.5 L 232.9 200.5 L 233.7 200.4 L 234.4 200.4 L 235.1 200.3 L 235.9 200.3 L 236.6 200.2 L 237.3 200.2 L 238.1 200.1 L 238.8 200.1 L 239.5 200.0 L 240.2 200.0 L 241.0 199.9 L 241.7 199.9 L 242.4 199.8 L 243.2 199.8 L 243.9 199.7 L 244.6 199.7 L 245.4 199.6 L 246.1 199.6 L 246.8 199.5 L 247.6 199.5 L 248.3 199.4 L 249.0 199.4 L 249.8 199.3 L 250.5 199.3 L 251.2 199.2 L 251.9 199.2 L 252.7 199.1 L 253.4 199.1 L 254.1 199.0 L 254.9 199.0 L 255.6 198.9 L 256.3 198.9 L 257.1 198.8 L 257.8 198.7 L 258.5 198.7 L 259.3 198.6 L 260.0 198.6 L 260.7 198.5 L 261.4 198.5 L 262.2 198.4 L 262.9 198.4 L 263.6 198.3 L 264.4 198.3 L 265.1 198.2 L 265.8 198.1 L 266.6 198.1 L 267.3 198.0 L 268.0 198.0 L 268.8 197.9 L 269.5 197.9 L 270.2 197.8 L 271.0 197.8 L 271.7 197.7 L 272.4 197.7 L 273.1 197.6 L 273.9 197.5 L 274.6 197.5 L 275.3 197.4 L 276.1 197.4 L 276.8 197.3 L 277.5 197.3 L 278.3 197.2 L 279.0 197.2 L 279.7 197.1 L 280.5 197.0 L 281.2 197.0 L 281.9 196.9 L 282.7 196.9 L 283.4 196.8 L 284.1 196.8 L 284.8 196.7 L 285.6 196.7 L 286.3 196.6 L 287.0 196.5 L 287.8 196.5 L 288.5 196.4 L 289.2 196.4 L 290.0 196.3 L 290.7 196.3 L 291.4 196.2 L 292.2 196.1 L 292.9 196.1 L 293.6 196.0 L 294.3 196.0 L 295.1 195.9 L 295.8 195.9 L 296.5 195.8 L 297.3 195.8 L 298.0 195.7 L 298.7 195.6 L 299.5 195.6 L 300.2 195.5 L 300.9 195.5 L 301.7 195.4 L 302.4 195.4 L 303.1 195.3 L 303.9 195.2 L 304.6 195.2 L 305.3 195.1 L 306.0 195.1 L 306.8 195.0 L 307.5 195.0 L 308.2 194.9 L 309.0 194.8 L 309.7 194.8 L 310.4 194.7 L 311.2 194.7 L 311.9 194.6 L 312.6 194.6 L 313.4 194.5 L 314.1 194.5 L 314.8 194.4 L 315.6 194.3 L 316.3 194.3 L 317.0 194.2 L 317.7 194.2 L 318.5 194.1 L 319.2 194.1 L 319.9 194.0 L 320.7 193.9 L 321.4 193.9 L 322.1 193.8 L 322.9 193.8 L 323.6 193.7 L 324.3 193.7 L 325.1 193.6 L 325.8 193.5 L 326.5 193.5 L 327.2 193.4 L 328.0 193.4 L 328.7 193.3 L 329.4 193.3 L 330.2 193.2 L 330.9 193.2 L 331.6 193.1 L 332.4 193.0 L 333.1 193.0 L 333.8 192.9 L 334.6 192.9 L 335.3 192.8 L 336.0 192.8 L 336.8 192.7 L 337.5 192.6 L 338.2 192.6 L 338.9 192.5 L 339.7 192.5 L 340.4 192.4 L 341.1 192.4 L 341.9 192.3 L 342.6 192.2 L 343.3 192.2 L 344.1 192.1 L 344.8 192.1 L 345.5 192.0 L 346.3 192.0 L 347.0 191.9 L 347.7 191.9 L 348.5 191.8 L 349.2 191.7 L 349.9 191.7 L 350.6 191.6 L 351.4 191.6 L 352.1 191.5 L 352.8 191.5 L 353.6 191.4 L 354.3 191.4 L 355.0 191.3 L 355.8 191.2 L 356.5 191.2 L 357.2 191.1 L 358.0 191.1 L 358.7 191.0 L 359.4 191.0 L 360.1 190.9 L 360.9 190.9 L 361.6 190.8 L 362.3 190.7 L 363.1 190.7 L 363.8 190.6 L 364.5 190.6 L 365.3 190.5 L 366.0 190.5 L 366.7 190.4 L 367.5 190.4 L 368.2 190.3 L 368.9 190.2 L 369.7 190.2 L 370.4 190.1 L 371.1 190.1 L 371.8 190.0 L 372.6 190.0 L 373.3 189.9 L 374.0 189.9 L 374.8 189.8 L 375.5 189.7 L 376.2 189.7 L 377.0 189.6 L 377.7 189.6 L 378.4 189.5 L 379.2 189.5 L 379.9 189.4 L 380.6 189.4 L 381.4 189.3 L 382.1 189.2 L 382.8 189.2 L 383.5 189.1 L 384.3 189.1 L 385.0 189.0 L 385.7 189.0 L 386.5 188.9 L 387.2 188.9 L 387.9 188.8 L 388.7 188.8 L 389.4 188.7 L 390.1 188.6 L 390.9 188.6 L 391.6 188.5 L 392.3 188.5 L 393.0 188.4 L 393.8 188.4 L 394.5 188.3 L 395.2 188.3 L 396.0 188.2 L 396.7 188.2 L 397.4 188.1 L 398.2 188.0 L 398.9 188.0 L 399.6 187.9 L 400.4 187.9 L 401.1 187.8 L 401.8 187.8 L 402.6 187.7 L 403.3 187.7 L 404.0 187.6 L 404.7 187.6 L 405.5 187.5 L 406.2 187.4 L 406.9 187.4 L 407.7 187.3 L 408.4 187.3 L 409.1 187.2 L 409.9 187.2 L 410.6 187.1 L 411.3 187.1 L 412.1 187.0 L 412.8 187.0 L 413.5 186.9 L 414.3 186.9 L 415.0 186.8 L 415.7 186.7 L 416.4 186.7 L 417.2 186.6 L 417.9 186.6 L 418.6 186.5 L 419.4 186.5 L 420.1 186.4 L 420.8 186.4 L 421.6 186.3 L 422.3 186.3 L 423.0 186.2 L 423.8 186.2 L 424.5 186.1 L 425.2 186.1 L 425.9 186.0 L 426.7 185.9 L 427.4 185.9 L 428.1 185.8 L 428.9 185.8 L 429.6 185.7 L 430.3 185.7 L 431.1 185.6 L 431.8 185.6 L 432.5 185.5 L 433.3 185.5 L 434.0 185.4 L 434.7 185.4 L 435.5 185.3 L 436.2 185.3 L 436.9 185.2 L 437.6 185.2 L 438.4 185.1 L 439.1 185.0 L 439.8 185.0 L 440.6 184.9 L 441.3 184.9 L 442.0 184.8 L 442.8 184.8 L 443.5 184.7 L 444.2 184.7 L 445.0 184.6 L 445.7 184.6 L 446.4 184.5 L 447.2 184.5 L 447.9 184.4 L 448.6 184.4 L 449.3 184.3 L 450.1 184.3 L 450.8 184.2 L 451.5 184.2 L 452.3 184.1 L 453.0 184.1 L 453.7 184.0 L 454.5 184.0 L 455.2 183.9 L 455.9 183.8 L 456.7 183.8 L 457.4 183.7 L 458.1 183.7 L 458.8 183.6 L 459.6 183.6 L 460.3 183.5 L 461.0 183.5 L 461.8 183.4 L 462.5 183.4 L 463.2 183.3 L 464.0 183.3 L 464.7 183.2 L 465.4 183.2 L 466.2 183.1 L 466.9 183.1 L 467.6 183.0 L 468.4 183.0 L 469.1 182.9 L 469.8 182.9 L 470.5 182.8 L 471.3 182.8 L 472.0 182.7 L 472.7 182.7 L 473.5 182.6 L 474.2 182.6 L 474.9 182.5 L 475.7 182.5 L 476.4 182.4 L 477.1 182.4 L 477.9 182.3 L 478.6 182.3 L 479.3 182.2 L 480.1 182.1 L 480.8 182.1 L 481.5 182.0 L 482.2 182.0 L 483.0 181.9 L 483.7 181.9 L 484.4 181.8 L 485.2 181.8 L 485.9 181.7 L 486.6 181.7 L 487.4 181.6 L 488.1 181.6 L 488.8 181.5 L 489.6 181.5"/>
+      <text x="330" y="205" font-size="12" fill="#16233d">TE<tspan dy="3" font-size="9">11</tspan></text>
+      <text x="330" y="150" font-size="12" fill="#c0392b">TM<tspan dy="3" font-size="9">01</tspan></text>
+    </svg>
+    <figcaption>Dashed lines are the two cutoffs. Each curve rises steeply at its own cutoff, dips, then climbs
+      as <span class="sq">&radic;<span class="rt">&omega;</span></span>.</figcaption>
+  </figure>
+
+  <div class="ans">
+    <span class="tag">ANSWER &mdash; PART (b)</span>
+    <div class="eqc" style="font-size:15.5px;margin:6px 0 3px">
+      <b>TE<sub>11</sub></b>: minimum &alpha; = 0.0063 Np/m at &omega;/&omega;<sub>c</sub> = 3.16 &nbsp;(27.7 GHz)
+    </div>
+    <div class="eqc" style="font-size:15.5px;margin:2px 0 4px">
+      <b>TM<sub>01</sub></b>: minimum &alpha; = 0.0119 Np/m at &omega;/&omega;<sub>c</sub> = 1.73 &nbsp;(19.8 GHz)
+    </div>
+    <div class="sub">
+      TE<sub>11</sub> is the lower-loss mode over the whole band &mdash; which, with its lower cutoff, is why
+      circular guides are run in TE<sub>11</sub>.
+    </div>
+  </div>
+
+  <div class="endmark">&#9632;&nbsp; END OF JACKSON 8.4 &nbsp;&#9632;</div>
+
+  <div class="pnum">12</div>
+</div>

@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Chapter 8 Examples</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
+:root{--ink:#16233d;--ink-red:#c0392b;--rule:#b9cbdc;--grey:#6b7683;--info:#17788c;--lh:32px;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#6b7480;}
+body{font-family:'Segoe Print','Ink Free','Kalam',cursive;color:var(--ink);font-size:16.5px;line-height:var(--lh);}
+
+.sheet{width:8.5in;min-height:11in;margin:24px auto;padding:64px 62px 70px 78px;background:#fff;
+  background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--lh) - 1px),var(--rule) calc(var(--lh) - 1px) var(--lh));
+  background-position:0 64px;box-shadow:0 6px 22px rgba(0,0,0,.35);position:relative;page-break-after:always;}
+.sheet:last-of-type{page-break-after:auto}
+.pnum{position:absolute;bottom:26px;right:56px;font-size:14px;opacity:.7}
+
+.hdr{display:flex;justify-content:space-between;align-items:baseline;font-size:15px;opacity:.85}
+.title{font-size:24px;font-weight:700;text-align:center;margin:6px 0 2px}
+.title u{text-decoration:none;border-bottom:2.5px solid var(--ink);padding-bottom:2px}
+.qhead{font-size:20px;font-weight:700;margin:22px 0 6px;color:var(--ink-red);
+  border-bottom:2px solid var(--ink-red);display:inline-block;padding-bottom:1px}
+
+/* the question, as asked */
+.stmt{font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.5;background:#f7f8f5;
+  border-left:4px solid #9fb3c8;padding:9px 13px;margin:6px 0 12px;color:#26303f;}
+.stmt b{font-weight:700}
+
+/* THE ANSWER -- always at the top of a problem */
+.ans{border:3px solid var(--ink-red);border-radius:10px;background:#fffdf3;
+  padding:8px 18px 12px;margin:10px 0 16px;position:relative}
+.ans .tag{position:absolute;top:-14px;left:16px;background:#fffdf3;color:var(--ink-red);
+  font-weight:700;font-size:15px;padding:0 8px;letter-spacing:.06em}
+.ans .sub{font-size:14.5px;color:var(--info);margin-top:4px;font-style:italic}
+
+/* steps */
+.step{font-weight:700;font-size:17.5px;margin:16px 0 2px}
+.why{font-size:15px;color:var(--info);margin:0 0 4px 26px;font-style:italic}
+.eq{margin:5px 0 5px 30px}
+.eqc{margin:7px 0;text-align:center}
+.lbl{float:right;font-size:14px;color:var(--info);font-style:italic}
+.note{font-size:15px;margin:6px 0 6px 30px;color:var(--info);font-style:italic}
+
+/* optional / not required */
+.opt{border-left:4px solid #c3cbd4;background:#f6f8fa;color:var(--grey);
+  padding:6px 12px;margin:12px 0 8px 12px;font-size:14.5px;line-height:1.55}
+.opt .tag{display:inline-block;border:1.4px solid #9aa5b1;border-radius:9px;
+  padding:0 8px;font-size:12.5px;letter-spacing:.08em;margin-right:8px}
+.legend{border:1.6px dashed #a9b4bf;border-radius:8px;padding:6px 14px;margin:10px 0 4px;
+  font-size:14.5px;color:var(--grey)}
+
+/* math bits */
+.f{display:inline-flex;flex-direction:column;align-items:center;vertical-align:0.52em;margin:0 .22em;line-height:1.16}
+.f>.n{border-bottom:2px solid currentColor;padding:0 .32em}
+.f>.d{padding:2px .32em 0}
+.sq{white-space:nowrap}
+.rt{border-top:2px solid currentColor;padding:1px .18em 0 .06em;margin-left:-1px}
+.ov{display:inline-block;border-top:2px solid currentColor;line-height:1;padding-top:1px;margin-top:2px}
+.v,.h{position:relative;display:inline-block;white-space:nowrap}
+.v::after{content:"\2192";position:absolute;left:50%;transform:translateX(-50%);top:-.72em;font-size:.55em;line-height:1}
+.h::after{content:"\005E";position:absolute;left:50%;transform:translateX(-50%);top:-.62em;font-size:.72em;line-height:1}
+sub,sup{font-size:.66em;line-height:0}
+.red{color:var(--ink-red)}
+.bcnum{display:inline-block;border:1.8px solid var(--ink);border-radius:50%;width:1.5em;height:1.5em;
+  line-height:1.35em;text-align:center;font-size:.8em;margin-right:.3em}
+
+figure{margin:12px 0 8px;text-align:center}
+figcaption{font-size:14px;color:var(--info);margin-top:2px;font-style:italic}
+svg{max-width:100%;height:auto}
+.stroke{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round}
+.thin{fill:none;stroke:var(--ink);stroke-width:1;opacity:.55}
+.dash{fill:none;stroke:var(--ink);stroke-width:1.2;stroke-dasharray:5 5;opacity:.7}
+.slab{fill:#e3ecf4;stroke:var(--ink);stroke-width:1.3}
+.ray{fill:none;stroke:var(--ink);stroke-width:1.8}
+.ray2{fill:none;stroke:var(--ink-red);stroke-width:1.6}
+.bvec{fill:none;stroke:var(--ink-red);stroke-width:1.6}
+.curveS{fill:none;stroke:var(--ink);stroke-width:2.2}
+.curveP{fill:none;stroke:var(--ink-red);stroke-width:2.2;stroke-dasharray:7 4}
+text{font-family:'Segoe Print','Ink Free','Kalam',cursive;font-size:13px;fill:var(--ink)}
+
+@media print{
+  html,body{background:#fff}
+  body{font-size:15px;--lh:28px}
+  .sheet{margin:0;box-shadow:none;width:100%;max-width:100%;min-height:0;
+         padding:6px 4px 24px 6px;background-position:0 6px;overflow:hidden}
+  .pnum{bottom:4px;right:6px}
+  .eq{margin:3px 0 3px 26px}
+  .note,.why{margin-left:26px}
+  .step{margin:11px 0 2px}
+  .qhead{margin:12px 0 4px}
+  .ans{margin:10px 0 12px}
+  figure{margin:8px 0 4px}
+  .stmt{margin:5px 0 9px;padding:7px 11px}
+  @page{size:letter;margin:0.45in 0.5in}
+}
+
+.endmark{margin:14px 0 8px;text-align:center;color:#c0392b;font-weight:700;font-size:15.5px;
+  letter-spacing:.05em;border-top:2.5px dashed #c0392b;border-bottom:2.5px dashed #c0392b;padding:4px 0}
+.extrahdr{background:#eef1f4;border:1.6px dashed #9aa5b1;border-radius:8px;padding:6px 14px;
+  margin:0 0 12px;color:#6b7683;font-size:15px;font-weight:700;text-align:center}
+@media print{ .endmark{margin:8px 0 5px;font-size:14px;padding:2px 0} .extrahdr{margin-bottom:8px;padding:4px 12px} }
+
+.note b,.why b,.ans .sub b,figcaption b{color:inherit}
+
+.src{display:inline-block;font-size:11.5px;font-style:normal;color:#17788c;border:1.2px solid #7fb8c4;
+  border-radius:8px;padding:0 6px;margin-left:8px;vertical-align:middle;white-space:nowrap;line-height:1.5}
+.ask{font-size:16px;font-weight:700;color:#16233d;margin:10px 0 2px 6px;border-left:4px solid #c0392b;padding-left:10px}
+.startbox{border:2.5px solid #16233d;border-radius:9px;background:#f4f7fa;padding:8px 16px;margin:12px 0;font-size:15.5px}
+@media print{ .ask{margin:7px 0 2px 12px} .startbox{margin:9px 0;padding:6px 14px} }
+
+.lead{display:inline-block;font-weight:700;color:#16233d;background:#eef2f6;border-left:3px solid #16233d;
+  padding:0 8px;margin-right:8px;border-radius:0 4px 4px 0}
+.lead::after{content:":"}
+.gets{display:inline-block;font-weight:700;color:#c0392b;background:#fdf1ef;border-left:3px solid #c0392b;
+  padding:0 8px;margin-right:8px;border-radius:0 4px 4px 0}
+.gets::after{content:":"}
+@media print{ .lead,.gets{padding:0 6px;margin-right:6px} }
+
+.from{color:#17788c;font-style:italic;font-size:14.5px;margin-left:16px}
+.arw{color:#c0392b;font-weight:700;margin-right:6px}
+
+.says{margin:9px 0 2px 6px;color:var(--ink)}
+.says b{font-weight:700}
+@media print{ .says{margin:6px 0 2px 6px} }
+
+.parthead{display:block;background:#16233d;color:#fff;font-weight:700;font-size:16.5px;
+  padding:4px 16px;border-radius:6px;margin:0 0 10px;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.parthead i{font-weight:400;font-style:normal;opacity:.85;font-size:15px}
+</style></head>
+<body>
+<!-- ============ COVER ============ -->
+<div class="sheet">
+  <div class="hdr"><span>Physics 5313 &mdash; Electromagnetic Theory 2</span><span>Chapter 8 &mdash; worked examples</span></div>
+  <div class="title"><u>Chapter 8 &mdash; Every Lecture Example, Solved</u></div>
+
+  <div class="legend">
+    <b style="color:#16233d">black = write it down</b> &nbsp;&middot;&nbsp;
+    <span style="color:#c0392b;font-weight:700">red = the answer</span> &nbsp;&middot;&nbsp;
+    <span style="color:#17788c;font-style:italic">teal = my note, do not copy</span> &nbsp;&middot;&nbsp;
+    <span style="color:#6b7683">grey = optional</span>
+  </div>
+
+  <div class="stmt" style="margin-bottom:10px">
+    Chapter 8 runs from <b>Lec 9 slide 10</b> to <b>Lec 17 slide 19</b>. These are the eight places where the
+    professor works a concrete example rather than building general theory. Each one is solved the way he
+    solves it, with the steps he does on the board filled in.
+  </div>
+
+  <table style="width:calc(100% - 10px);border-collapse:collapse;font-size:14.5px;margin:6px 0 8px 6px">
+    <tr><td style="padding:4px 10px 4px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap">Ex 1</td><td style="padding:4px 12px 4px 0;vertical-align:top">TE modes in a rectangular waveguide &mdash; fields, cutoff, lowest mode</td><td style="padding:4px 0;vertical-align:top;color:#17788c;font-size:12.5px;white-space:nowrap">Lec 11 s6&ndash;9</td></tr>
+    <tr><td style="padding:4px 10px 4px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap">Ex 2</td><td style="padding:4px 12px 4px 0;vertical-align:top">TM modes in the same guide &mdash; why the indices change</td><td style="padding:4px 0;vertical-align:top;color:#17788c;font-size:12.5px;white-space:nowrap">Lec 11 s10&ndash;11</td></tr>
+    <tr><td style="padding:4px 10px 4px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap">Ex 3</td><td style="padding:4px 12px 4px 0;vertical-align:top">Attenuation in a rectangular waveguide &mdash; the C(a,b) brace and &beta; for TE<sub>10</sub></td><td style="padding:4px 0;vertical-align:top;color:#17788c;font-size:12.5px;white-space:nowrap">Lec 12 s14&ndash;17</td></tr>
+    <tr><td style="padding:4px 10px 4px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap">Ex 4</td><td style="padding:4px 12px 4px 0;vertical-align:top">Cylindrical resonant cavity &mdash; full TE solution, then TM</td><td style="padding:4px 0;vertical-align:top;color:#17788c;font-size:12.5px;white-space:nowrap">Lec 14 s3&ndash;13</td></tr>
+    <tr><td style="padding:4px 10px 4px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap">Ex 5</td><td style="padding:4px 12px 4px 0;vertical-align:top">Resonant frequencies of that cavity &mdash; 2.405, 1.841, and the d &gt; 2.03R crossover</td><td style="padding:4px 0;vertical-align:top;color:#17788c;font-size:12.5px;white-space:nowrap">Lec 14 s14&ndash;17</td></tr>
+    <tr><td style="padding:4px 10px 4px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap">Ex 6</td><td style="padding:4px 12px 4px 0;vertical-align:top">Stored energy &lang;U&rang; in a cavity</td><td style="padding:4px 0;vertical-align:top;color:#17788c;font-size:12.5px;white-space:nowrap">Lec 15 s9&ndash;11</td></tr>
+    <tr><td style="padding:4px 10px 4px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap">Ex 7</td><td style="padding:4px 12px 4px 0;vertical-align:top">Equations for H<sub>z</sub> and E<sub>z</sub> in a fibre &mdash; why the modes become hybrid</td><td style="padding:4px 0;vertical-align:top;color:#17788c;font-size:12.5px;white-space:nowrap">Lec 17 s12&ndash;15</td></tr>
+    <tr><td style="padding:4px 10px 4px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap">Ex 8</td><td style="padding:4px 12px 4px 0;vertical-align:top">Modes in a step-index circular fibre &mdash; the eigenvalue equation and V = 2.405</td><td style="padding:4px 0;vertical-align:top;color:#17788c;font-size:12.5px;white-space:nowrap">Lec 17 s16&ndash;19</td></tr>
+  </table>
+
+  <div class="note">
+    All numbers checked. The attenuation bracket collapses to a + 2b/x<sup>2</sup> exactly; the minimum of
+    C&beta; sits at &omega;/&omega;<sub>&lambda;</sub> = 1.8824 for b/a = 0.1, which is the 1.882 on his plot.
+    Bessel roots: x<sub>01</sub> = 2.404826, x&prime;<sub>11</sub> = 1.841184,
+    &pi;<sup>2</sup>/x&prime;<sub>11</sub><sup>2</sup> = 2.9114, crossover at d = 2.0308&#8201;R. The
+    &lang;U&rang; formula and Green&rsquo;s identity were checked by direct integration (10<sup>&minus;16</sup>).
+  </div>
+
+  <div class="pnum">1</div>
+</div>
+
+<!-- ============ EXAMPLE 1 ============ -->
+<div class="sheet">
+  <div class="qhead">Example 1 &mdash; TE modes in a rectangular waveguide</div>
+
+  <div class="stmt">
+    A hollow guide of perfect conductor has a rectangular cross section, sides <b>a</b> along x and <b>b</b>
+    along y, filled with &mu;, &epsilon;. Find the <b>TE</b> modes, their cutoff frequencies, the lowest mode,
+    and write out its fields. <span style="color:#17788c;font-size:13px">(Lec 11 s6&ndash;9.)</span>
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:16px;margin:8px 0 2px">
+      &psi; = H<sub>z</sub> = H<sub>0</sub>&#8201;cos<span style="font-size:1.05em">(</span><span class="f"><span class="n">m&pi;x</span><span class="d">a</span></span><span style="font-size:1.05em">)</span>cos<span style="font-size:1.05em">(</span><span class="f"><span class="n">n&pi;y</span><span class="d">b</span></span><span style="font-size:1.05em">)</span>,
+      &nbsp;&nbsp;
+      &gamma;<sup>2</sup><sub style="margin-left:-6px">mn</sub> =
+      <span style="font-size:1.05em">(</span><span class="f"><span class="n">m&pi;</span><span class="d">a</span></span><span style="font-size:1.05em">)</span><sup>2</sup> +
+      <span style="font-size:1.05em">(</span><span class="f"><span class="n">n&pi;</span><span class="d">b</span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+    </div>
+    <div class="eqc" style="font-size:16px;margin:6px 0 2px">
+      &omega;<sub>mn</sub> =
+      <span class="f"><span class="n">&pi;</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+      <span class="sq">&radic;<span class="rt"><span class="f"><span class="n">m<sup>2</sup></span><span class="d">a<sup>2</sup></span></span> + <span class="f"><span class="n">n<sup>2</sup></span><span class="d">b<sup>2</sup></span></span></span></span>
+      &nbsp;&nbsp;<span style="font-size:.85em">m, n = 0, 1, 2&hellip; but not both 0</span>
+      &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+      <b>lowest TE<sub>10</sub>:</b>&nbsp;
+      &omega;<sub>10</sub> = <span class="f"><span class="n">&pi;</span><span class="d">a<span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+    </div>
+  </div>
+
+  <div class="startbox">
+    <b>Flow:</b> TE means everything is built from H<sub>z</sub> &rarr; solve the 2D wave equation for it
+    &rarr; the wall condition for TE is &part;&psi;/&part;n = 0, which picks <b>cosines</b> &rarr; the box
+    quantises m and n &rarr; cutoff is where k stops being real.
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; What we start from</div>
+  <div class="says">TE means E<sub>z</sub> = 0, and the one scalar is &psi; = H<sub>z</sub>. With everything
+    going as e<sup>i(kz&minus;&omega;t)</sup>:</div>
+  <div class="eq">
+    &nabla;<sub>t</sub><sup>2</sup>&psi; + &gamma;<sup>2</sup>&psi; = 0,
+    &nbsp;&nbsp;
+    &gamma;<sup>2</sup> = &mu;&epsilon;&omega;<sup>2</sup> &minus; k<sup>2</sup>,
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="f"><span class="n">&part;&psi;</span><span class="d">&part;n</span></span> = 0 on the walls
+    <span class="src">Lec 10, s18</span>
+  </div>
+  <div class="eq">
+    <span class="v">H</span><sub>t</sub> =
+    <span class="f"><span class="n">ik</span><span class="d">&gamma;<sup>2</sup></span></span>&nabla;<sub>t</sub>&psi;,
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="v">E</span><sub>t</sub> = &minus;
+    <span class="f"><span class="n">i&omega;&mu;</span><span class="d">&gamma;<sup>2</sup></span></span>
+    (<span class="h">z</span>&times;&nabla;<sub>t</sub>&psi;)
+    <span class="from">needed in Step 5</span>
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Separate x from y</div>
+  <div class="says">Put &psi; = X(x)Y(y) into the wave equation and divide by XY:</div>
+  <div class="eq">
+    <span class="f"><span class="n">X&#8243;</span><span class="d">X</span></span>
+    + <span class="f"><span class="n">Y&#8243;</span><span class="d">Y</span></span>
+    = &minus;&gamma;<sup>2</sup>
+  </div>
+  <div class="says">The first piece depends only on x and the second only on y, yet they add to a constant. The
+    only way is for each to be its own constant:</div>
+  <div class="eq">
+    X&#8243; = &minus;k<sub>x</sub><sup>2</sup>X,
+    &nbsp;&nbsp;
+    Y&#8243; = &minus;k<sub>y</sub><sup>2</sup>Y,
+    &nbsp;&nbsp;
+    k<sub>x</sub><sup>2</sup> + k<sub>y</sub><sup>2</sup> = &gamma;<sup>2</sup>
+  </div>
+
+    <div class="pnum">2</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 1 &mdash; TE in a rectangular waveguide (continued)</div>
+
+<div class="step">Step 3 &nbsp;&mdash;&nbsp; Apply the TE wall condition</div>
+  <div class="says">On the walls x = 0 and x = a the outward normal is &plusmn;<span class="h">x</span>, so
+    &part;&psi;/&part;n there means &part;&psi;/&part;x:</div>
+  <div class="eq">
+    X&prime;(0) = X&prime;(a) = 0
+  </div>
+  <div class="says">X is a sine or a cosine, so X&prime; is the other one. X&prime;(0) = 0 kills the sine
+    (its derivative is a cosine, which is 1 at 0), leaving X = cos(k<sub>x</sub>x). Then
+    X&prime;(a) = &minus;k<sub>x</sub>sin(k<sub>x</sub>a) = 0 forces k<sub>x</sub>a = m&pi;. Identically for
+    y:</div>
+  <div class="eq">
+    <span class="red">&psi;<sub>mn</sub> = H<sub>0</sub>&#8201;cos<span style="font-size:1.05em">(</span><span class="f"><span class="n">m&pi;x</span><span class="d">a</span></span><span style="font-size:1.05em">)</span>cos<span style="font-size:1.05em">(</span><span class="f"><span class="n">n&pi;y</span><span class="d">b</span></span><span style="font-size:1.05em">)</span></span>,
+    &nbsp;&nbsp;
+    <span class="red">&gamma;<sub>mn</sub><sup>2</sup> =
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">m&pi;</span><span class="d">a</span></span><span style="font-size:1.05em">)</span><sup>2</sup> +
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">n&pi;</span><span class="d">b</span></span><span style="font-size:1.05em">)</span><sup>2</sup></span>
+  </div>
+  <div class="note">
+    <b>Watch his slide here.</b> Lec 11 s6 lists the wall conditions as
+    &part;H<sub>z</sub>/&part;x = 0 on y = 0, b and &part;H<sub>z</sub>/&part;y = 0 on x = 0, a.
+    Those two are <b>swapped</b> &mdash; the normal on x = 0, a is <span class="h">x</span>, so it is
+    &part;H<sub>z</sub>/&part;x that vanishes there. His final &psi;<sub>mn</sub> is right, because the
+    cosines are symmetric in the two directions and the slip cancels.
+  </div>
+
+  <div class="note">
+    <b>TE gives cosines, TM gives sines.</b> That one difference is the whole reason the two mode families have
+    different allowed indices and different lowest modes. Keep it straight and Examples 1 and 2 are the same
+    problem.
+  </div>
+
+  
+<div class="step">Step 4 &nbsp;&mdash;&nbsp; Cutoff frequency, and which (m,n) are allowed</div>
+  <div class="says">Solve &gamma;<sup>2</sup> = &mu;&epsilon;&omega;<sup>2</sup> &minus; k<sup>2</sup> for
+    k:</div>
+  <div class="eq">
+    k = <span class="sq">&radic;<span class="rt">&mu;&epsilon;&omega;<sup>2</sup> &minus; &gamma;<sub>mn</sub><sup>2</sup></span></span>
+  </div>
+  <div class="says">For the wave to travel instead of die away, k must be <b>real</b>. That needs
+    &mu;&epsilon;&omega;<sup>2</sup> &ge; &gamma;<sub>mn</sub><sup>2</sup>, so each mode has its own threshold
+    frequency:</div>
+  <div class="eq">
+    <span class="red">&omega;<sub>mn</sub> =
+    <span class="f"><span class="n">&gamma;<sub>mn</sub></span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+    =
+    <span class="f"><span class="n">&pi;</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+    <span class="sq">&radic;<span class="rt"><span class="f"><span class="n">m<sup>2</sup></span><span class="d">a<sup>2</sup></span></span> + <span class="f"><span class="n">n<sup>2</sup></span><span class="d">b<sup>2</sup></span></span></span></span></span>
+    <span class="from">below this the mode does not propagate</span>
+  </div>
+  <div class="says">Which pairs (m,n) are real modes? Only m = n = 0 has to be thrown away, because then
+    &psi; = H<sub>0</sub> is a constant, so &nabla;<sub>t</sub>&psi; = 0 and from Step 1 every transverse
+    field is zero &mdash; nothing is being carried.</div>
+  <div class="eq">
+    m, n = 0, 1, 2&hellip;&nbsp;&nbsp; <b>but not both zero</b>
+  </div>
+  <div class="says">So with a &gt; b the smallest &omega;<sub>mn</sub> is m = 1, n = 0:</div>
+  <div class="eq">
+    <span class="red"><b>TE<sub>10</sub>:</b>&nbsp;&nbsp;
+    &omega;<sub>10</sub> = <span class="f"><span class="n">&pi;</span><span class="d">a<span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span></span>
+    = <span class="f"><span class="n">&pi;</span><span class="d">a</span></span><span class="f"><span class="n">c</span><span class="d">n</span></span>
+    <span class="from">the dominant mode; n = c<span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span> is the index of the filling</span>
+  </div>
+
+    <div class="pnum">3</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 1 (continued)</div>
+
+<div class="step">Step 5 &nbsp;&mdash;&nbsp; Write out the TE<sub>10</sub> fields</div>
+  <div class="says">Put m = 1, n = 0 into Step 3: &psi; = H<sub>0</sub>cos(&pi;x/a), so
+    &nabla;<sub>t</sub>&psi; = &minus;H<sub>0</sub>(&pi;/a)sin(&pi;x/a)&#8201;<span class="h">x</span> and
+    &gamma;<sup>2</sup> = (&pi;/a)<sup>2</sup>. Feed that into the two relations of Step 1:</div>
+
+  <div class="ans">
+    <span class="tag">ANSWER &mdash; TE<sub>10</sub> fields</span>
+    <table style="border-collapse:collapse;font-size:15.5px;margin:8px 0 2px 4px">
+      <tr><td style="padding:4px 14px 4px 0;white-space:nowrap">H<sub>z</sub> =</td>
+          <td style="padding:4px 0">H<sub>0</sub>&#8201;cos(&pi;x/a)</td></tr>
+      <tr><td style="padding:4px 14px 4px 0;white-space:nowrap">H<sub>x</sub> =</td>
+          <td style="padding:4px 0">&minus;&#8201;i&#8201;(ka/&pi;)&#8201;H<sub>0</sub>&#8201;sin(&pi;x/a)</td></tr>
+      <tr><td style="padding:4px 14px 4px 0;white-space:nowrap">E<sub>y</sub> =</td>
+          <td style="padding:4px 0">+&#8201;i&#8201;(&omega;&mu;a/&pi;)&#8201;H<sub>0</sub>&#8201;sin(&pi;x/a)</td></tr>
+      <tr><td style="padding:4px 14px 4px 0;white-space:nowrap"></td>
+          <td style="padding:4px 0">H<sub>y</sub> = E<sub>x</sub> = E<sub>z</sub> = 0</td></tr>
+    </table>
+    <div class="sub">all &times; e<sup>i(kz&minus;&omega;t)</sup>, with k = (&mu;&epsilon;&omega;<sup>2</sup> &minus; &pi;<sup>2</sup>/a<sup>2</sup>)<sup>1/2</sup>.</div>
+  </div>
+
+  <div class="says"><b>Check the walls.</b> On x = 0 and x = a the tangential E is E<sub>y</sub> and
+    E<sub>z</sub>: E<sub>y</sub> carries sin(&pi;x/a) which is zero there, and E<sub>z</sub> = 0 anyway. On
+    y = 0 and y = b the tangential E is E<sub>x</sub> and E<sub>z</sub>, both zero everywhere. And
+    <span class="h">n</span>&middot;<b>H</b> = 0: on the x walls it is H<sub>x</sub> (carries sin, zero), on
+    the y walls it is H<sub>y</sub> = 0.</div>
+  <div class="note">
+    Verified numerically: these fields satisfy both Maxwell curl equations to one part in 10<sup>8</sup>
+    (which is just the finite-difference error of the check itself).
+  </div>
+
+  <div class="endmark">&#9632;&nbsp; END OF EXAMPLE 1 &nbsp;&#9632;</div>
+  <div class="pnum">4</div>
+</div>
+
+<!-- ============ EXAMPLE 2 ============ -->
+<div class="sheet">
+  <div class="qhead">Example 2 &mdash; TM modes in the same rectangular guide</div>
+
+  <div class="stmt">
+    Same guide. Now find the <b>TM</b> modes, their cutoff frequencies and the lowest one.
+    <span style="color:#17788c;font-size:13px">(Lec 11 s10&ndash;11.)</span>
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:16px;margin:8px 0 2px">
+      &psi; = E<sub>z</sub> = E<sub>0</sub>&#8201;sin<span style="font-size:1.05em">(</span><span class="f"><span class="n">m&pi;x</span><span class="d">a</span></span><span style="font-size:1.05em">)</span>sin<span style="font-size:1.05em">(</span><span class="f"><span class="n">n&pi;y</span><span class="d">b</span></span><span style="font-size:1.05em">)</span>,
+      &nbsp;&nbsp; <b>m, n = 1, 2, 3&hellip;</b>
+    </div>
+    <div class="eqc" style="font-size:16px;margin:6px 0 2px">
+      &omega;<sub>mn</sub> =
+      <span class="f"><span class="n">&pi;</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+      <span class="sq">&radic;<span class="rt"><span class="f"><span class="n">m<sup>2</sup></span><span class="d">a<sup>2</sup></span></span> + <span class="f"><span class="n">n<sup>2</sup></span><span class="d">b<sup>2</sup></span></span></span></span>
+      &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+      <b>lowest TM<sub>11</sub>:</b>&nbsp;
+      &omega;<sub>11</sub> =
+      <span class="f"><span class="n">&pi;</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+      <span class="sq">&radic;<span class="rt"><span class="f"><span class="n">1</span><span class="d">a<sup>2</sup></span></span> + <span class="f"><span class="n">1</span><span class="d">b<sup>2</sup></span></span></span></span>
+    </div>
+  </div>
+
+  <div class="startbox">
+    <b>Flow:</b> identical to Example 1 except for <b>one line</b> &mdash; the wall condition. TM has
+    &psi; = 0 instead of &part;&psi;/&part;n = 0, and everything downstream follows from that.
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; The only thing that changes</div>
+  <div class="says">TM means H<sub>z</sub> = 0 and &psi; = E<sub>z</sub>. The wave equation is the same, but
+    E<sub>z</sub> lies <b>in</b> the wall, so it is tangential and must vanish there:</div>
+  <div class="eq">
+    &nabla;<sub>t</sub><sup>2</sup>&psi; + &gamma;<sup>2</sup>&psi; = 0,
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="red">&psi; = 0 on the walls</span>
+    <span class="src">Lec 10, s17</span>
+  </div>
+  <div class="eq">
+    <span class="v">E</span><sub>t</sub> =
+    <span class="f"><span class="n">ik</span><span class="d">&gamma;<sup>2</sup></span></span>&nabla;<sub>t</sub>&psi;,
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="v">H</span><sub>t</sub> =
+    <span class="f"><span class="n">i&omega;&epsilon;</span><span class="d">&gamma;<sup>2</sup></span></span>
+    (<span class="h">z</span>&times;&nabla;<sub>t</sub>&psi;)
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Separate, then apply &psi; = 0</div>
+  <div class="says">The separation is word-for-word Step 2 of Example 1:
+    X&#8243; = &minus;k<sub>x</sub><sup>2</sup>X, Y&#8243; = &minus;k<sub>y</sub><sup>2</sup>Y. Now
+    X(0) = 0 rules out the <b>cosine</b> this time, leaving X = sin(k<sub>x</sub>x), and X(a) = 0 forces
+    k<sub>x</sub>a = m&pi;:</div>
+  <div class="eq">
+    <span class="red">&psi;<sub>mn</sub> = E<sub>0</sub>&#8201;sin<span style="font-size:1.05em">(</span><span class="f"><span class="n">m&pi;x</span><span class="d">a</span></span><span style="font-size:1.05em">)</span>sin<span style="font-size:1.05em">(</span><span class="f"><span class="n">n&pi;y</span><span class="d">b</span></span><span style="font-size:1.05em">)</span></span>,
+    &nbsp;&nbsp;
+    &gamma;<sub>mn</sub><sup>2</sup> =
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">m&pi;</span><span class="d">a</span></span><span style="font-size:1.05em">)</span><sup>2</sup> +
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">n&pi;</span><span class="d">b</span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+  </div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Allowed indices and the lowest mode</div>
+  <div class="says">sin(0) = 0, so m = 0 or n = 0 wipes &psi; out completely. Unlike TE, <b>both</b> indices
+    must start at 1:</div>
+  <div class="eq">
+    m, n = 1, 2, 3&hellip;
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span class="red"><b>TM<sub>11</sub>:</b>&nbsp;
+    &omega;<sub>11</sub> =
+    <span class="f"><span class="n">&pi;</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+    <span class="sq">&radic;<span class="rt"><span class="f"><span class="n">1</span><span class="d">a<sup>2</sup></span></span> + <span class="f"><span class="n">1</span><span class="d">b<sup>2</sup></span></span></span></span></span>
+  </div>
+  <div class="note">
+    <b>The point of the pair.</b> &gamma;<sup>2</sup><sub style="margin-left:-5px">mn</sub> and
+    &omega;<sub>mn</sub> are the <i>same formula</i> for TE and TM. What differs is only which (m,n) survive.
+    TE can use m = 0, TM cannot, so &omega;<sub>TE,lowest</sub> &lt; &omega;<sub>TM,lowest</sub> always &mdash; which is the line he ends on. For
+    a = 2.5 cm, b = 1.2 cm it is 2.31&times; higher.
+  </div>
+
+  <div class="endmark">&#9632;&nbsp; END OF EXAMPLE 2 &nbsp;&#9632;</div>
+  <div class="pnum">5</div>
+</div>
+
+<!-- ============ EXAMPLE 3 ============ -->
+<div class="sheet">
+  <div class="qhead">Example 3 &mdash; Attenuation in a rectangular waveguide</div>
+
+  <div class="stmt">
+    The walls are a good conductor, not a perfect one, so they absorb power. For the <b>TE</b> modes of the
+    rectangular guide work out the two wall integrals, write &minus;dP/dz and &lang;P&rang;, and get the
+    attenuation constant &beta; for <b>TE<sub>10</sub></b>.
+    <span style="color:#17788c;font-size:13px">(Lec 12 s14&ndash;17.)</span>
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:15px;margin:8px 0 2px">
+      &minus;<span class="f"><span class="n">dP</span><span class="d">dz</span></span>
+      = <span class="f"><span class="n">1</span><span class="d">2&sigma;&delta;</span></span>
+      <span class="f"><span class="n">&omega;<sup>2</sup></span><span class="d">&omega;<sub>&lambda;</sub><sup>2</sup></span></span>
+      <span style="font-size:1.4em">{</span>
+      <span class="f"><span class="n">1</span><span class="d">&mu;&epsilon;&omega;<sub>&lambda;</sub><sup>2</sup></span></span>
+      <span style="font-size:1.05em">(</span>1&minus;<span class="f"><span class="n">&omega;<sub>&lambda;</sub><sup>2</sup></span><span class="d">&omega;<sup>2</sup></span></span><span style="font-size:1.05em">)</span>
+      <span style="font-size:1.05em">(</span>H<sub>0</sub><sup>2</sup><span class="f"><span class="n">n<sup>2</sup>&pi;<sup>2</sup></span><span class="d">b</span></span>
+      + H<sub>0</sub><sup>2</sup><span class="f"><span class="n">m<sup>2</sup>&pi;<sup>2</sup></span><span class="d">a</span></span><span style="font-size:1.05em">)</span>
+      + <span class="f"><span class="n">&omega;<sub>&lambda;</sub><sup>2</sup></span><span class="d">&omega;<sup>2</sup></span></span>H<sub>0</sub><sup>2</sup>C(a,b)
+      <span style="font-size:1.4em">}</span>
+    </div>
+    <div class="eqc" style="font-size:16px;margin:10px 0 2px">
+      <b>TE<sub>10</sub>:</b>&nbsp;&nbsp;&beta; =
+      <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">&epsilon;/&mu;</span></span>&nbsp;(1/&sigma;&delta;)&nbsp;(a + 2b&#8201;&omega;<sub>&lambda;</sub><sup>2</sup>/&omega;<sup>2</sup>)</span><span class="d">ab&#8201;(1 &minus; &omega;<sub>&lambda;</sub><sup>2</sup>/&omega;<sup>2</sup>)<sup>1/2</sup></span></span>
+    </div>
+  </div>
+
+  <div class="startbox">
+    <b>Flow:</b> take the general TE loss formula &rarr; it needs two integrals around the rectangle, so do
+    them wall by wall &rarr; divide by the power the guide carries &rarr; put in m = 1, n = 0.
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; What we have to compute</div>
+  <div class="says">The general TE result (this is Jackson 8.59, derived in HW 6):</div>
+  <div class="eq" style="font-size:15px">
+    &minus;<span class="f"><span class="n">dP</span><span class="d">dz</span></span>
+    = <span class="f"><span class="n">1</span><span class="d">2&sigma;&delta;</span></span>
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">&omega;</span><span class="d">&omega;<sub>&lambda;</sub></span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+    &#8750;<sub style="font-size:.6em">C</sub>
+    <span style="font-size:1.1em">[</span>
+    <span class="f"><span class="n">1</span><span class="d">&mu;&epsilon;&omega;<sub>&lambda;</sub><sup>2</sup></span></span>
+    <span style="font-size:1.05em">(</span>1&minus;<span class="f"><span class="n">&omega;<sub>&lambda;</sub><sup>2</sup></span><span class="d">&omega;<sup>2</sup></span></span><span style="font-size:1.05em">)</span>
+    |<span class="h">n</span>&times;&nabla;<sub>t</sub>&psi;|<sup>2</sup>
+    + <span class="f"><span class="n">&omega;<sub>&lambda;</sub><sup>2</sup></span><span class="d">&omega;<sup>2</sup></span></span>|&psi;|<sup>2</sup>
+    <span style="font-size:1.1em">]</span>dl
+    <span class="src">Lec 13, s2</span>
+  </div>
+  <div class="says">So there are exactly <b>two</b> contour integrals to do around the rectangle, using
+    &psi;<sub>mn</sub> = H<sub>0</sub>cos(m&pi;x/a)cos(n&pi;y/b) from Example 1. Also, for this guide</div>
+  <div class="eq">
+    &omega;<sub>&lambda;</sub><sup>2</sup> =
+    <span class="f"><span class="n">&pi;<sup>2</sup></span><span class="d">&mu;&epsilon;</span></span>
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">m<sup>2</sup></span><span class="d">a<sup>2</sup></span></span>
+    + <span class="f"><span class="n">n<sup>2</sup></span><span class="d">b<sup>2</sup></span></span><span style="font-size:1.05em">)</span>
+    <span class="from">= &gamma;<sup>2</sup>/&mu;&epsilon;, from Example 1</span>
+  </div>
+
+    <div class="pnum">6</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 3 &mdash; Attenuation in a rectangular waveguide (continued)</div>
+
+<div class="step">Step 2 &nbsp;&mdash;&nbsp; The first integrand, wall by wall</div>
+  <div class="says">On x = 0 and x = a the normal is <span class="h">n</span> = &plusmn;<span class="h">x</span>.
+    Crossing <span class="h">x</span> into &nabla;<sub>t</sub>&psi; kills the x part and turns the y part into
+    a z vector:</div>
+  <div class="eq">
+    <span class="h">x</span>&times;<span style="font-size:1.1em">(</span><span class="f"><span class="n">&part;&psi;</span><span class="d">&part;x</span></span><span class="h">x</span>
+    + <span class="f"><span class="n">&part;&psi;</span><span class="d">&part;y</span></span><span class="h">y</span><span style="font-size:1.1em">)</span>
+    = <span class="f"><span class="n">&part;&psi;</span><span class="d">&part;y</span></span><span class="h">z</span>
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    |<span class="h">n</span>&times;&nabla;<sub>t</sub>&psi;|<sup>2</sup> =
+    <span style="font-size:1.05em">|</span><span class="f"><span class="n">&part;&psi;</span><span class="d">&part;y</span></span><span style="font-size:1.05em">|</span><sup>2</sup>
+  </div>
+  <div class="says">At x = 0 and x = a the factor cos(m&pi;x/a) is +1 or &plusmn;1, so its square is 1 either
+    way, and</div>
+  <div class="eq">
+    |<span class="h">n</span>&times;&nabla;<sub>t</sub>&psi;|<sup>2</sup> =
+    <span style="font-size:1.1em">(</span>H<sub>0</sub><span class="f"><span class="n">n&pi;</span><span class="d">b</span></span>
+    sin<span class="f"><span class="n">n&pi;y</span><span class="d">b</span></span><span style="font-size:1.1em">)</span><sup>2</sup>
+    <span class="from">on x = 0, a</span>
+  </div>
+  <div class="says">On y = 0 and y = b swap the roles of x and y:</div>
+  <div class="eq">
+    |<span class="h">n</span>&times;&nabla;<sub>t</sub>&psi;|<sup>2</sup> =
+    <span style="font-size:1.1em">(</span>H<sub>0</sub><span class="f"><span class="n">m&pi;</span><span class="d">a</span></span>
+    sin<span class="f"><span class="n">m&pi;x</span><span class="d">a</span></span><span style="font-size:1.1em">)</span><sup>2</sup>
+    <span class="from">on y = 0, b</span>
+  </div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Go around the rectangle</div>
+  <div class="says">Each pair of opposite walls contributes twice the same integral, and
+    &int;<sub>0</sub><sup>b</sup>sin<sup>2</sup>(n&pi;y/b)dy = b/2:</div>
+  <div class="eq">
+    &#8750;|<span class="h">n</span>&times;&nabla;<sub>t</sub>&psi;|<sup>2</sup>dl
+    = 2&#8201;H<sub>0</sub><sup>2</sup><span class="f"><span class="n">n<sup>2</sup>&pi;<sup>2</sup></span><span class="d">b<sup>2</sup></span></span><span class="f"><span class="n">b</span><span class="d">2</span></span>
+    + 2&#8201;H<sub>0</sub><sup>2</sup><span class="f"><span class="n">m<sup>2</sup>&pi;<sup>2</sup></span><span class="d">a<sup>2</sup></span></span><span class="f"><span class="n">a</span><span class="d">2</span></span>
+    = <span class="red">H<sub>0</sub><sup>2</sup><span style="font-size:1.1em">(</span><span class="f"><span class="n">n<sup>2</sup>&pi;<sup>2</sup></span><span class="d">b</span></span>
+    + <span class="f"><span class="n">m<sup>2</sup>&pi;<sup>2</sup></span><span class="d">a</span></span><span style="font-size:1.1em">)</span></span>
+  </div>
+
+  <div class="pnum">7</div>
+</div>
+
+<!-- ============ EX3 part 2 ============ -->
+<div class="sheet">
+  <div class="step">Step 4 &nbsp;&mdash;&nbsp; The second integral, and where the brace comes from</div>
+  <div class="says">Now &#8750;|&psi;|<sup>2</sup>dl. On x = 0 and x = a the cosine in x is &plusmn;1, so
+    |&psi;|<sup>2</sup> = H<sub>0</sub><sup>2</sup>cos<sup>2</sup>(n&pi;y/b) and we need
+    &int;<sub>0</sub><sup>b</sup>cos<sup>2</sup>(n&pi;y/b)dy. <b>This is the one place where n = 0 behaves
+    differently</b>, because cos(0) = 1 does not average to a half:</div>
+  <table style="border-collapse:collapse;font-size:15px;margin:6px 0 8px 26px">
+    <tr><td style="padding:3px 18px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">walls</td>
+        <td style="padding:3px 18px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">n (or m) &gt; 0</td>
+        <td style="padding:3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">n (or m) = 0</td></tr>
+    <tr><td style="padding:3px 18px 3px 0">x = 0 and x = a</td>
+        <td style="padding:3px 18px 3px 0">2 &times; H<sub>0</sub><sup>2</sup>(b/2) = H<sub>0</sub><sup>2</sup>b</td>
+        <td style="padding:3px 0">2 &times; H<sub>0</sub><sup>2</sup>b = 2H<sub>0</sub><sup>2</sup>b</td></tr>
+    <tr><td style="padding:3px 18px 3px 0">y = 0 and y = b</td>
+        <td style="padding:3px 18px 3px 0">2 &times; H<sub>0</sub><sup>2</sup>(a/2) = H<sub>0</sub><sup>2</sup>a</td>
+        <td style="padding:3px 0">2 &times; H<sub>0</sub><sup>2</sup>a = 2H<sub>0</sub><sup>2</sup>a</td></tr>
+  </table>
+  <div class="says">Adding the two rows for each case gives exactly his brace:</div>
+  <div class="eq">
+    &#8750;|&psi;|<sup>2</sup>dl = H<sub>0</sub><sup>2</sup>&#8201;C(a,b),
+    &nbsp;&nbsp;&nbsp;
+    <span class="red">C(a,b) =
+    <span style="font-size:2.2em;vertical-align:-.42em;font-weight:300">{</span></span>
+    <span style="display:inline-block;vertical-align:middle;font-size:14.5px;text-align:left;line-height:1.45">
+      <span class="red">a + b</span>&nbsp;&nbsp;<span style="color:#6b7683">m &gt; 0, n &gt; 0</span><br>
+      <span class="red">2a + b</span>&nbsp;&nbsp;<span style="color:#6b7683">m = 0</span><br>
+      <span class="red">a + 2b</span>&nbsp;&nbsp;<span style="color:#6b7683">n = 0</span>
+    </span>
+  </div>
+  <div class="note">
+    Why the doubling. With n = 0 the x walls see |&psi;|<sup>2</sup> = H<sub>0</sub><sup>2</sup> flat along
+    the whole wall instead of a cos<sup>2</sup> that averages to one half &mdash; so that pair of walls
+    contributes twice as much, and b becomes 2b. Same story for a when m = 0.
+  </div>
+  <div class="says">Putting Steps 3 and 4 into Step 1 gives the boxed &minus;dP/dz on the first page of this
+    example.</div>
+
+  <div class="step">Step 5 &nbsp;&mdash;&nbsp; The power the guide actually carries</div>
+  <div class="says">The general TE power result:</div>
+  <div class="eq" style="font-size:15px">
+    &lang;P&rang; =
+    <span class="f"><span class="n">1</span><span class="d">2<span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">&omega;</span><span class="d">&omega;<sub>&lambda;</sub></span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+    <span style="font-size:1.05em">(</span>1&minus;<span class="f"><span class="n">&omega;<sub>&lambda;</sub><sup>2</sup></span><span class="d">&omega;<sup>2</sup></span></span><span style="font-size:1.05em">)</span><sup>1/2</sup>
+    &mu;&nbsp;&int;&psi;*&psi;&#8201;da
+    <span class="src">Lec 11, s17</span>
+  </div>
+  <div class="says">The area integral of cos<sup>2</sup>cos<sup>2</sup> over the rectangle is a half times a
+    half times ab when both indices are &gt; 0, and one of the halves becomes 1 when an index is zero:</div>
+  <div class="eq">
+    &int;&psi;*&psi;&#8201;da = H<sub>0</sub><sup>2</sup>
+    <span style="font-size:1.8em;vertical-align:-.3em;font-weight:300">{</span>
+    <span style="display:inline-block;vertical-align:middle;font-size:14.5px;text-align:left;line-height:1.45">
+      ab/4&nbsp;&nbsp;<span style="color:#6b7683">m &gt; 0, n &gt; 0</span><br>
+      ab/2&nbsp;&nbsp;<span style="color:#6b7683">m = 0 or n = 0</span>
+    </span>
+    <span class="src">Lec 12, s16</span>
+  </div>
+
+  <div class="pnum">8</div>
+</div>
+
+<!-- ============ EX3 part 3 ============ -->
+<div class="sheet">
+  <div class="step">Step 6 &nbsp;&mdash;&nbsp; Turn loss rate into an attenuation constant</div>
+  <div class="says">If the power falls as P(z) = P<sub>0</sub>e<sup>&minus;2&beta;z</sup>, differentiate:
+    &minus;dP/dz = 2&beta;P, so</div>
+  <div class="eq">
+    &beta; = <span class="f"><span class="n">&minus;dP/dz</span><span class="d">2P</span></span>
+  </div>
+  <div class="says">Set <b>m = 1, n = 0</b> (TE<sub>10</sub>). From Step 3 the first integral is
+    H<sub>0</sub><sup>2</sup>&pi;<sup>2</sup>/a, from Step 4 C = a + 2b, from Step 5
+    &int;&psi;*&psi;&#8201;da = H<sub>0</sub><sup>2</sup>ab/2. Also
+    &omega;<sub>&lambda;</sub><sup>2</sup> = &pi;<sup>2</sup>/(&mu;&epsilon;a<sup>2</sup>), so the first
+    bracket term becomes</div>
+  <div class="eq">
+    <span class="f"><span class="n">1</span><span class="d">&mu;&epsilon;&omega;<sub>&lambda;</sub><sup>2</sup></span></span>
+    &middot; H<sub>0</sub><sup>2</sup><span class="f"><span class="n">&pi;<sup>2</sup></span><span class="d">a</span></span>
+    = <span class="f"><span class="n">a<sup>2</sup></span><span class="d">&pi;<sup>2</sup></span></span>
+    &middot; H<sub>0</sub><sup>2</sup><span class="f"><span class="n">&pi;<sup>2</sup></span><span class="d">a</span></span>
+    = H<sub>0</sub><sup>2</sup>&#8201;a
+    <span class="from">everything cancels except a</span>
+  </div>
+  <div class="says">So, dividing and cancelling the common
+    (&omega;/&omega;<sub>&lambda;</sub>)<sup>2</sup>H<sub>0</sub><sup>2</sup>:</div>
+  <div class="ans">
+    <span class="tag">ANSWER &mdash; &beta; for TE<sub>10</sub></span>
+    <div class="eqc" style="font-size:17px;margin:10px 0 4px">
+      &beta; =
+      <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">&epsilon;/&mu;</span></span>&nbsp;<span class="f" style="font-size:.95em"><span class="n">1</span><span class="d">&sigma;&delta;</span></span>&nbsp;<span style="font-size:1.1em">[</span>a<span style="font-size:1.05em">(</span>1&minus;<span class="f" style="font-size:.95em"><span class="n">&omega;<sub>&lambda;</sub><sup>2</sup></span><span class="d">&omega;<sup>2</sup></span></span><span style="font-size:1.05em">)</span> + <span class="f" style="font-size:.95em"><span class="n">&omega;<sub>&lambda;</sub><sup>2</sup></span><span class="d">&omega;<sup>2</sup></span></span>(a+2b)<span style="font-size:1.1em">]</span></span><span class="d">ab&#8201;<span style="font-size:1.05em">(</span>1&minus;<span class="f" style="font-size:.95em"><span class="n">&omega;<sub>&lambda;</sub><sup>2</sup></span><span class="d">&omega;<sup>2</sup></span></span><span style="font-size:1.05em">)</span><sup>1/2</sup></span></span>
+    </div>
+    <div class="sub">&omega;<sub>&lambda;</sub><sup>2</sup>/&omega;<sup>2</sup> may also be written
+      &pi;<sup>2</sup>/(a<sup>2</sup>&mu;&epsilon;&omega;<sup>2</sup>).</div>
+  </div>
+
+  <div class="step">Step 7 &nbsp;&mdash;&nbsp; Tidy the bracket, and why there is a best frequency</div>
+  <div class="says">Write x = &omega;/&omega;<sub>&lambda;</sub>. The bracket collapses:</div>
+  <div class="eq">
+    a<span style="font-size:1.05em">(</span>1&minus;<span class="f"><span class="n">1</span><span class="d">x<sup>2</sup></span></span><span style="font-size:1.05em">)</span>
+    + <span class="f"><span class="n">1</span><span class="d">x<sup>2</sup></span></span>(a+2b)
+    = a &minus; <span class="f"><span class="n">a</span><span class="d">x<sup>2</sup></span></span>
+    + <span class="f"><span class="n">a</span><span class="d">x<sup>2</sup></span></span>
+    + <span class="f"><span class="n">2b</span><span class="d">x<sup>2</sup></span></span>
+    = <span class="red">a + <span class="f"><span class="n">2b</span><span class="d">x<sup>2</sup></span></span></span>
+    <span class="from">the a/x<sup>2</sup> terms cancel</span>
+  </div>
+  <div class="says">Now the frequency dependence is visible. The skin depth itself depends on &omega;:</div>
+  <div class="eq">
+    &delta; = <span class="sq">&radic;<span class="rt"><span class="f"><span class="n">2</span><span class="d">&mu;<sub>c</sub>&sigma;&omega;</span></span></span></span>
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span class="f"><span class="n">1</span><span class="d">&delta;</span></span> &prop; <span class="sq">&radic;<span class="rt">&omega;</span></span> &prop; <span class="sq">&radic;<span class="rt">x</span></span>
+  </div>
+  <div class="eq">
+    &rArr;&nbsp;&nbsp;
+    &beta; &prop;
+    <span class="f"><span class="n"><span class="sq">&radic;<span class="rt">x</span></span>&#8201;(a + 2b/x<sup>2</sup>)</span><span class="d">(1 &minus; 1/x<sup>2</sup>)<sup>1/2</sup></span></span>
+  </div>
+  <div class="note">
+    Read the two ends. Just above cutoff (x &rarr; 1) the denominator &rarr; 0, so &beta; blows up. Far above
+    cutoff the &radic;x on top wins and &beta; grows again. <b>In between there is a minimum</b> &mdash; that
+    is the dip on his plot. Solving d&beta;/dx = 0 numerically: the minimum sits at
+    <b>&omega;/&omega;<sub>&lambda;</sub> = 1.8824</b> when b/a = 0.1, which is the 1.882 marked on the slide.
+    For a squarer guide it moves right: 2.41 at b/a = 0.5, and 2.96 at b/a = 1.
+  </div>
+
+  <div class="endmark">&#9632;&nbsp; END OF EXAMPLE 3 &nbsp;&#9632;</div>
+  <div class="pnum">9</div>
+</div>
+
+<!-- ============ EXAMPLE 4 ============ -->
+<div class="sheet">
+  <div class="qhead">Example 4 &mdash; Cylindrical resonant cavity</div>
+
+  <div class="stmt">
+    A cylinder of perfect conductor, radius <b>R</b>, length <b>d</b>, filled with &mu;, &epsilon;. Find the
+    <b>TE</b> fields in full, then the TM ones.
+    <span style="color:#17788c;font-size:13px">(Lec 14 s3&ndash;13.)</span>
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER &mdash; TE</span>
+    <div class="eqc" style="font-size:15.5px;margin:8px 0 2px">
+      H<sub>z</sub> = &psi;(x,y)&#8201;sin<span style="font-size:1.05em">(</span><span class="f"><span class="n">p&pi;z</span><span class="d">d</span></span><span style="font-size:1.05em">)</span>,
+      &nbsp;&nbsp;
+      <span class="v">H</span><sub>t</sub> =
+      <span class="f"><span class="n">p&pi;/d</span><span class="d">&gamma;<sup>2</sup></span></span>
+      cos<span style="font-size:1.05em">(</span><span class="f"><span class="n">p&pi;z</span><span class="d">d</span></span><span style="font-size:1.05em">)</span>&nabla;<sub>t</sub>&psi;,
+      &nbsp;&nbsp;
+      <span class="v">E</span><sub>t</sub> = &minus;
+      <span class="f"><span class="n">i&mu;&omega;</span><span class="d">&gamma;<sup>2</sup></span></span>
+      sin<span style="font-size:1.05em">(</span><span class="f"><span class="n">p&pi;z</span><span class="d">d</span></span><span style="font-size:1.05em">)</span>(<span class="h">z</span>&times;&nabla;<sub>t</sub>&psi;)
+    </div>
+    <div class="sub">with &gamma;<sup>2</sup> = &mu;&epsilon;&omega;<sup>2</sup> &minus; (p&pi;/d)<sup>2</sup>,
+      &psi; = H<sub>0</sub>J<sub>m</sub>(&gamma;&rho;)e<sup>&plusmn;im&phi;</sup>, and everything
+      &times; e<sup>&minus;i&omega;t</sup>.</div>
+  </div>
+
+  <div class="startbox">
+    <b>Flow:</b> write the two things that define the problem (Helmholtz plus the wall conditions) &rarr;
+    translate the wall conditions into statements about H<sub>z</sub> and E<sub>z</sub> &rarr; solve for
+    H<sub>z</sub> alone, splitting z off from the cross-section &rarr; then grind the transverse fields out of
+    the Maxwell component equations.
+  </div>
+
+  <div class="step">Step 0 &nbsp;&mdash;&nbsp; Set the problem up</div>
+  <div class="says">Inside the cavity there are no sources, so each field obeys Helmholtz:</div>
+  <div class="eq">
+    &nabla;<sup>2</sup><span class="v">E</span> + &mu;&epsilon;&omega;<sup>2</sup><span class="v">E</span> = 0,
+    &nbsp;&nbsp;&nbsp;
+    &nabla;<sup>2</sup><span class="v">H</span> + &mu;&epsilon;&omega;<sup>2</sup><span class="v">H</span> = 0
+    <span class="from">time dependence e<sup>&minus;i&omega;t</sup></span>
+  </div>
+  <div class="says">The walls are perfect conductor, so on the whole surface S</div>
+  <div class="eq">
+    <span class="v">H</span><sub>&perp;</sub> = 0,
+    &nbsp;&nbsp;&nbsp;
+    <span class="v">E</span><sub>&#8741;</sub> = 0
+    &nbsp;&nbsp;on S,
+    &nbsp;&nbsp;&nbsp;
+    S = <span style="font-size:1.6em;vertical-align:-.25em;font-weight:300">{</span>
+    <span style="display:inline-block;vertical-align:middle;font-size:14.5px;text-align:left;line-height:1.4">
+      &rho; = R&nbsp;&nbsp;<span style="color:#6b7683">the side</span><br>
+      z = 0, d&nbsp;&nbsp;<span style="color:#6b7683">the two caps</span>
+    </span>
+  </div>
+
+    <div class="pnum">10</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 4 &mdash; Cylindrical resonant cavity (continued)</div>
+
+<div class="step">Step 1 &nbsp;&mdash;&nbsp; Translate the wall conditions</div>
+  <div class="says">&ldquo;Tangential E vanishes&rdquo; says different things on the side and on the caps,
+    because what counts as tangential changes. Going through it face by face:</div>
+  <table style="border-collapse:collapse;font-size:15px;margin:6px 0 8px 22px">
+    <tr><td style="padding:3px 16px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">mode</td>
+        <td style="padding:3px 16px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">on &rho; = R</td>
+        <td style="padding:3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">on z = 0, d</td></tr>
+    <tr><td style="padding:4px 16px 4px 0"><b>TM</b> (H<sub>z</sub> = 0)</td>
+        <td style="padding:4px 16px 4px 0">E<sub>z</sub> = 0</td>
+        <td style="padding:4px 0"><b>E</b><sub>t</sub> = 0</td></tr>
+    <tr><td style="padding:4px 16px 4px 0"><b>TE</b> (E<sub>z</sub> = 0)</td>
+        <td style="padding:4px 16px 4px 0">&part;H<sub>z</sub>/&part;n = 0</td>
+        <td style="padding:4px 0">H<sub>z</sub> = 0 &nbsp;and&nbsp; <b>E</b><sub>t</sub> = 0</td></tr>
+  </table>
+  <div class="note">
+    Reading the table. On the side wall E<sub>z</sub> runs <i>along</i> the wall, so it is tangential and must
+    die &mdash; that is the TM line. For TE there is no E<sub>z</sub>, and the condition that survives is the
+    one on H<sub>z</sub>: <span class="h">n</span>&middot;<b>H</b> = 0 on the side forces H<sub>&rho;</sub> = 0,
+    and H<sub>&rho;</sub> &prop; &part;H<sub>z</sub>/&part;&rho;, which is why the TE side condition is a
+    <i>derivative</i>. On the caps, <span class="h">n</span> = <span class="h">z</span>, so H<sub>z</sub> is
+    the normal component &mdash; hence H<sub>z</sub> = 0 there &mdash; while E<sub>x</sub>, E<sub>y</sub> are
+    the tangential ones.
+  </div>
+
+  
+<div class="step">Step 2 &nbsp;&mdash;&nbsp; The six component equations</div>
+  <div class="says">These come straight from splitting the two Maxwell curl equations into a z part and a
+    transverse part. Nothing is assumed about the z dependence &mdash; that is why they work in a cavity and
+    not only in a guide:</div>
+  <table style="border-collapse:collapse;font-size:15px;margin:6px 0 10px 18px">
+    <tr><td style="padding:5px 26px 5px 0">&#9312;&nbsp;
+          <span class="f"><span class="n">&part;<span class="v">E</span><sub>t</sub></span><span class="d">&part;z</span></span>
+          + i&omega;<span class="h">z</span>&times;<span class="v">B</span><sub>t</sub> = &nabla;<sub>t</sub>E<sub>z</sub></td>
+        <td style="padding:5px 0">&#9313;&nbsp;
+          <span class="h">z</span>&middot;(&nabla;<sub>t</sub>&times;<span class="v">E</span><sub>t</sub>) = i&omega;B<sub>z</sub></td></tr>
+    <tr><td style="padding:5px 26px 5px 0">&#9314;&nbsp;
+          <span class="f"><span class="n">&part;<span class="v">B</span><sub>t</sub></span><span class="d">&part;z</span></span>
+          &minus; i&mu;&epsilon;&omega;<span class="h">z</span>&times;<span class="v">E</span><sub>t</sub> = &nabla;<sub>t</sub>B<sub>z</sub></td>
+        <td style="padding:5px 0">&#9315;&nbsp;
+          <span class="h">z</span>&middot;(&nabla;<sub>t</sub>&times;<span class="v">B</span><sub>t</sub>) = &minus;i&mu;&epsilon;&omega;E<sub>z</sub></td></tr>
+    <tr><td style="padding:5px 26px 5px 0">&#9316;&nbsp;
+          &nabla;<sub>t</sub>&middot;<span class="v">E</span><sub>t</sub> = &minus;<span class="f"><span class="n">&part;E<sub>z</sub></span><span class="d">&part;z</span></span></td>
+        <td style="padding:5px 0">&#9317;&nbsp;
+          &nabla;<sub>t</sub>&middot;<span class="v">B</span><sub>t</sub> = &minus;<span class="f"><span class="n">&part;B<sub>z</sub></span><span class="d">&part;z</span></span></td></tr>
+  </table>
+  <div class="says" style="margin-top:-2px">with <b>B</b> = &mu;<b>H</b>.
+    <span class="src" style="margin-left:4px">Lec 14, s5</span></div>
+
+    <div class="pnum">11</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 4 (continued)</div>
+
+<div class="step">Step 3 &nbsp;&mdash;&nbsp; TE: find H<sub>z</sub> first</div>
+  <div class="says">For TE we have E<sub>z</sub> = 0, so H<sub>z</sub> is the only z component left. It obeys
+    Helmholtz, and from Step 1 it vanishes on both caps:</div>
+  <div class="eq">
+    &nabla;<sup>2</sup>H<sub>z</sub> + &omega;<sup>2</sup>&mu;&epsilon;H<sub>z</sub> = 0,
+    &nbsp;&nbsp;&nbsp;
+    H<sub>z</sub> = 0 at z = 0, d
+  </div>
+  <div class="says">Separate the z direction from the cross-section:</div>
+  <div class="eq">
+    H<sub>z</sub> = &psi;(x,y)&#8201;Z(z)&#8201;e<sup>&minus;i&omega;t</sup>
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    &nabla;<sub>t</sub><sup>2</sup>(&psi;Z) +
+    <span class="f"><span class="n">&part;<sup>2</sup></span><span class="d">&part;z<sup>2</sup></span></span>(&psi;Z)
+    + &omega;<sup>2</sup>&mu;&epsilon;(&psi;Z) = 0
+  </div>
+  <div class="says">Divide through by &psi;Z:</div>
+  <div class="eq">
+    <span class="f"><span class="n">1</span><span class="d">&psi;</span></span>&nabla;<sub>t</sub><sup>2</sup>&psi;
+    + <span class="f"><span class="n">1</span><span class="d">Z</span></span><span class="f"><span class="n">&part;<sup>2</sup>Z</span><span class="d">&part;z<sup>2</sup></span></span>
+    + &omega;<sup>2</sup>&mu;&epsilon; = 0,
+    &nbsp;&nbsp;&nbsp;
+    <span class="f"><span class="n">1</span><span class="d">Z</span></span><span class="f"><span class="n">&part;<sup>2</sup>Z</span><span class="d">&part;z<sup>2</sup></span></span> &equiv; &minus;k<sup>2</sup>
+  </div>
+  <div class="says">The middle term depends only on z while the others do not, so it must be a constant; call
+    it &minus;k<sup>2</sup>. Then Z&#8243; = &minus;k<sup>2</sup>Z with Z(0) = Z(d) = 0. The cosine cannot
+    satisfy Z(0) = 0, so</div>
+  <div class="eq">
+    <span class="red">Z = sin<span style="font-size:1.05em">(</span><span class="f"><span class="n">p&pi;z</span><span class="d">d</span></span><span style="font-size:1.05em">)</span></span>,
+    &nbsp;&nbsp;
+    <span class="red">k = <span class="f"><span class="n">p&pi;</span><span class="d">d</span></span></span>,
+    &nbsp;&nbsp;
+    <span class="red">p = 1, 2, 3&hellip;</span>
+    <span class="from">p = 0 would kill H<sub>z</sub> entirely</span>
+  </div>
+
+    
+<div class="step">Step 4 &nbsp;&mdash;&nbsp; TE: the cross-section shape</div>
+  <div class="says">With Z fixed, what is left of Helmholtz is a 2D equation for &psi;:</div>
+  <div class="eq">
+    &nabla;<sub>t</sub><sup>2</sup>&psi; + (&omega;<sup>2</sup>&mu;&epsilon; &minus; k<sup>2</sup>)&psi; = 0,
+    &nbsp;&nbsp;
+    &gamma;<sup>2</sup> &equiv; &omega;<sup>2</sup>&mu;&epsilon; &minus; k<sup>2</sup>,
+    &nbsp;&nbsp;
+    <span class="f"><span class="n">&part;&psi;</span><span class="d">&part;n</span></span> = 0 at &rho; = R
+  </div>
+  <div class="says">In polar coordinates the bounded solutions of this are Bessel functions:</div>
+  <div class="eq">
+    <span class="red">&psi; = H<sub>0</sub>&#8201;J<sub>m</sub>(&gamma;<sub>mn</sub>&rho;)&#8201;e<sup>&plusmn;im&phi;</sup></span>
+    <span class="from">the second kind Y<sub>m</sub> blows up at &rho; = 0, so it is dropped</span>
+  </div>
+  <div class="note">
+    Which &gamma; is allowed is set by the wall and is done in Example 5. Here we only need to know &psi;
+    exists and satisfies &nabla;<sub>t</sub><sup>2</sup>&psi; = &minus;&gamma;<sup>2</sup>&psi;.
+  </div>
+
+  <div class="pnum">12</div>
+</div>
+
+<!-- ============ EX4 part 3 ============ -->
+<div class="sheet">
+  <div class="step">Step 5 &nbsp;&mdash;&nbsp; TE: get <b>H</b><sub>t</sub></div>
+  <div class="says">Take &#9312; and &#9314; and put E<sub>z</sub> = 0 into them:</div>
+  <div class="eq">
+    &#9312;&nbsp;
+    <span class="f"><span class="n">&part;<span class="v">E</span><sub>t</sub></span><span class="d">&part;z</span></span>
+    + i&omega;<span class="h">z</span>&times;<span class="v">B</span><sub>t</sub> = 0
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span class="f"><span class="n">&part;<span class="v">E</span><sub>t</sub></span><span class="d">&part;z</span></span>
+    = &minus;i&omega;&mu;&#8201;<span class="h">z</span>&times;<span class="v">H</span><sub>t</sub>
+    <span class="from">call this (a)</span>
+  </div>
+  <div class="says">Now differentiate &#9314; with respect to z, so that &part;<b>E</b><sub>t</sub>/&part;z
+    appears and (a) can be used:</div>
+  <div class="eq">
+    &mu;<span class="f"><span class="n">&part;<sup>2</sup><span class="v">H</span><sub>t</sub></span><span class="d">&part;z<sup>2</sup></span></span>
+    &minus; i&mu;&epsilon;&omega;<span class="h">z</span>&times;<span class="f"><span class="n">&part;<span class="v">E</span><sub>t</sub></span><span class="d">&part;z</span></span>
+    = &mu;&nabla;<sub>t</sub><span class="f"><span class="n">&part;H<sub>z</sub></span><span class="d">&part;z</span></span>
+  </div>
+  <div class="says">Substitute (a). The double cross product collapses with
+    <span class="h">z</span>&times;(<span class="h">z</span>&times;<b>H</b><sub>t</sub>) =
+    &minus;<b>H</b><sub>t</sub>, and the two i&rsquo;s give i<sup>2</sup> = &minus;1, so the sign flips
+    twice and the term comes out positive:</div>
+  <div class="eq">
+    &mu;<span class="f"><span class="n">&part;<sup>2</sup><span class="v">H</span><sub>t</sub></span><span class="d">&part;z<sup>2</sup></span></span>
+    + &omega;<sup>2</sup>&mu;<sup>2</sup>&epsilon;<span class="v">H</span><sub>t</sub>
+    = &mu;k&#8201;cos(kz)&#8201;&nabla;<sub>t</sub>&psi;
+    <span class="from">since &part;H<sub>z</sub>/&part;z = k&psi;cos(kz)</span>
+  </div>
+  <div class="says">We still need to know how <b>H</b><sub>t</sub> depends on z. Equation &#9317; gives it:
+    &nabla;<sub>t</sub>&middot;<b>H</b><sub>t</sub> = &minus;&part;H<sub>z</sub>/&part;z &prop; cos(kz), so
+    <b>H</b><sub>t</sub> &prop; cos(kz) and therefore
+    &part;<sup>2</sup><b>H</b><sub>t</sub>/&part;z<sup>2</sup> = &minus;k<sup>2</sup><b>H</b><sub>t</sub>.
+    Substituting that:</div>
+  <div class="eq">
+    (&minus;&mu;k<sup>2</sup> + &omega;<sup>2</sup>&mu;<sup>2</sup>&epsilon;)<span class="v">H</span><sub>t</sub>
+    = &mu;k&#8201;cos(kz)&nabla;<sub>t</sub>&psi;
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span class="v">H</span><sub>t</sub> =
+    <span class="f"><span class="n">&mu;k</span><span class="d">&omega;<sup>2</sup>&mu;<sup>2</sup>&epsilon; &minus; &mu;k<sup>2</sup></span></span>
+    cos(kz)&nabla;<sub>t</sub>&psi;
+  </div>
+  <div class="says">The denominator is &mu;(&omega;<sup>2</sup>&mu;&epsilon; &minus; k<sup>2</sup>) =
+    &mu;&gamma;<sup>2</sup>, so the &mu; cancels:</div>
+  <div class="eq">
+    <span class="red"><span class="v">H</span><sub>t</sub> =
+    <span class="f"><span class="n">p&pi;/d</span><span class="d">&gamma;<sup>2</sup></span></span>
+    cos<span style="font-size:1.05em">(</span><span class="f"><span class="n">p&pi;z</span><span class="d">d</span></span><span style="font-size:1.05em">)</span>&nabla;<sub>t</sub>&psi;</span>
+  </div>
+
+  <div class="step">Step 6 &nbsp;&mdash;&nbsp; TE: get <b>E</b><sub>t</sub></div>
+  <div class="says">Put the result straight back into (a):</div>
+  <div class="eq">
+    <span class="f"><span class="n">&part;<span class="v">E</span><sub>t</sub></span><span class="d">&part;z</span></span>
+    = &minus;i&omega;&mu;
+    <span class="f"><span class="n">p&pi;/d</span><span class="d">&gamma;<sup>2</sup></span></span>
+    cos<span style="font-size:1.05em">(</span><span class="f"><span class="n">p&pi;z</span><span class="d">d</span></span><span style="font-size:1.05em">)</span>
+    (<span class="h">z</span>&times;&nabla;<sub>t</sub>&psi;)
+  </div>
+  <div class="says">Integrate in z. The factor (p&pi;/d)cos(p&pi;z/d) is exactly the derivative of
+    sin(p&pi;z/d), so it integrates to sin:</div>
+  <div class="eq">
+    <span class="red"><span class="v">E</span><sub>t</sub> = &minus;
+    <span class="f"><span class="n">i&mu;&omega;</span><span class="d">&gamma;<sup>2</sup></span></span>
+    sin<span style="font-size:1.05em">(</span><span class="f"><span class="n">p&pi;z</span><span class="d">d</span></span><span style="font-size:1.05em">)</span>
+    (<span class="h">z</span>&times;&nabla;<sub>t</sub>&psi;)</span>
+    <span class="from">zero at z = 0 and z = d &#10003;</span>
+  </div>
+  <div class="note">
+    The integration constant is set to zero by the cap condition <b>E</b><sub>t</sub> = 0 at z = 0 &mdash; and
+    once it is zero, the sine makes z = d work for free. Both caps are satisfied by one choice.
+  </div>
+
+  <div class="pnum">13</div>
+</div>
+
+<!-- ============ EX4 part 4 ============ -->
+<div class="sheet">
+  <div class="step">Step 7 &nbsp;&mdash;&nbsp; Collect both families</div>
+  <div class="says">TM runs through the identical machinery with E and H swapped and &psi; = E<sub>z</sub>.
+    The one difference is the cap condition: TM needs <b>E</b><sub>t</sub> = 0 there, not E<sub>z</sub> = 0,
+    and <b>E</b><sub>t</sub> turns out to carry the <i>derivative</i> of the z function &mdash; so TM gets a
+    cosine where TE got a sine.</div>
+
+  <div class="ans">
+    <span class="tag">ANSWER &mdash; TE modes</span>
+    <table style="border-collapse:collapse;font-size:15px;margin:8px 0 2px 4px">
+      <tr><td style="padding:4px 14px 4px 0;white-space:nowrap">H<sub>z</sub> =</td>
+          <td style="padding:4px 0">&psi;(x,y)&#8201;sin(p&pi;z/d)&#8201;e<sup>&minus;i&omega;t</sup></td></tr>
+      <tr><td style="padding:4px 14px 4px 0;white-space:nowrap"><b>H</b><sub>t</sub> =</td>
+          <td style="padding:4px 0">[(p&pi;/d)/&gamma;<sup>2</sup>]&#8201;cos(p&pi;z/d)&#8201;&nabla;<sub>t</sub>&psi;&#8201;e<sup>&minus;i&omega;t</sup></td></tr>
+      <tr><td style="padding:4px 14px 4px 0;white-space:nowrap"><b>E</b><sub>t</sub> =</td>
+          <td style="padding:4px 0">&minus;(i&mu;&omega;/&gamma;<sup>2</sup>)&#8201;sin(p&pi;z/d)&#8201;(<span class="h">z</span>&times;&nabla;<sub>t</sub>&psi;)&#8201;e<sup>&minus;i&omega;t</sup></td></tr>
+    </table>
+  </div>
+
+  <div class="ans" style="margin-top:10px">
+    <span class="tag">ANSWER &mdash; TM modes</span>
+    <table style="border-collapse:collapse;font-size:15px;margin:8px 0 2px 4px">
+      <tr><td style="padding:4px 14px 4px 0;white-space:nowrap">E<sub>z</sub> =</td>
+          <td style="padding:4px 0">&psi;(x,y)&#8201;cos(p&pi;z/d)&#8201;e<sup>&minus;i&omega;t</sup></td></tr>
+      <tr><td style="padding:4px 14px 4px 0;white-space:nowrap"><b>E</b><sub>t</sub> =</td>
+          <td style="padding:4px 0">&minus;[(p&pi;/d)/&gamma;<sup>2</sup>]&#8201;sin(p&pi;z/d)&#8201;&nabla;<sub>t</sub>&psi;&#8201;e<sup>&minus;i&omega;t</sup></td></tr>
+      <tr><td style="padding:4px 14px 4px 0;white-space:nowrap"><b>H</b><sub>t</sub> =</td>
+          <td style="padding:4px 0">(i&epsilon;&omega;/&gamma;<sup>2</sup>)&#8201;cos(p&pi;z/d)&#8201;(<span class="h">z</span>&times;&nabla;<sub>t</sub>&psi;)&#8201;e<sup>&minus;i&omega;t</sup></td></tr>
+    </table>
+    <div class="sub">&gamma;<sup>2</sup> = &mu;&epsilon;&omega;<sup>2</sup> &minus; (p&pi;/d)<sup>2</sup> in
+      both families; TE has p = 1, 2, 3&hellip;, TM has p = 0, 1, 2&hellip;</div>
+  </div>
+
+  <div class="says"><b>The whole example in one table:</b></div>
+  <table style="border-collapse:collapse;font-size:15px;margin:4px 0 8px 22px">
+    <tr><td style="padding:3px 16px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc"></td>
+        <td style="padding:3px 16px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">TE</td>
+        <td style="padding:3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">TM</td></tr>
+    <tr><td style="padding:3px 16px 3px 0">built from</td><td style="padding:3px 16px 3px 0">&psi; = H<sub>z</sub></td><td style="padding:3px 0">&psi; = E<sub>z</sub></td></tr>
+    <tr><td style="padding:3px 16px 3px 0">side wall &rho; = R</td><td style="padding:3px 16px 3px 0">&part;&psi;/&part;n = 0</td><td style="padding:3px 0">&psi; = 0</td></tr>
+    <tr><td style="padding:3px 16px 3px 0">z function of &psi;</td><td style="padding:3px 16px 3px 0">sin(p&pi;z/d)</td><td style="padding:3px 0">cos(p&pi;z/d)</td></tr>
+    <tr><td style="padding:3px 16px 3px 0">allowed p</td><td style="padding:3px 16px 3px 0">1, 2, 3&hellip;</td><td style="padding:3px 0">0, 1, 2&hellip;</td></tr>
+  </table>
+  <div class="note">
+    Same split as the rectangular cavity in HW 6: whichever field sits along z gets the function that does
+    <b>not</b> have to vanish at the caps, and the transverse partner gets its derivative.
+  </div>
+
+  <div class="endmark">&#9632;&nbsp; END OF EXAMPLE 4 &nbsp;&#9632;</div>
+  <div class="pnum">14</div>
+</div>
+
+<!-- ============ EXAMPLE 5 ============ -->
+<div class="sheet">
+  <div class="qhead">Example 5 &mdash; Resonant frequencies of the cylindrical cavity</div>
+
+  <div class="stmt">
+    Same cavity. Apply the side-wall condition to fix &gamma;, write &omega;<sub>mnp</sub> for both families,
+    and find which mode is the fundamental.
+    <span style="color:#17788c;font-size:13px">(Lec 14 s14&ndash;17.)</span>
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:16px;margin:8px 0 2px">
+      &omega;<sub>mnp</sub> =
+      <span class="f"><span class="n">1</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+      <span style="font-size:1.1em">(</span>
+      <span class="f"><span class="n">x<sup>2</sup><sub style="margin-left:-7px">mn</sub></span><span class="d">R<sup>2</sup></span></span>
+      + <span class="f"><span class="n">p<sup>2</sup>&pi;<sup>2</sup></span><span class="d">d<sup>2</sup></span></span>
+      <span style="font-size:1.1em">)</span><sup>1/2</sup>
+      &nbsp;&nbsp;<span style="font-size:.85em">TM, with x<sub>mn</sub> the roots of J<sub>m</sub></span>
+    </div>
+    <div class="eqc" style="font-size:16px;margin:6px 0 2px">
+      &omega;<sub>TM010</sub> =
+      <span class="f"><span class="n">2.405</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span>&#8201;R</span></span>,
+      &nbsp;&nbsp;&nbsp;
+      &omega;<sub>TE111</sub> =
+      <span class="f"><span class="n">1.841</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span>&#8201;R</span></span>
+      <span style="font-size:1.05em">(</span>1 + 2.912<span class="f"><span class="n">R<sup>2</sup></span><span class="d">d<sup>2</sup></span></span><span style="font-size:1.05em">)</span><sup>1/2</sup>
+    </div>
+    <div class="sub">For a long cavity, <b>d &gt; 2.03&#8201;R</b>, TE<sub>111</sub> drops below
+      TM<sub>010</sub> and becomes the fundamental.</div>
+  </div>
+
+  <div class="startbox">
+    <b>Flow:</b> the side wall is the only condition not yet used &mdash; use it to quantise &gamma; &rarr;
+    then &gamma; and k are both fixed, so &omega; is too &rarr; hunt for the smallest one in each family.
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; TM: quantise &gamma; with E<sub>z</sub> = 0 at &rho; = R</div>
+  <div class="says">From Example 4, &psi; = E<sub>0</sub>J<sub>m</sub>(&gamma;&rho;)e<sup>&plusmn;im&phi;</sup>.
+    For TM the side wall demands &psi; = 0 there:</div>
+  <div class="eq">
+    J<sub>m</sub>(&gamma;R) = 0
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    &gamma;R = x<sub>mn</sub>
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span class="red">&gamma;<sub>mn</sub> = <span class="f"><span class="n">x<sub>mn</sub></span><span class="d">R</span></span></span>
+  </div>
+  <div class="says">where x<sub>mn</sub> is the n&#8202;th root of J<sub>m</sub>(x) = 0:</div>
+  <div class="eq">
+    m = 0, 1, 2&hellip;
+    <span class="from">how many times the field wiggles going round in &phi;</span>
+    &nbsp;&nbsp;&nbsp;
+    n = 1, 2, 3&hellip;
+    <span class="from">which root &mdash; how many rings in &rho;</span>
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; TM: the frequency</div>
+  <div class="says">Example 4 defined &gamma;<sup>2</sup> = &mu;&epsilon;&omega;<sup>2</sup> &minus;
+    (p&pi;/d)<sup>2</sup>. Solve for &omega; with both pieces now quantised:</div>
+  <div class="eq">
+    <span class="red">&omega;<sub>mnp</sub> =
+    <span class="f"><span class="n">1</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+    <span style="font-size:1.1em">(</span>
+    <span class="f"><span class="n">x<sup>2</sup><sub style="margin-left:-7px">mn</sub></span><span class="d">R<sup>2</sup></span></span>
+    + <span class="f"><span class="n">p<sup>2</sup>&pi;<sup>2</sup></span><span class="d">d<sup>2</sup></span></span>
+    <span style="font-size:1.1em">)</span><sup>1/2</sup></span>
+  </div>
+  <div class="says">TM allows p = 0 (its z function is a cosine), so the lowest TM mode takes the smallest root
+    of all, x<sub>01</sub> = 2.405, with p = 0:</div>
+  <div class="eq">
+    <span class="red">&omega;<sub>TM010</sub> =
+    <span class="f"><span class="n">2.405</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span>&#8201;R</span></span></span>
+    <span class="from">set by the radius alone &mdash; d does not appear</span>
+  </div>
+
+    <div class="pnum">15</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 5 &mdash; Resonant frequencies (continued)</div>
+
+<div class="step">Step 3 &nbsp;&mdash;&nbsp; TE: the same, with primes</div>
+  <div class="says">For TE the side condition is &part;&psi;/&part;n = 0, i.e. the <i>derivative</i> of the
+    Bessel function vanishes at the wall:</div>
+  <div class="eq">
+    J&prime;<sub>m</sub>(&gamma;R) = 0
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span class="red">&gamma;<sub>mn</sub> = <span class="f"><span class="n">x&prime;<sub>mn</sub></span><span class="d">R</span></span></span>,
+    &nbsp;&nbsp;
+    x&prime;<sub>mn</sub> = n&#8202;th root of J&prime;<sub>m</sub>(x) = 0
+  </div>
+  <div class="says">and the frequency formula is the same with x&prime; in place of x. But <b>TE needs
+    p &ge; 1</b>, because its z function is a sine.</div>
+
+  
+<div class="step">Step 4 &nbsp;&mdash;&nbsp; The lowest TE mode is not the one you expect</div>
+  <div class="says">For TM the smallest root belongs to m = 0. For TE it does <b>not</b>. Comparing the first
+    roots:</div>
+  <table style="border-collapse:collapse;font-size:15px;margin:6px 0 8px 26px">
+    <tr><td style="padding:3px 20px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">m</td>
+        <td style="padding:3px 20px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">x<sub>m1</sub> &nbsp;(J<sub>m</sub> = 0)</td>
+        <td style="padding:3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">x&prime;<sub>m1</sub> &nbsp;(J&prime;<sub>m</sub> = 0)</td></tr>
+    <tr><td style="padding:3px 20px 3px 0">0</td><td style="padding:3px 20px 3px 0"><b>2.405</b> &nbsp;&larr; smallest</td><td style="padding:3px 0">3.832</td></tr>
+    <tr><td style="padding:3px 20px 3px 0">1</td><td style="padding:3px 20px 3px 0">3.832</td><td style="padding:3px 0"><b>1.841</b> &nbsp;&larr; smallest</td></tr>
+    <tr><td style="padding:3px 20px 3px 0">2</td><td style="padding:3px 20px 3px 0">5.136</td><td style="padding:3px 0">3.054</td></tr>
+  </table>
+  <div class="says">So the lowest TE mode is <b>m = 1, n = 1, p = 1</b>:</div>
+  <div class="eq">
+    &omega;<sub>TE111</sub> =
+    <span class="f"><span class="n">1</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+    <span style="font-size:1.1em">(</span>
+    <span class="f"><span class="n">1.841<sup>2</sup></span><span class="d">R<sup>2</sup></span></span>
+    + <span class="f"><span class="n">&pi;<sup>2</sup></span><span class="d">d<sup>2</sup></span></span>
+    <span style="font-size:1.1em">)</span><sup>1/2</sup>
+  </div>
+  <div class="says">Pull 1.841<sup>2</sup>/R<sup>2</sup> out of the bracket. The leftover coefficient is
+    &pi;<sup>2</sup>/1.841<sup>2</sup> = 2.912:</div>
+  <div class="eq">
+    <span class="red">&omega;<sub>TE111</sub> =
+    <span class="f"><span class="n">1.841</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span>&#8201;R</span></span>
+    <span style="font-size:1.1em">(</span>1 + 2.912<span class="f"><span class="n">R<sup>2</sup></span><span class="d">d<sup>2</sup></span></span><span style="font-size:1.1em">)</span><sup>1/2</sup></span>
+  </div>
+
+  <div class="step">Step 5 &nbsp;&mdash;&nbsp; Which one wins</div>
+  <div class="says">TM<sub>010</sub> ignores d; TE<sub>111</sub> falls as d grows. So there is a crossover.
+    Set them equal:</div>
+  <div class="eq">
+    1.841<sup>2</sup><span style="font-size:1.05em">(</span>1 + 2.912<span class="f"><span class="n">R<sup>2</sup></span><span class="d">d<sup>2</sup></span></span><span style="font-size:1.05em">)</span>
+    = 2.405<sup>2</sup>
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span class="f"><span class="n">R<sup>2</sup></span><span class="d">d<sup>2</sup></span></span>
+    = <span class="f"><span class="n">5.784 &minus; 3.389</span><span class="d">9.870</span></span>
+    = 0.2427
+  </div>
+  <div class="eq">
+    &rArr;&nbsp;
+    <span class="f"><span class="n">d</span><span class="d">R</span></span> = <span class="f"><span class="n">1</span><span class="d"><span class="sq">&radic;<span class="rt">0.2427</span></span></span></span> = 2.03
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span class="red">when d &gt; 2.03&#8201;R,&nbsp; &omega;<sub>TE111</sub> &lt; &omega;<sub>TM010</sub></span>
+  </div>
+  <div class="note">
+    In words: a <b>squat</b> cavity (short and wide) resonates first in TM<sub>010</sub>; a <b>long</b> one
+    resonates first in TE<sub>111</sub>. Checked numerically, the crossover is at d = 2.0308&#8201;R.
+  </div>
+
+  <div class="endmark">&#9632;&nbsp; END OF EXAMPLE 5 &nbsp;&#9632;</div>
+  <div class="pnum">16</div>
+</div>
+
+<!-- ============ EXAMPLE 6 ============ -->
+<div class="sheet">
+  <div class="qhead">Example 6 &mdash; Stored energy &lang;U&rang; in a cavity</div>
+
+  <div class="stmt">
+    Work out the time-averaged energy stored in a cavity mode, for TM and then TE.
+    <span style="color:#17788c;font-size:13px">(Lec 15 s9&ndash;11. This is the denominator of Q, so it is
+    needed before any Q calculation.)</span>
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:17px;margin:10px 0 4px">
+      &lang;U&rang; =
+      <span class="f"><span class="n">d</span><span class="d">4</span></span>
+      <span style="font-size:1.6em;vertical-align:-.2em;font-weight:300">{</span><span style="font-size:.95em">&epsilon; &nbsp;TM<br>&mu; &nbsp;TE</span><span style="font-size:1.6em;vertical-align:-.2em;font-weight:300">}</span>
+      <span style="font-size:1.15em">[</span>1 +
+      <span style="font-size:1.05em">(</span><span class="f"><span class="n">p&pi;</span><span class="d">d&gamma;</span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+      <span style="font-size:1.15em">]</span>
+      &int;<sub style="font-size:.6em">A</sub>|&psi;|<sup>2</sup>da
+    </div>
+  </div>
+
+  <div class="startbox">
+    <b>Flow:</b> in a cavity the electric and magnetic energies trade places every quarter cycle, so the total
+    is just twice the magnetic part &rarr; for TM the magnetic field is purely transverse, which makes that
+    the easy one to integrate &rarr; the z integral gives d/2 &rarr; Green&rsquo;s identity converts
+    &int;|&nabla;<sub>t</sub>&psi;|<sup>2</sup> into &int;|&psi;|<sup>2</sup>.
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; Why &lang;U&rang; is twice the magnetic energy</div>
+  <div class="says">Look at the TM fields from Example 4: <b>E</b> carries sin(p&pi;z/d) or cos, with no i,
+    while <b>H</b><sub>t</sub> carries an explicit <b>i</b>. An i is a quarter-cycle delay, so when E is at
+    its peak H is zero and the other way round. The total energy therefore never changes &mdash; it just
+    sloshes &mdash; and equals the peak of either one:</div>
+  <div class="eq">
+    U = &int;&mu;|<span class="v">H</span><sub>t</sub>|<sup>2</sup>&#8201;da&#8201;dz
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    &lang;U&rang; = &int;<span class="f"><span class="n">1</span><span class="d">2</span></span>&mu;|<span class="v">H</span><sub>t</sub>|<sup>2</sup>&#8201;da&#8201;dz
+    <span class="src">Lec 15, s9</span>
+  </div>
+  <div class="says">For TM, H<sub>z</sub> = 0, so <b>H</b><sub>t</sub> is the whole magnetic field &mdash;
+    nothing is left out.</div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Square the field</div>
+  <div class="says">From Example 4,
+    <b>H</b><sub>t</sub> = (i&epsilon;&omega;/&gamma;<sup>2</sup>)cos(p&pi;z/d)(<span class="h">z</span>&times;&nabla;<sub>t</sub>&psi;).
+    Crossing with a unit vector does not change length, so
+    |<span class="h">z</span>&times;&nabla;<sub>t</sub>&psi;| = |&nabla;<sub>t</sub>&psi;|:</div>
+  <div class="eq">
+    |<span class="v">H</span><sub>t</sub>|<sup>2</sup> =
+    <span class="f"><span class="n">&epsilon;<sup>2</sup>&omega;<sup>2</sup></span><span class="d">&gamma;<sup>4</sup></span></span>
+    cos<sup>2</sup><span style="font-size:1.05em">(</span><span class="f"><span class="n">p&pi;z</span><span class="d">d</span></span><span style="font-size:1.05em">)</span>
+    |&nabla;<sub>t</sub>&psi;|<sup>2</sup>
+  </div>
+
+  <div class="pnum">17</div>
+</div>
+
+<!-- ============ EX6 part 2 ============ -->
+<div class="sheet">
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Do the z integral</div>
+  <div class="says">Only the cosine depends on z, and
+    &int;<sub>0</sub><sup>d</sup>cos<sup>2</sup>(p&pi;z/d)dz = d/2 for p &gt; 0:</div>
+  <div class="eq">
+    &lang;U&rang; =
+    <span class="f"><span class="n">1</span><span class="d">2</span></span>
+    <span class="f"><span class="n">&mu;&epsilon;<sup>2</sup>&omega;<sup>2</sup></span><span class="d">&gamma;<sup>4</sup></span></span>
+    <span class="f"><span class="n">d</span><span class="d">2</span></span>
+    &int;<sub style="font-size:.6em">A</sub>|&nabla;<sub>t</sub>&psi;|<sup>2</sup>da
+    =
+    <span class="f"><span class="n">d</span><span class="d">4</span></span>
+    <span class="f"><span class="n">&mu;&epsilon;<sup>2</sup>&omega;<sup>2</sup></span><span class="d">&gamma;<sup>4</sup></span></span>
+    &int;<sub style="font-size:.6em">A</sub>|&nabla;<sub>t</sub>&psi;|<sup>2</sup>da
+  </div>
+
+  <div class="step">Step 4 &nbsp;&mdash;&nbsp; Trade &int;|&nabla;<sub>t</sub>&psi;|<sup>2</sup> for &int;|&psi;|<sup>2</sup></div>
+  <div class="says">Start from the product rule
+    &nabla;<sub>t</sub>&middot;(&psi;*&nabla;<sub>t</sub>&psi;) =
+    |&nabla;<sub>t</sub>&psi;|<sup>2</sup> + &psi;*&nabla;<sub>t</sub><sup>2</sup>&psi;, and integrate it over
+    the cross-section. The divergence theorem turns the left side into a boundary loop:</div>
+  <div class="eq">
+    &int;<sub style="font-size:.6em">A</sub>|&nabla;<sub>t</sub>&psi;|<sup>2</sup>da
+    = &#8750;<sub style="font-size:.6em">C</sub>&psi;*<span class="f"><span class="n">&part;&psi;</span><span class="d">&part;n</span></span>dl
+    &minus; &int;<sub style="font-size:.6em">A</sub>&psi;*&nabla;<sub>t</sub><sup>2</sup>&psi;&#8201;da
+    <span class="from">Green&rsquo;s first identity</span>
+  </div>
+  <div class="says">The loop term is <b>zero either way</b>: for TM &psi; = 0 on the wall, and for TE
+    &part;&psi;/&part;n = 0. And &nabla;<sub>t</sub><sup>2</sup>&psi; = &minus;&gamma;<sup>2</sup>&psi; from
+    the wave equation, so the remaining integral flips sign:</div>
+  <div class="eq">
+    <span class="red">&int;<sub style="font-size:.6em">A</sub>|&nabla;<sub>t</sub>&psi;|<sup>2</sup>da
+    = &gamma;<sup>2</sup>&int;<sub style="font-size:.6em">A</sub>|&psi;|<sup>2</sup>da</span>
+  </div>
+  <div class="eq">
+    &rArr;&nbsp;
+    &lang;U&rang; =
+    <span class="f"><span class="n">d</span><span class="d">4</span></span>
+    <span class="f"><span class="n">&mu;&epsilon;<sup>2</sup>&omega;<sup>2</sup></span><span class="d">&gamma;<sup>2</sup></span></span>
+    &int;<sub style="font-size:.6em">A</sub>|&psi;|<sup>2</sup>da
+    <span class="from">one &gamma;<sup>2</sup> cancelled</span>
+  </div>
+
+  <div class="step">Step 5 &nbsp;&mdash;&nbsp; Replace &mu;&epsilon;&omega;<sup>2</sup></div>
+  <div class="says">From Example 4, &mu;&epsilon;&omega;<sup>2</sup> = &gamma;<sup>2</sup> + k<sup>2</sup> with
+    k = p&pi;/d. Substituting kills both &omega; and &mu;:</div>
+  <div class="eq">
+    &lang;U&rang; =
+    <span class="f"><span class="n">d</span><span class="d">4</span></span>&epsilon;
+    <span class="f"><span class="n">&gamma;<sup>2</sup> + k<sup>2</sup></span><span class="d">&gamma;<sup>2</sup></span></span>
+    &int;<sub style="font-size:.6em">A</sub>|&psi;|<sup>2</sup>da
+    =
+    <span class="f"><span class="n">d</span><span class="d">4</span></span>&epsilon;
+    <span style="font-size:1.15em">[</span>1 +
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">p&pi;</span><span class="d">d&gamma;</span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+    <span style="font-size:1.15em">]</span>
+    &int;<sub style="font-size:.6em">A</sub>|&psi;|<sup>2</sup>da
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER &mdash; Example 6</span>
+    <div class="eqc" style="font-size:16px;margin:10px 0 2px">
+      <b>TM:</b>&nbsp;&lang;U&rang; =
+      <span class="f"><span class="n">d</span><span class="d">4</span></span>&epsilon;
+      <span style="font-size:1.15em">[</span>1 + <span style="font-size:1.05em">(</span><span class="f"><span class="n">p&pi;</span><span class="d">d&gamma;</span></span><span style="font-size:1.05em">)</span><sup>2</sup><span style="font-size:1.15em">]</span>
+      &int;<sub style="font-size:.6em">A</sub>|&psi;|<sup>2</sup>da
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <b>TE:</b>&nbsp;&lang;U&rang; =
+      <span class="f"><span class="n">d</span><span class="d">4</span></span>&mu;
+      <span style="font-size:1.15em">[</span>1 + <span style="font-size:1.05em">(</span><span class="f"><span class="n">p&pi;</span><span class="d">d&gamma;</span></span><span style="font-size:1.05em">)</span><sup>2</sup><span style="font-size:1.15em">]</span>
+      &int;<sub style="font-size:.6em">A</sub>|&psi;|<sup>2</sup>da
+    </div>
+    <div class="sub">
+      TE is the mirror image: there E<sub>t</sub> is the one with the i, so the roles of &epsilon; and &mu;
+      swap. The bracket is identical.
+    </div>
+  </div>
+
+  <div class="note">
+    Checked by brute force on a rectangular TM<sub>112</sub> cavity: both the Green&rsquo;s identity step and
+    the final formula agree with direct numerical integration to 10<sup>&minus;16</sup>.
+  </div>
+
+  <div class="endmark">&#9632;&nbsp; END OF EXAMPLE 6 &nbsp;&#9632;</div>
+  <div class="pnum">18</div>
+</div>
+
+<!-- ============ EXAMPLE 7 ============ -->
+<div class="sheet">
+  <div class="qhead">Example 7 &mdash; Equations for H<sub>z</sub> and E<sub>z</sub> in a fibre</div>
+
+  <div class="stmt">
+    A dielectric guide where the index <b>varies across the cross-section</b>, n = n(x,y), with no metal walls.
+    Derive the equations E<sub>z</sub> and H<sub>z</sub> obey, and say what changes compared with a hollow
+    metal guide. <span style="color:#17788c;font-size:13px">(Lec 17 s12&ndash;15.)</span>
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:15px;margin:8px 0 2px">
+      &nabla;<sub>t</sub><sup>2</sup>E<sub>z</sub> + &gamma;<sup>2</sup>E<sub>z</sub>
+      &minus; <span style="font-size:1.05em">(</span><span class="f"><span class="n">k</span><span class="d">&gamma;n</span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+      (&nabla;<sub>t</sub>n<sup>2</sup>)&middot;&nabla;<sub>t</sub>E<sub>z</sub>
+      =
+      <span class="f"><span class="n">&omega;k&mu;<sub>0</sub></span><span class="d">&gamma;<sup>2</sup>n<sup>2</sup></span></span>
+      <span class="h">z</span>&middot;[&nabla;<sub>t</sub>n<sup>2</sup> &times; &nabla;<sub>t</sub>H<sub>z</sub>]
+    </div>
+    <div class="eqc" style="font-size:15px;margin:6px 0 2px">
+      &nabla;<sub>t</sub><sup>2</sup>H<sub>z</sub> + &gamma;<sup>2</sup>H<sub>z</sub>
+      &minus; <span style="font-size:1.05em">(</span><span class="f"><span class="n">&omega;</span><span class="d">&gamma;c</span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+      (&nabla;<sub>t</sub>n<sup>2</sup>)&middot;&nabla;<sub>t</sub>H<sub>z</sub>
+      = &minus;
+      <span class="f"><span class="n">&omega;k&epsilon;<sub>0</sub></span><span class="d">&gamma;<sup>2</sup></span></span>
+      <span class="h">z</span>&middot;[&nabla;<sub>t</sub>n<sup>2</sup> &times; &nabla;<sub>t</sub>E<sub>z</sub>]
+    </div>
+    <div class="sub">
+      &gamma;<sup>2</sup> = n<sup>2</sup>&omega;<sup>2</sup>/c<sup>2</sup> &minus; k<sup>2</sup>. These are
+      <b>not</b> Laplace equations any more, and the two of them are <b>coupled</b> &mdash; so the modes are
+      <b>hybrid</b>, with E<sub>z</sub> &ne; 0 and H<sub>z</sub> &ne; 0 together.
+    </div>
+  </div>
+
+  <div class="startbox">
+    <b>Flow:</b> the one new fact is that &nabla;&middot;<b>E</b> is no longer zero when n varies &rarr; that
+    leaves an extra term on the right of the wave equation &rarr; take its z component, feed in the usual
+    transverse-field relation, and the extra term turns into the coupling.
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; The one thing that is different</div>
+  <div class="says">There is no free charge, so &nabla;&middot;<b>D</b> = 0, i.e.
+    &nabla;&middot;(&epsilon;<sub>0</sub>n<sup>2</sup><b>E</b>) = 0. Expand with the product rule:</div>
+  <div class="eq">
+    n<sup>2</sup>&nabla;&middot;<span class="v">E</span> + (&nabla;n<sup>2</sup>)&middot;<span class="v">E</span> = 0
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span class="red">&nabla;&middot;<span class="v">E</span> = &minus;
+    <span class="f"><span class="n">1</span><span class="d">n<sup>2</sup></span></span>
+    (&nabla;n<sup>2</sup>)&middot;<span class="v">E</span></span>
+  </div>
+  <div class="note">
+    In a hollow metal guide n is constant, &nabla;n<sup>2</sup> = 0, and this is just
+    &nabla;&middot;<b>E</b> = 0. Everything that follows is the price of letting n vary.
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; The wave equation picks up a right-hand side</div>
+  <div class="says">Take the curl of &nabla;&times;<b>E</b> = i&omega;&mu;<sub>0</sub><b>H</b> and use the
+    vector identity &nabla;&times;(&nabla;&times;<b>E</b>) = &nabla;(&nabla;&middot;<b>E</b>) &minus;
+    &nabla;<sup>2</sup><b>E</b>, together with
+    &nabla;&times;<b>H</b> = &minus;i&omega;&epsilon;<sub>0</sub>n<sup>2</sup><b>E</b>:</div>
+  <div class="eq">
+    &nabla;<sup>2</sup><span class="v">E</span> +
+    <span class="f"><span class="n">n<sup>2</sup>&omega;<sup>2</sup></span><span class="d">c<sup>2</sup></span></span><span class="v">E</span>
+    = &nabla;(&nabla;&middot;<span class="v">E</span>)
+    = &minus;&nabla;<span style="font-size:1.1em">(</span><span class="f"><span class="n">1</span><span class="d">n<sup>2</sup></span></span>(&nabla;n<sup>2</sup>)&middot;<span class="v">E</span><span style="font-size:1.1em">)</span>
+  </div>
+  <div class="says">Take the z component and write everything as e<sup>ikz&minus;i&omega;t</sup>:</div>
+  <div class="eq">
+    &nabla;<sup>2</sup>E<sub>z</sub> +
+    <span class="f"><span class="n">n<sup>2</sup>&omega;<sup>2</sup></span><span class="d">c<sup>2</sup></span></span>E<sub>z</sub>
+    = &minus;<span style="font-size:1.1em">[</span>&nabla;<span style="font-size:1.1em">(</span><span class="f"><span class="n">1</span><span class="d">n<sup>2</sup></span></span>(&nabla;n<sup>2</sup>)&middot;<span class="v">E</span><span style="font-size:1.1em">)</span><span style="font-size:1.1em">]</span>&middot;<span class="h">z</span>
+  </div>
+
+    <div class="pnum">19</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 7 &mdash; Equations for H<sub>z</sub> and E<sub>z</sub> (continued)</div>
+
+<div class="step">Step 3 &nbsp;&mdash;&nbsp; Tidy the left side</div>
+  <div class="says">Split &nabla;<sup>2</sup> = &nabla;<sub>t</sub><sup>2</sup> +
+    &part;<sup>2</sup>/&part;z<sup>2</sup>, and the z derivative brings down (ik)<sup>2</sup> =
+    &minus;k<sup>2</sup>:</div>
+  <div class="eq">
+    LHS = &nabla;<sub>t</sub><sup>2</sup>E<sub>z</sub> &minus; k<sup>2</sup>E<sub>z</sub>
+    + <span class="f"><span class="n">n<sup>2</sup>&omega;<sup>2</sup></span><span class="d">c<sup>2</sup></span></span>E<sub>z</sub>
+    = &nabla;<sub>t</sub><sup>2</sup>E<sub>z</sub> + &gamma;<sup>2</sup>E<sub>z</sub>,
+    &nbsp;&nbsp;
+    &gamma;<sup>2</sup> &equiv; <span class="f"><span class="n">n<sup>2</sup>&omega;<sup>2</sup></span><span class="d">c<sup>2</sup></span></span> &minus; k<sup>2</sup>
+  </div>
+
+  <div class="step">Step 4 &nbsp;&mdash;&nbsp; Tidy the right side</div>
+  <div class="says">Assume the index does not change along the fibre, &part;n<sup>2</sup>/&part;z = 0, so
+    &nabla;n<sup>2</sup> = &nabla;<sub>t</sub>n<sup>2</sup>. Then the outer &nabla; dotted with
+    <span class="h">z</span> is just &part;/&part;z, and it acts only on <b>E</b>:</div>
+  <div class="eq">
+    RHS = &minus;<span class="f"><span class="n">&part;</span><span class="d">&part;z</span></span>
+    <span style="font-size:1.1em">(</span><span class="f"><span class="n">1</span><span class="d">n<sup>2</sup></span></span>&nabla;<sub>t</sub>n<sup>2</sup>&middot;<span class="v">E</span><span style="font-size:1.1em">)</span>
+    = &minus;<span class="f"><span class="n">1</span><span class="d">n<sup>2</sup></span></span>&nabla;<sub>t</sub>n<sup>2</sup>&middot;
+    <span class="f"><span class="n">&part;<span class="v">E</span></span><span class="d">&part;z</span></span>
+    = &minus;<span class="f"><span class="n">ik</span><span class="d">n<sup>2</sup></span></span>
+    &nabla;<sub>t</sub>n<sup>2</sup>&middot;<span class="v">E</span><sub>t</sub>
+  </div>
+  <div class="says">(only <b>E</b><sub>t</sub> survives, because &nabla;<sub>t</sub>n<sup>2</sup> has no z
+    component to dot with E<sub>z</sub>).</div>
+
+  <div class="pnum">20</div>
+</div>
+
+<!-- ============ EX7 part 2 ============ -->
+<div class="sheet">
+  <div class="step">Step 5 &nbsp;&mdash;&nbsp; Put in <b>E</b><sub>t</sub>, and the coupling appears</div>
+  <div class="says">The usual waveguide relation still holds here &mdash; it came from Maxwell, not from the
+    walls:</div>
+  <div class="eq">
+    <span class="v">E</span><sub>t</sub> =
+    <span class="f"><span class="n">i</span><span class="d">&gamma;<sup>2</sup></span></span>
+    [&#8201;k&nabla;<sub>t</sub>E<sub>z</sub> &minus; &omega;&mu;<sub>0</sub><span class="h">z</span>&times;&nabla;<sub>t</sub>H<sub>z</sub>&#8201;]
+    <span class="src">Lec 10, s5&ndash;7</span>
+  </div>
+  <div class="says">Substitute into Step 4. The two i&rsquo;s multiply to &minus;1, which cancels the minus
+    sign in front:</div>
+  <div class="eq">
+    RHS =
+    <span class="f"><span class="n">k</span><span class="d">&gamma;<sup>2</sup>n<sup>2</sup></span></span>
+    &nabla;<sub>t</sub>n<sup>2</sup>&middot;[&#8201;k&nabla;<sub>t</sub>E<sub>z</sub> &minus; &omega;&mu;<sub>0</sub><span class="h">z</span>&times;&nabla;<sub>t</sub>H<sub>z</sub>&#8201;]
+  </div>
+  <div class="says">Split the dot product into its two pieces:</div>
+  <div class="eq">
+    =
+    <span class="f"><span class="n">k<sup>2</sup></span><span class="d">&gamma;<sup>2</sup>n<sup>2</sup></span></span>
+    &nabla;<sub>t</sub>n<sup>2</sup>&middot;&nabla;<sub>t</sub>E<sub>z</sub>
+    &minus;
+    <span class="f"><span class="n">&omega;&mu;<sub>0</sub>k</span><span class="d">&gamma;<sup>2</sup>n<sup>2</sup></span></span>
+    &nabla;<sub>t</sub>n<sup>2</sup>&middot;(<span class="h">z</span>&times;&nabla;<sub>t</sub>H<sub>z</sub>)
+  </div>
+  <div class="says">Use the rule <b>A</b>&middot;(<b>B</b>&times;<b>C</b>) =
+    <b>C</b>&middot;(<b>A</b>&times;<b>B</b>) to rotate the second triple product so that
+    <span class="h">z</span> sits in front:</div>
+  <div class="eq">
+    &nabla;<sub>t</sub>n<sup>2</sup>&middot;(<span class="h">z</span>&times;&nabla;<sub>t</sub>H<sub>z</sub>)
+    = &minus;<span class="h">z</span>&middot;(&nabla;<sub>t</sub>n<sup>2</sup>&times;&nabla;<sub>t</sub>H<sub>z</sub>)
+  </div>
+  <div class="eq">
+    &rArr;&nbsp; RHS =
+    <span class="f"><span class="n">k<sup>2</sup></span><span class="d">&gamma;<sup>2</sup>n<sup>2</sup></span></span>
+    &nabla;<sub>t</sub>n<sup>2</sup>&middot;&nabla;<sub>t</sub>E<sub>z</sub>
+    +
+    <span class="f"><span class="n">&omega;&mu;<sub>0</sub>k</span><span class="d">&gamma;<sup>2</sup>n<sup>2</sup></span></span>
+    <span class="h">z</span>&middot;(&nabla;<sub>t</sub>n<sup>2</sup>&times;&nabla;<sub>t</sub>H<sub>z</sub>)
+  </div>
+  <div class="says">Move the first piece to the left (it only involves E<sub>z</sub>) and note
+    k<sup>2</sup>/(&gamma;<sup>2</sup>n<sup>2</sup>) = (k/&gamma;n)<sup>2</sup>:</div>
+
+  <div class="ans">
+    <span class="tag">ANSWER &mdash; Example 7</span>
+    <div class="eqc" style="font-size:15px;margin:10px 0 2px">
+      &nabla;<sub>t</sub><sup>2</sup>E<sub>z</sub> + &gamma;<sup>2</sup>E<sub>z</sub>
+      &minus; <span style="font-size:1.05em">(</span><span class="f"><span class="n">k</span><span class="d">&gamma;n</span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+      (&nabla;<sub>t</sub>n<sup>2</sup>)&middot;&nabla;<sub>t</sub>E<sub>z</sub>
+      =
+      <span class="f"><span class="n">&omega;k&mu;<sub>0</sub></span><span class="d">&gamma;<sup>2</sup>n<sup>2</sup></span></span>
+      <span class="h">z</span>&middot;[&nabla;<sub>t</sub>n<sup>2</sup> &times; &nabla;<sub>t</sub>H<sub>z</sub>]
+    </div>
+    <div class="eqc" style="font-size:15px;margin:6px 0 2px">
+      &nabla;<sub>t</sub><sup>2</sup>H<sub>z</sub> + &gamma;<sup>2</sup>H<sub>z</sub>
+      &minus; <span style="font-size:1.05em">(</span><span class="f"><span class="n">&omega;</span><span class="d">&gamma;c</span></span><span style="font-size:1.05em">)</span><sup>2</sup>
+      (&nabla;<sub>t</sub>n<sup>2</sup>)&middot;&nabla;<sub>t</sub>H<sub>z</sub>
+      = &minus;
+      <span class="f"><span class="n">&omega;k&epsilon;<sub>0</sub></span><span class="d">&gamma;<sup>2</sup></span></span>
+      <span class="h">z</span>&middot;[&nabla;<sub>t</sub>n<sup>2</sup> &times; &nabla;<sub>t</sub>E<sub>z</sub>]
+    </div>
+    <div class="sub">The H<sub>z</sub> equation comes out of the identical argument started from
+      &nabla;&times;<b>H</b> instead of &nabla;&times;<b>E</b>.</div>
+  </div>
+
+  <div class="step">Step 6 &nbsp;&mdash;&nbsp; What this costs us</div>
+  <table style="border-collapse:collapse;font-size:15px;margin:6px 0 8px 22px">
+    <tr><td style="padding:3px 16px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc"></td>
+        <td style="padding:3px 16px 3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">hollow metal guide</td>
+        <td style="padding:3px 0;font-weight:700;border-bottom:1.5px solid #b9cbdc">fibre, n = n(x,y)</td></tr>
+    <tr><td style="padding:4px 16px 4px 0">equation type</td><td style="padding:4px 16px 4px 0">plain 2D Helmholtz</td><td style="padding:4px 0">extra gradient term</td></tr>
+    <tr><td style="padding:4px 16px 4px 0">E<sub>z</sub> and H<sub>z</sub></td><td style="padding:4px 16px 4px 0">independent</td><td style="padding:4px 0">coupled</td></tr>
+    <tr><td style="padding:4px 16px 4px 0">modes</td><td style="padding:4px 16px 4px 0">pure TE or pure TM</td><td style="padding:4px 0"><b>hybrid</b>: both non-zero</td></tr>
+  </table>
+  <div class="says">The coupling switches off exactly when the right-hand cross product vanishes. For a fibre
+    with n = n(&rho;), &nabla;<sub>t</sub>n<sup>2</sup> points along
+    <span class="h">&rho;</span>; if the mode also has no &phi; dependence, &nabla;<sub>t</sub>H<sub>z</sub>
+    points along <span class="h">&rho;</span> too, the cross product of two parallel vectors is zero, and the
+    equations decouple again.</div>
+  <div class="eq">
+    <span class="red">pure TE / TM only when &psi; = &psi;(&rho;), i.e. azimuthal index m = 0</span>
+  </div>
+
+  <div class="endmark">&#9632;&nbsp; END OF EXAMPLE 7 &nbsp;&#9632;</div>
+  <div class="pnum">21</div>
+</div>
+
+<!-- ============ EXAMPLE 8 ============ -->
+<div class="sheet">
+  <div class="qhead">Example 8 &mdash; Modes in a step-index circular fibre</div>
+
+  <div class="stmt">
+    A fibre with a core of index n<sub>1</sub> for &rho; &lt; a and cladding n<sub>2</sub> for &rho; &gt; a.
+    Find the mode shapes, the condition that picks the allowed modes, and the lowest cutoff frequency.
+    <span style="color:#17788c;font-size:13px">(Lec 17 s16&ndash;19.)</span>
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:15px;margin:8px 0 2px">
+      <span style="font-size:1.05em">(</span><span class="f"><span class="n">n<sub>1</sub><sup>2</sup></span><span class="d">&gamma;</span></span><span class="f"><span class="n">J&prime;<sub>m</sub></span><span class="d">J<sub>m</sub></span></span>
+      + <span class="f"><span class="n">n<sub>2</sub><sup>2</sup></span><span class="d">&beta;</span></span><span class="f"><span class="n">K&prime;<sub>m</sub></span><span class="d">K<sub>m</sub></span></span><span style="font-size:1.05em">)</span>
+      <span style="font-size:1.05em">(</span><span class="f"><span class="n">1</span><span class="d">&gamma;</span></span><span class="f"><span class="n">J&prime;<sub>m</sub></span><span class="d">J<sub>m</sub></span></span>
+      + <span class="f"><span class="n">1</span><span class="d">&beta;</span></span><span class="f"><span class="n">K&prime;<sub>m</sub></span><span class="d">K<sub>m</sub></span></span><span style="font-size:1.05em">)</span>
+      =
+      <span class="f"><span class="n">m<sup>2</sup></span><span class="d">a<sup>2</sup></span></span>
+      <span style="font-size:1.05em">(</span><span class="f"><span class="n">n<sub>1</sub><sup>2</sup></span><span class="d">&gamma;<sup>2</sup></span></span> + <span class="f"><span class="n">n<sub>2</sub><sup>2</sup></span><span class="d">&beta;<sup>2</sup></span></span><span style="font-size:1.05em">)</span>
+      <span style="font-size:1.05em">(</span><span class="f"><span class="n">1</span><span class="d">&gamma;<sup>2</sup></span></span> + <span class="f"><span class="n">1</span><span class="d">&beta;<sup>2</sup></span></span><span style="font-size:1.05em">)</span>
+    </div>
+    <div class="eqc" style="font-size:16px;margin:8px 0 2px">
+      lowest TE/TM cutoff:&nbsp;&nbsp;
+      V = <span class="f"><span class="n">n<sub>1</sub>&omega;a<span class="sq">&radic;<span class="rt">2&Delta;</span></span></span><span class="d">c</span></span> = 2.405
+      &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+      &omega; = <span class="f"><span class="n">2.405&#8201;c</span><span class="d">n<sub>1</sub>a<span class="sq">&radic;<span class="rt">2&Delta;</span></span></span></span>
+    </div>
+  </div>
+
+  <div class="startbox">
+    <b>Flow:</b> the index is constant inside and constant outside, so the coupling term of Example 7 lives
+    <b>only at the interface</b> &rarr; solve a plain Helmholtz equation on each side &rarr; the coupling
+    comes back as the matching condition at &rho; = a, and that is the boxed equation.
+  </div>
+
+  <div class="pnum">22</div>
+</div>
+
+<!-- ============ EX8 part 2 ============ -->
+<div class="sheet">
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; Where the coupling lives</div>
+  <div class="says">Write the step profile and differentiate it. A step drops to a delta function:</div>
+  <div class="eq">
+    n = <span style="font-size:1.6em;vertical-align:-.25em;font-weight:300">{</span>
+    <span style="display:inline-block;vertical-align:middle;font-size:14.5px;text-align:left;line-height:1.4">
+      n<sub>1</sub>&nbsp;&nbsp;<span style="color:#6b7683">&rho; &lt; a</span><br>
+      n<sub>2</sub>&nbsp;&nbsp;<span style="color:#6b7683">&rho; &gt; a</span>
+    </span>
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    &nabla;<sub>t</sub>n<sup>2</sup> = &minus;2n<sub>1</sub><sup>2</sup>&Delta;&#8201;&delta;(&rho;&minus;a)&#8201;<span class="h">&rho;</span>
+  </div>
+  <div class="says">where &Delta; is the usual fractional index step:</div>
+  <div class="eq">
+    &Delta; = <span class="f"><span class="n">n<sub>1</sub><sup>2</sup> &minus; n<sub>2</sub><sup>2</sup></span><span class="d">2n<sub>1</sub><sup>2</sup></span></span>
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    n<sub>1</sub><sup>2</sup> &minus; n<sub>2</sub><sup>2</sup> = 2n<sub>1</sub><sup>2</sup>&Delta;
+    <span class="from">so the jump in n<sup>2</sup> is exactly 2n<sub>1</sub><sup>2</sup>&Delta;</span>
+  </div>
+  <div class="note">
+    This is the whole trick of a step-index fibre. Away from &rho; = a the gradient is zero, so all the
+    nasty terms of Example 7 vanish and we are back to ordinary Helmholtz equations. The coupling has not
+    disappeared &mdash; it has been squeezed into a single surface, where it becomes a matching condition.
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Solve on each side</div>
+  <div class="says"><b>Inside (&rho; &lt; a).</b> Guided light travels mostly in the core, so
+    &gamma;<sup>2</sup> = n<sub>1</sub><sup>2</sup>&omega;<sup>2</sup>/c<sup>2</sup> &minus; k<sup>2</sup>
+    &gt; 0 and the equation is oscillatory. Bounded at the axis &rArr; ordinary Bessel:</div>
+  <div class="eq">
+    <span style="font-size:1.6em;vertical-align:-.25em;font-weight:300">{</span><span style="font-size:.95em">E<sub>z</sub><br>H<sub>z</sub></span><span style="font-size:1.6em;vertical-align:-.25em;font-weight:300">}</span>
+    = <span style="font-size:1.6em;vertical-align:-.25em;font-weight:300">{</span><span style="font-size:.95em">A<sub>e</sub><br>A<sub>h</sub></span><span style="font-size:1.6em;vertical-align:-.25em;font-weight:300">}</span>
+    J<sub>m</sub>(&gamma;&rho;)e<sup>im&phi;</sup>
+  </div>
+  <div class="says"><b>Outside (&rho; &gt; a).</b> For the light to stay trapped the field must <b>decay</b>, so
+    there the sign flips:</div>
+  <div class="eq">
+    &beta;<sup>2</sup> = k<sup>2</sup> &minus; <span class="f"><span class="n">n<sub>2</sub><sup>2</sup>&omega;<sup>2</sup></span><span class="d">c<sup>2</sup></span></span> &gt; 0
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    &nabla;<sub>t</sub><sup>2</sup>&psi; &minus; &beta;<sup>2</sup>&psi; = 0
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span style="font-size:1.6em;vertical-align:-.25em;font-weight:300">{</span><span style="font-size:.95em">E<sub>z</sub><br>H<sub>z</sub></span><span style="font-size:1.6em;vertical-align:-.25em;font-weight:300">}</span>
+    = <span style="font-size:1.6em;vertical-align:-.25em;font-weight:300">{</span><span style="font-size:.95em">B<sub>e</sub><br>B<sub>h</sub></span><span style="font-size:1.6em;vertical-align:-.25em;font-weight:300">}</span>
+    K<sub>m</sub>(&beta;&rho;)e<sup>im&phi;</sup>
+  </div>
+  <div class="note">
+    K<sub>m</sub> is the modified Bessel function that <b>dies</b> as &rho; &rarr; &infin;. Its partner
+    I<sub>m</sub> grows without bound, so it is thrown away &mdash; the same reasoning that threw away
+    Y<sub>m</sub> at the axis, just at the other end.
+  </div>
+
+  <div class="pnum">23</div>
+</div>
+
+<!-- ============ EX8 part 3 ============ -->
+<div class="sheet">
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Match at &rho; = a</div>
+  <div class="says">Four unknowns (A<sub>e</sub>, A<sub>h</sub>, B<sub>e</sub>, B<sub>h</sub>) and four
+    conditions &mdash; the tangential fields E<sub>z</sub>, H<sub>z</sub>, E<sub>&phi;</sub>,
+    H<sub>&phi;</sub> must be continuous across the interface. That is a 4&times;4 homogeneous system; a
+    non-trivial solution exists only if its determinant vanishes, and that determinant is the boxed
+    equation:</div>
+  <div class="eq" style="font-size:14.5px">
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">n<sub>1</sub><sup>2</sup></span><span class="d">&gamma;</span></span><span class="f"><span class="n">J&prime;<sub>m</sub></span><span class="d">J<sub>m</sub></span></span>
+    + <span class="f"><span class="n">n<sub>2</sub><sup>2</sup></span><span class="d">&beta;</span></span><span class="f"><span class="n">K&prime;<sub>m</sub></span><span class="d">K<sub>m</sub></span></span><span style="font-size:1.05em">)</span>
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">1</span><span class="d">&gamma;</span></span><span class="f"><span class="n">J&prime;<sub>m</sub></span><span class="d">J<sub>m</sub></span></span>
+    + <span class="f"><span class="n">1</span><span class="d">&beta;</span></span><span class="f"><span class="n">K&prime;<sub>m</sub></span><span class="d">K<sub>m</sub></span></span><span style="font-size:1.05em">)</span>
+    =
+    <span class="f"><span class="n">m<sup>2</sup></span><span class="d">a<sup>2</sup></span></span>
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">n<sub>1</sub><sup>2</sup></span><span class="d">&gamma;<sup>2</sup></span></span> + <span class="f"><span class="n">n<sub>2</sub><sup>2</sup></span><span class="d">&beta;<sup>2</sup></span></span><span style="font-size:1.05em">)</span>
+    <span style="font-size:1.05em">(</span><span class="f"><span class="n">1</span><span class="d">&gamma;<sup>2</sup></span></span> + <span class="f"><span class="n">1</span><span class="d">&beta;<sup>2</sup></span></span><span style="font-size:1.05em">)</span>
+    <span class="src">Lec 17, s17</span>
+  </div>
+  <div class="says">All the Bessel functions are evaluated at &rho; = a.</div>
+
+  <div class="step">Step 4 &nbsp;&mdash;&nbsp; Read the equation: m = 0 against m &gt; 0</div>
+  <div class="says"><b>m = 0.</b> The right side is zero, so the left side factorises and each bracket can
+    vanish on its own:</div>
+  <table style="border-collapse:collapse;font-size:15px;margin:6px 0 8px 22px">
+    <tr><td style="padding:4px 20px 4px 0">(n<sub>1</sub><sup>2</sup>/&gamma;)(J&prime;<sub>0</sub>/J<sub>0</sub>) + (n<sub>2</sub><sup>2</sup>/&beta;)(K&prime;<sub>0</sub>/K<sub>0</sub>) = 0</td>
+        <td style="padding:4px 0;color:#c0392b;font-weight:700">TM modes</td></tr>
+    <tr><td style="padding:4px 20px 4px 0">(1/&gamma;)(J&prime;<sub>0</sub>/J<sub>0</sub>) + (1/&beta;)(K&prime;<sub>0</sub>/K<sub>0</sub>) = 0</td>
+        <td style="padding:4px 0;color:#c0392b;font-weight:700">TE modes</td></tr>
+  </table>
+  <div class="says"><b>m &gt; 0.</b> The right side is non-zero, the two brackets cannot be separated, and
+    E<sub>z</sub> and H<sub>z</sub> must both be present &mdash; these are the <b>hybrid</b> (EH and HE)
+    modes, exactly the coupling predicted in Example 7.</div>
+  <div class="note">
+    <b>Rays, in picture language.</b> m = 0 modes are <b>meridional rays</b> &mdash; they zig-zag through the
+    axis, staying in one plane. m &gt; 0 modes are <b>skew rays</b> &mdash; they spiral around the axis
+    without ever crossing it, which is why their intensity is zero at &rho; = 0.
+  </div>
+
+    <div class="pnum">24</div>
+</div>
+
+<div class="sheet">
+  <div class="says" style="color:#6b7683;font-size:13px;margin:0 0 6px">Example 8 &mdash; Step-index circular fibre (continued)</div>
+
+<div class="step">Step 5 &nbsp;&mdash;&nbsp; Cutoff, and the number 2.405</div>
+  <div class="says">Cutoff is the moment the mode stops being guided: the field outside stops decaying, so
+    <b>&beta; &rarr; 0</b>. Add the two definitions of &gamma;<sup>2</sup> and &beta;<sup>2</sup> from
+    Step 2 &mdash; k<sup>2</sup> cancels:</div>
+  <div class="eq">
+    &gamma;<sup>2</sup> + &beta;<sup>2</sup> =
+    <span class="f"><span class="n">(n<sub>1</sub><sup>2</sup> &minus; n<sub>2</sub><sup>2</sup>)&omega;<sup>2</sup></span><span class="d">c<sup>2</sup></span></span>
+    = <span class="f"><span class="n">2n<sub>1</sub><sup>2</sup>&Delta;&#8201;&omega;<sup>2</sup></span><span class="d">c<sup>2</sup></span></span>
+  </div>
+  <div class="says">At cutoff &beta; = 0, so &gamma; takes the whole of it. Define
+    <b>V &equiv; &gamma;a</b> at that point:</div>
+  <div class="eq">
+    <span class="red">V = &gamma;a =
+    <span class="f"><span class="n">n<sub>1</sub>&omega;a<span class="sq">&radic;<span class="rt">2&Delta;</span></span></span><span class="d">c</span></span></span>
+    <span class="from">the fibre V-number</span>
+  </div>
+  <div class="says">With &beta; = 0 the K-terms drop out of the m = 0 conditions and both reduce to
+    J<sub>0</sub>(V) = 0, whose first root is 2.405:</div>
+  <div class="eq">
+    <span class="red">V = 2.405
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    &omega; = <span class="f"><span class="n">2.405&#8201;c</span><span class="d">n<sub>1</sub>a<span class="sq">&radic;<span class="rt">2&Delta;</span></span></span></span></span>
+  </div>
+  <div class="note">
+    <b>Two things worth keeping.</b> (i) The hybrid HE<sub>11</sub> mode has <b>no cutoff</b> &mdash; it
+    propagates at every frequency &mdash; so a fibre with V &lt; 2.405 carries exactly one mode. That is the
+    definition of a single-mode fibre. (ii) n<sub>1</sub>&radic;(2&Delta;) is identically
+    &radic;(n<sub>1</sub><sup>2</sup> &minus; n<sub>2</sub><sup>2</sup>), the <b>numerical aperture</b>, so
+    V = NA &middot; &omega;a/c.
+  </div>
+
+  <div class="endmark">&#9632;&nbsp; END OF EXAMPLE 8 &nbsp;&#9632;</div>
+  <div class="pnum">25</div>
+</div>
+
+</body></html>

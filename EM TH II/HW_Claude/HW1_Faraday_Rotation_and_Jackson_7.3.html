@@ -1,0 +1,689 @@
+<title>EM Theory 2 — HW 1</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
+:root{--ink:#16233d;--ink-red:#c0392b;--rule:#b9cbdc;--grey:#6b7683;--info:#17788c;--lh:32px;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#6b7480;}
+body{font-family:'Segoe Print','Ink Free','Kalam',cursive;color:var(--ink);font-size:16.5px;line-height:var(--lh);}
+
+.sheet{width:8.5in;min-height:11in;margin:24px auto;padding:64px 62px 70px 78px;background:#fff;
+  background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--lh) - 1px),var(--rule) calc(var(--lh) - 1px) var(--lh));
+  background-position:0 64px;box-shadow:0 6px 22px rgba(0,0,0,.35);position:relative;page-break-after:always;}
+.sheet:last-of-type{page-break-after:auto}
+.pnum{position:absolute;bottom:26px;right:56px;font-size:14px;opacity:.7}
+
+.hdr{display:flex;justify-content:space-between;align-items:baseline;font-size:15px;opacity:.85}
+.title{font-size:24px;font-weight:700;text-align:center;margin:6px 0 2px}
+.title u{text-decoration:none;border-bottom:2.5px solid var(--ink);padding-bottom:2px}
+.qhead{font-size:20px;font-weight:700;margin:22px 0 6px;color:var(--ink-red);
+  border-bottom:2px solid var(--ink-red);display:inline-block;padding-bottom:1px}
+
+/* the question, as asked */
+.stmt{font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.5;background:#f7f8f5;
+  border-left:4px solid #9fb3c8;padding:9px 13px;margin:6px 0 12px;color:#26303f;}
+.stmt b{font-weight:700}
+
+/* THE ANSWER -- always at the top of a problem */
+.ans{border:3px solid var(--ink-red);border-radius:10px;background:#fffdf3;
+  padding:8px 18px 12px;margin:10px 0 16px;position:relative}
+.ans .tag{position:absolute;top:-14px;left:16px;background:#fffdf3;color:var(--ink-red);
+  font-weight:700;font-size:15px;padding:0 8px;letter-spacing:.06em}
+.ans .sub{font-size:14.5px;color:var(--info);margin-top:4px;font-style:italic}
+
+/* steps */
+.step{font-weight:700;font-size:17.5px;margin:16px 0 2px}
+.why{font-size:15px;color:var(--info);margin:0 0 4px 26px;font-style:italic}
+.eq{margin:5px 0 5px 30px}
+.eqc{margin:7px 0;text-align:center}
+.lbl{float:right;font-size:14px;color:var(--info);font-style:italic}
+.note{font-size:15px;margin:6px 0 6px 30px;color:var(--info);font-style:italic}
+
+/* optional / not required */
+.opt{border-left:4px solid #c3cbd4;background:#f6f8fa;color:var(--grey);
+  padding:6px 12px;margin:12px 0 8px 12px;font-size:14.5px;line-height:1.55}
+.opt .tag{display:inline-block;border:1.4px solid #9aa5b1;border-radius:9px;
+  padding:0 8px;font-size:12.5px;letter-spacing:.08em;margin-right:8px}
+.legend{border:1.6px dashed #a9b4bf;border-radius:8px;padding:6px 14px;margin:10px 0 4px;
+  font-size:14.5px;color:var(--grey)}
+
+/* math bits */
+.f{display:inline-flex;flex-direction:column;align-items:center;vertical-align:0.52em;margin:0 .22em;line-height:1.16}
+.f>.n{border-bottom:2px solid currentColor;padding:0 .32em}
+.f>.d{padding:0 .32em}
+.sq{white-space:nowrap}
+.rt{border-top:2px solid currentColor;padding:1px .18em 0 .06em;margin-left:-1px}
+.ov{display:inline-block;border-top:2px solid currentColor;line-height:1;padding-top:1px;margin-top:2px}
+.v,.h{position:relative;display:inline-block;white-space:nowrap}
+.v::after{content:"\2192";position:absolute;left:50%;transform:translateX(-50%);top:-.72em;font-size:.55em;line-height:1}
+.h::after{content:"\005E";position:absolute;left:50%;transform:translateX(-50%);top:-.62em;font-size:.72em;line-height:1}
+sub,sup{font-size:.66em;line-height:0}
+.red{color:var(--ink-red)}
+.bcnum{display:inline-block;border:1.8px solid var(--ink);border-radius:50%;width:1.5em;height:1.5em;
+  line-height:1.35em;text-align:center;font-size:.8em;margin-right:.3em}
+
+figure{margin:12px 0 8px;text-align:center}
+figcaption{font-size:14px;color:var(--info);margin-top:2px;font-style:italic}
+svg{max-width:100%;height:auto}
+.stroke{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round}
+.thin{fill:none;stroke:var(--ink);stroke-width:1;opacity:.55}
+.dash{fill:none;stroke:var(--ink);stroke-width:1.2;stroke-dasharray:5 5;opacity:.7}
+.slab{fill:#e3ecf4;stroke:var(--ink);stroke-width:1.3}
+.ray{fill:none;stroke:var(--ink);stroke-width:1.8}
+.ray2{fill:none;stroke:var(--ink-red);stroke-width:1.6}
+.bvec{fill:none;stroke:var(--ink-red);stroke-width:1.6}
+.curveS{fill:none;stroke:var(--ink);stroke-width:2.2}
+.curveP{fill:none;stroke:var(--ink-red);stroke-width:2.2;stroke-dasharray:7 4}
+text{font-family:'Segoe Print','Ink Free','Kalam',cursive;font-size:13px;fill:var(--ink)}
+
+@media print{
+  html,body{background:#fff}
+  body{font-size:15px;--lh:28px}
+  .sheet{margin:0;box-shadow:none;width:100%;max-width:100%;min-height:0;
+         padding:6px 4px 24px 6px;background-position:0 6px;overflow:hidden}
+  .pnum{bottom:4px;right:6px}
+  .eq{margin:3px 0 3px 26px}
+  .note,.why{margin-left:26px}
+  .step{margin:11px 0 2px}
+  .qhead{margin:12px 0 4px}
+  .ans{margin:10px 0 12px}
+  figure{margin:8px 0 4px}
+  .stmt{margin:5px 0 9px;padding:7px 11px}
+  @page{size:letter;margin:0.45in 0.5in}
+}
+
+.endmark{margin:14px 0 8px;text-align:center;color:#c0392b;font-weight:700;font-size:15.5px;
+  letter-spacing:.05em;border-top:2.5px dashed #c0392b;border-bottom:2.5px dashed #c0392b;padding:4px 0}
+.extrahdr{background:#eef1f4;border:1.6px dashed #9aa5b1;border-radius:8px;padding:6px 14px;
+  margin:0 0 12px;color:#6b7683;font-size:15px;font-weight:700;text-align:center}
+@media print{ .endmark{margin:8px 0 5px;font-size:14px;padding:2px 0} .extrahdr{margin-bottom:8px;padding:4px 12px} }
+
+.note b,.why b,.ans .sub b,figcaption b{color:inherit}
+
+.src{display:inline-block;font-size:11.5px;font-style:normal;color:#17788c;border:1.2px solid #7fb8c4;
+  border-radius:8px;padding:0 6px;margin-left:8px;vertical-align:middle;white-space:nowrap;line-height:1.5}
+.ask{font-size:16px;font-weight:700;color:#16233d;margin:10px 0 2px 6px;border-left:4px solid #c0392b;padding-left:10px}
+.startbox{border:2.5px solid #16233d;border-radius:9px;background:#f4f7fa;padding:8px 16px;margin:12px 0;font-size:15.5px}
+@media print{ .ask{margin:7px 0 2px 12px} .startbox{margin:9px 0;padding:6px 14px} }
+
+</style>
+
+<!-- ============ SHEET 1 ============ -->
+<div class="sheet">
+  <div class="hdr"><span>Physics 5313 &mdash; Electromagnetic Theory 2</span><span>Homework 1</span></div>
+  <div class="title"><u>HW 1 &mdash; Faraday Rotation &amp; Jackson 7.3</u></div>
+
+  <div class="legend">
+    <b style="color:#16233d">How to read this:</b>
+    <span style="color:#16233d;font-weight:700">black = write this down</span> &nbsp;&middot;&nbsp;
+    <span style="color:#c0392b;font-weight:700">red = the answer</span> &nbsp;&middot;&nbsp;
+    <span style="color:#17788c;font-style:italic">teal = explanation, no need to copy</span> &nbsp;&middot;&nbsp;
+    <span style="color:#6b7683">grey box = optional, skip it</span><br>
+    <span style="color:#17788c;font-style:italic">Every starting equation carries a tag like</span>
+    <span class="src">Lec 3, slide 2</span>
+    <span style="color:#17788c;font-style:italic">telling you which slide it comes from.</span>
+  </div>
+
+  <div class="qhead">Problem 1 &mdash; Faraday rotation: &theta;(z)</div>
+
+  <div class="stmt">
+    In the Faraday-rotation example the medium has index <b>n<sub>L</sub></b> for left-circular and
+    <b>n<sub>R</sub></b> for right-circular polarization. At z = 0 the wave is linearly polarized along x&#770;,
+    i.e. <b>E</b>(z=0,&nbsp;t) = x&#770;&#8201;E&#8201;e<sup>&minus;i&omega;t</sup>.
+    Using tan&nbsp;&theta; = E<sub>y</sub>/E<sub>x</sub> (both real), find how fast the plane of polarization
+    rotates with z.
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:21px;margin-top:10px">
+      &theta;(z) = &minus;
+      <span class="f"><span class="n">(k<sub>L</sub> &minus; k<sub>R</sub>)&#8201;z</span><span class="d">2</span></span>
+      =
+      <span class="f"><span class="n">&omega;</span><span class="d">2c</span></span>
+      ( n<sub>R</sub> &minus; n<sub>L</sub> )&#8201;z
+    </div>
+    <div class="eqc" style="font-size:21px;margin-top:6px">
+      <span class="f"><span class="n">d&theta;</span><span class="d">dz</span></span>
+      =
+      <span class="f"><span class="n">&omega;</span><span class="d">2c</span></span>
+      ( n<sub>R</sub> &minus; n<sub>L</sub> )
+      &nbsp;&nbsp;=&nbsp;&nbsp;a <b>constant</b>&nbsp;&nbsp;[rad/m]
+    </div>
+    <div class="sub">
+      &theta; grows <b>linearly</b> in z, so the rotation rate never changes along the path.
+      The wave stays <b>linearly polarized everywhere</b> &mdash; only its direction turns.
+    </div>
+  </div>
+
+  <div class="step">Step 0 &nbsp;&mdash;&nbsp; Where does the starting equation come from?</div>
+  <div class="why">This is the part you have to know before you can write anything. It is all on
+    Lecture 3, slides 2&ndash;3.</div>
+
+  <div class="ask">Why write the wave as two circular waves?</div>
+  <div class="note" style="margin-top:0">
+    Because the problem hands you <b>two</b> indices, n<sub>L</sub> and n<sub>R</sub>. An index belongs to a wave
+    that travels without changing shape. So in this medium the only two waves that propagate cleanly are
+    left- and right-circular, each with its own k = &omega;n/c. A linearly polarized wave is <b>not</b> a
+    natural wave here &mdash; it has to be built out of those two.
+  </div>
+
+  <div class="eq">
+    <span class="v">E</span>(z,t) =
+    <span class="v">E</span><sub>L</sub>&#8201;e<sup>&#8201;i(k<sub>L</sub>z&minus;&omega;t)</sup>
+    +
+    <span class="v">E</span><sub>R</sub>&#8201;e<sup>&#8201;i(k<sub>R</sub>z&minus;&omega;t)</sup>
+    <span class="src">Lec 3, slide 2</span>
+  </div>
+  <div class="eq">
+    <span class="v">E</span><sub>L</sub> = &#8496;<sub>L</sub>&#8201;<span class="h">e</span><sub>+</sub>,&nbsp;&nbsp;
+    <span class="v">E</span><sub>R</sub> = &#8496;<sub>R</sub>&#8201;<span class="h">e</span><sub>&minus;</sub>,&nbsp;&nbsp;
+    <span class="h">e</span><sub>&plusmn;</sub> =
+    <span class="f"><span class="n">1</span><span class="d"><span class="sq">&radic;<span class="rt">2</span></span></span></span>
+    (<span class="h">x</span> &plusmn; i&#8201;<span class="h">y</span>)
+    <span class="src">Lec 2, complex unit vectors</span>
+  </div>
+  <div class="note">
+    &#8496;<sub>L</sub> and &#8496;<sub>R</sub> are two unknown numbers. Everything else above is known.
+    Finding them is the whole of Step 0.
+  </div>
+
+  <div class="pnum">1</div>
+</div>
+
+<!-- ============ SHEET 2 ============ -->
+<div class="sheet">
+  <div class="ask" style="margin-top:0">How do we fix &#8496;<sub>L</sub> and &#8496;<sub>R</sub>?</div>
+  <div class="note" style="margin-top:0">
+    Use the one piece of information the problem gives: what the wave looks like at z = 0.
+    Set z = 0 in the equation above; the two exponentials both become e<sup>&minus;i&omega;t</sup> and cancel
+    against the right-hand side.
+  </div>
+
+  <div class="eq">
+    <span class="v">E</span>(0,t) = ( &#8496;<sub>L</sub><span class="h">e</span><sub>+</sub>
+    + &#8496;<sub>R</sub><span class="h">e</span><sub>&minus;</sub> )&#8201;e<sup>&minus;i&omega;t</sup>
+    = <span class="h">x</span>&#8201;E&#8201;e<sup>&minus;i&omega;t</sup>
+    <span class="src">given</span>
+  </div>
+  <div class="eq">
+    &rArr;&nbsp;&nbsp;
+    <span class="f"><span class="n">&#8496;<sub>L</sub></span><span class="d"><span class="sq">&radic;<span class="rt">2</span></span></span></span>
+    (<span class="h">x</span> + i<span class="h">y</span>)
+    +
+    <span class="f"><span class="n">&#8496;<sub>R</sub></span><span class="d"><span class="sq">&radic;<span class="rt">2</span></span></span></span>
+    (<span class="h">x</span> &minus; i<span class="h">y</span>)
+    = <span class="h">x</span>&#8201;E
+  </div>
+  <div class="eq">
+    compare <span class="h">y</span>:&nbsp;
+    <span class="f"><span class="n">i</span><span class="d"><span class="sq">&radic;<span class="rt">2</span></span></span></span>
+    ( &#8496;<sub>L</sub> &minus; &#8496;<sub>R</sub> ) = 0
+    &nbsp;&rArr;&nbsp; &#8496;<sub>L</sub> = &#8496;<sub>R</sub>
+  </div>
+  <div class="eq">
+    compare <span class="h">x</span>:&nbsp;
+    <span class="f"><span class="n">1</span><span class="d"><span class="sq">&radic;<span class="rt">2</span></span></span></span>
+    ( &#8496;<sub>L</sub> + &#8496;<sub>R</sub> ) = E
+    &nbsp;&rArr;&nbsp;
+    <span class="red">&#8496;<sub>L</sub> = &#8496;<sub>R</sub> =
+    <span class="f"><span class="n">E</span><span class="d"><span class="sq">&radic;<span class="rt">2</span></span></span></span></span>
+  </div>
+
+  <div class="startbox">
+    <b>STARTING EQUATION</b> &mdash; everything from here on is worked out from this one line:
+    <div class="eqc" style="font-size:18px;margin:8px 0 2px">
+      <span class="v">E</span>(z,t) =
+      <span class="f"><span class="n">E</span><span class="d"><span class="sq">&radic;<span class="rt">2</span></span></span></span>
+      <span class="h">e</span><sub>+</sub>&#8201;e<sup>&#8201;i(k<sub>L</sub>z&minus;&omega;t)</sup>
+      +
+      <span class="f"><span class="n">E</span><span class="d"><span class="sq">&radic;<span class="rt">2</span></span></span></span>
+      <span class="h">e</span><sub>&minus;</sub>&#8201;e<sup>&#8201;i(k<sub>R</sub>z&minus;&omega;t)</sup>
+    </div>
+    <div style="text-align:right;font-size:13.5px">= the last line of Lecture 3, slide 3</div>
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; Split it into x and y components</div>
+  <div class="why">Put <span class="h">e</span><sub>&plusmn;</sub> = (x&#770; &plusmn; iy&#770;)/&radic;2 into the
+    starting equation and collect the x&#770; terms and the y&#770; terms.</div>
+
+  <div class="eq">
+    E<sub>x</sub> =
+    <span class="f"><span class="n">E</span><span class="d"><span class="sq">&radic;<span class="rt">2</span></span></span></span>
+    &middot;
+    <span class="f"><span class="n">1</span><span class="d"><span class="sq">&radic;<span class="rt">2</span></span></span></span>
+    ( e<sup>&#8201;ik<sub>L</sub>z</sup> + e<sup>&#8201;ik<sub>R</sub>z</sup> )&#8201;e<sup>&minus;i&omega;t</sup>
+    =
+    <span class="f"><span class="n">E</span><span class="d">2</span></span>
+    ( e<sup>&#8201;ik<sub>L</sub>z</sup> + e<sup>&#8201;ik<sub>R</sub>z</sup> )&#8201;e<sup>&minus;i&omega;t</sup>
+  </div>
+  <div class="eq">
+    E<sub>y</sub> =
+    <span class="f"><span class="n">E</span><span class="d">2</span></span>
+    ( i&#8201;e<sup>&#8201;ik<sub>L</sub>z</sup> &minus; i&#8201;e<sup>&#8201;ik<sub>R</sub>z</sup> )&#8201;e<sup>&minus;i&omega;t</sup>
+    = i
+    <span class="f"><span class="n">E</span><span class="d">2</span></span>
+    ( e<sup>&#8201;ik<sub>L</sub>z</sup> &minus; e<sup>&#8201;ik<sub>R</sub>z</sup> )&#8201;e<sup>&minus;i&omega;t</sup>
+  </div>
+
+  <div class="pnum">2</div>
+</div>
+
+<!-- ============ SHEET 3 ============ -->
+<div class="sheet">
+  <div class="step" style="margin-top:0">Step 2 &nbsp;&mdash;&nbsp; Combine the two exponentials</div>
+  <div class="why">Standard trick: pull out the <i>average</i> phase, and what is left is a cos and a sin.</div>
+
+  <div class="eq">
+    Let&nbsp;
+    <span class="ov">k</span> =
+    <span class="f"><span class="n">k<sub>L</sub>+k<sub>R</sub></span><span class="d">2</span></span>
+    &nbsp;(average),&nbsp;&nbsp;
+    &Delta;k = k<sub>L</sub> &minus; k<sub>R</sub>&nbsp;&nbsp;(difference).&nbsp;
+    Then k<sub>L</sub> = <span class="ov">k</span> + &Delta;k/2 and k<sub>R</sub> = <span class="ov">k</span> &minus; &Delta;k/2, so
+  </div>
+  <div class="eq">
+    e<sup>&#8201;ik<sub>L</sub>z</sup> &plusmn; e<sup>&#8201;ik<sub>R</sub>z</sup>
+    = e<sup>&#8201;i<span class="ov">k</span>z</sup>
+    ( e<sup>&#8201;i&Delta;kz/2</sup> &plusmn; e<sup>&minus;i&Delta;kz/2</sup> )
+    =
+    <span class="red">2&#8201;e<sup>&#8201;i<span class="ov">k</span>z</sup> cos<span class="f"><span class="n">&Delta;kz</span><span class="d">2</span></span></span>
+    &nbsp;or&nbsp;
+    <span class="red">2i&#8201;e<sup>&#8201;i<span class="ov">k</span>z</sup> sin<span class="f"><span class="n">&Delta;kz</span><span class="d">2</span></span></span>
+  </div>
+  <div class="eq">
+    &rArr;&nbsp;&nbsp;
+    E<sub>x</sub> = E&#8201;e<sup>&#8201;i(<span class="ov">k</span>z&minus;&omega;t)</sup> cos
+    <span class="f"><span class="n">&Delta;kz</span><span class="d">2</span></span>
+    ,&nbsp;&nbsp;&nbsp;&nbsp;
+    E<sub>y</sub> = &minus;E&#8201;e<sup>&#8201;i(<span class="ov">k</span>z&minus;&omega;t)</sup> sin
+    <span class="f"><span class="n">&Delta;kz</span><span class="d">2</span></span>
+  </div>
+  <div class="note">
+    (E<sub>y</sub>: the i from Step 1 times the 2i from the sine gives i&middot;i = &minus;1.)
+    Both components carry the <b>same</b> factor E&#8201;e<sup>i(<span class="ov">k</span>z&minus;&omega;t)</sup>;
+    divide it out and only cos and &minus;sin remain, which are real. That is the
+    &ldquo;E<sub>x</sub>, E<sub>y</sub> both real&rdquo; the problem mentions.
+  </div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Take the ratio and read off &theta;</div>
+  <div class="why">The common factor cancels in the ratio, which is why &theta; is a real angle.</div>
+
+  <div class="eq">
+    tan&#8201;&theta;(z) =
+    <span class="f"><span class="n">E<sub>y</sub></span><span class="d">E<sub>x</sub></span></span>
+    =
+    <span class="f"><span class="n">&minus;sin(&Delta;kz/2)</span><span class="d">cos(&Delta;kz/2)</span></span>
+    = tan( &minus;
+    <span class="f"><span class="n">&Delta;kz</span><span class="d">2</span></span> )
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    &theta;(z) = &minus;
+    <span class="f"><span class="n">&Delta;kz</span><span class="d">2</span></span>
+  </div>
+  <div class="eq">
+    with k =
+    <span class="f"><span class="n">&omega;n</span><span class="d">c</span></span>
+    <span class="src">Lec 2</span>
+    :&nbsp;&nbsp; &Delta;k =
+    <span class="f"><span class="n">&omega;</span><span class="d">c</span></span>
+    (n<sub>L</sub>&minus;n<sub>R</sub>)
+  </div>
+
+  <div class="ans" style="margin-top:12px">
+    <span class="tag">FINAL ANSWER</span>
+    <div class="eqc" style="font-size:20px;margin-top:10px">
+      &theta;(z) =
+      <span class="f"><span class="n">&omega;</span><span class="d">2c</span></span>
+      (n<sub>R</sub>&minus;n<sub>L</sub>)&#8201;z
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <span class="f"><span class="n">d&theta;</span><span class="d">dz</span></span>
+      =
+      <span class="f"><span class="n">&omega;</span><span class="d">2c</span></span>
+      (n<sub>R</sub>&minus;n<sub>L</sub>)
+      =
+      <span class="f"><span class="n">&pi;</span><span class="d">&lambda;<sub>0</sub></span></span>
+      (n<sub>R</sub>&minus;n<sub>L</sub>)
+    </div>
+  </div>
+  <div class="endmark">&#9632;&nbsp; END OF REQUIRED SOLUTION &mdash; everything below is optional &nbsp;&#9632;</div>
+
+  <div class="note">
+    Over a cell of length d the plane has turned by &beta; = (&omega;/2c)(n<sub>R</sub>&minus;n<sub>L</sub>)d
+    &mdash; the angle &beta; on the &ldquo;Application of Faraday Rotation&rdquo; slide. In a magnetized medium
+    (n<sub>L</sub>&minus;n<sub>R</sub>) &prop; B, giving &theta; = V&#8201;B&#8201;d with V the Verdet constant.
+  </div>
+  <figure>
+    <svg viewBox="0 0 500 150" width="430">
+      <line class="thin" x1="30" y1="112" x2="470" y2="112"/>
+      <polygon points="470,112 461,108 461,116" fill="#16233d" opacity=".55"/>
+      <text x="474" y="117">z</text>
+      <g class="stroke">
+        <line x1="70" y1="35" x2="70" y2="90"/>
+        <line x1="180" y1="36" x2="202" y2="89"/>
+        <line x1="300" y1="43" x2="342" y2="82"/>
+        <line x1="415" y1="62" x2="470" y2="62"/>
+      </g>
+      <text x="56" y="132">z = 0</text>
+      <text x="160" y="132">&theta; = 25&deg;</text>
+      <text x="282" y="132">&theta; = 50&deg;</text>
+      <text x="398" y="132">&theta; = 90&deg;</text>
+      <text x="30" y="24">E direction, looking down the z-axis</text>
+    </svg>
+    <figcaption>Equal steps in z give equal steps in &theta;.</figcaption>
+  </figure>
+
+  <div class="opt">
+    <span class="tag">OPTIONAL</span><b>Check against the lecture.</b>
+    The slide asked where the wave is polarized along y&#770;, i.e. E<sub>x</sub> = 0, so cos(&Delta;kz/2) = 0
+    &rArr; (k<sub>L</sub>&minus;k<sub>R</sub>)z = (2m+1)&pi; &mdash; exactly the slide's answer. &#10003;
+  </div>
+
+  <div class="pnum">3</div>
+</div>
+
+<!-- ============ SHEET 4 : Q2 ============ -->
+<div class="sheet">
+  <div class="qhead" style="margin-top:0">Problem 2 &mdash; Jackson 7.3</div>
+
+  <div class="stmt">
+    <b>7.3</b>&nbsp; Two semi-infinite slabs of the same dielectric (index <i>n</i>, nonpermeable, lossless) are
+    parallel, separated by an air gap (n = 1) of width <i>d</i>. A plane wave of frequency &omega; hits the gap
+    from inside one slab at angle of incidence <i>i</i>. For polarization both parallel to and perpendicular to
+    the plane of incidence: <b>(a)</b> find transmitted/incident power and reflected/incident power;
+    <b>(b)</b> for <i>i</i> above the critical angle, sketch transmitted/incident power vs. <i>d</i> in units of
+    the wavelength in the gap.
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div style="font-size:14.5px;color:#17788c;font-style:italic;margin:6px 0 2px">
+      cos&#8201;r = <span class="sq">&radic;<span class="rt">1&minus;n<sup>2</sup>sin<sup>2</sup>i</span></span>
+      (angle inside the gap),&nbsp;
+      &beta; = <span class="f"><span class="n">&omega;d</span><span class="d">c</span></span>cos&#8201;r
+      (phase for one crossing of the gap).
+    </div>
+    <div style="margin-top:4px"><b>(a)</b>&nbsp; both polarizations:</div>
+    <div class="eqc" style="font-size:18px;margin:4px 0">
+      T =
+      <span class="f"><span class="n">1</span><span class="d">1 + F&#8201;sin<sup>2</sup>&beta;</span></span>
+      ,&nbsp;&nbsp; R = 1 &minus; T,&nbsp;&nbsp;
+      F<sub>s</sub> =
+      <span class="f"><span class="n">(n<sup>2</sup>&minus;1)<sup>2</sup></span><span class="d">4n<sup>2</sup>cos<sup>2</sup>i&#8201;cos<sup>2</sup>r</span></span>
+      ,&nbsp;&nbsp;
+      F<sub>p</sub> = F<sub>s</sub>[(n<sup>2</sup>+1)sin<sup>2</sup>i &minus; 1]<sup>2</sup>
+    </div>
+    <div style="margin-top:6px"><b>(b)</b>&nbsp; above critical angle: &gamma; =
+      <span class="sq">&radic;<span class="rt">n<sup>2</sup>sin<sup>2</sup>i&minus;1</span></span>,
+      &alpha; = 2&pi;&gamma;d/&lambda;, and sin<sup>2</sup>&beta; &rarr; &minus;sinh<sup>2</sup>&alpha;:</div>
+    <div class="eqc" style="font-size:18px;margin:4px 0 0">
+      T<sub>s</sub> = [ 1 +
+      <span class="f"><span class="n">(n<sup>2</sup>&minus;1)<sup>2</sup></span><span class="d">4n<sup>2</sup>&gamma;<sup>2</sup>cos<sup>2</sup>i</span></span>
+      sinh<sup>2</sup>&alpha; ]<sup>&minus;1</sup>,&nbsp;&nbsp;
+      T<sub>p</sub> = same &times; [(n<sup>2</sup>+1)sin<sup>2</sup>i&minus;1]<sup>2</sup>
+    </div>
+  </div>
+
+  <div class="step">Step 0 &nbsp;&mdash;&nbsp; How do you even start this one?</div>
+  <div class="why">Nothing new is needed &mdash; it is the lecture's <i>single</i>-interface problem used twice,
+    plus bookkeeping for the bounces in between.</div>
+
+  <div class="ask">Recognise the shape of the problem</div>
+  <div class="eq">1.&nbsp; Two interfaces (slab&rarr;gap at z = 0, gap&rarr;slab at z = d).</div>
+  <div class="eq">2.&nbsp; At <u>each</u> one, the lecture already gives r and t
+    <span class="src">Lec 4, slides 3&ndash;4</span>.</div>
+  <div class="eq">3.&nbsp; Inside the gap the wave bounces back and forth forever &rArr; add up a geometric series.</div>
+  <div class="eq">4.&nbsp; Above the critical angle the gap wave is evanescent
+    <span class="src">Lec 4, slide 8</span>, so cos&#8201;r goes imaginary &mdash; that is all part (b) is.</div>
+
+  <div class="note">
+    So the plan is: <b>angles &rarr; one-interface coefficients &rarr; sum the bounces &rarr; square it.</b>
+    Steps 1&ndash;4 below are exactly those four things.
+  </div>
+
+  <div class="pnum">4</div>
+</div>
+
+<!-- ============ SHEET 5 ============ -->
+<div class="sheet">
+  <div class="step" style="margin-top:0">Step 1 &nbsp;&mdash;&nbsp; Angles: Snell twice</div>
+  <div class="why">Same kinematics as Lecture 3 &mdash; do the angles before touching amplitudes.</div>
+  <div class="eq">
+    slab &rarr; gap:&nbsp; n&#8201;sin&#8201;i = 1&middot;sin&#8201;r &nbsp;&rArr;&nbsp;
+    <span class="red">sin&#8201;r = n&#8201;sin&#8201;i</span>,&nbsp;&nbsp;
+    cos&#8201;r = <span class="sq">&radic;<span class="rt">1 &minus; n<sup>2</sup>sin<sup>2</sup>i</span></span>
+    <span class="src">Lec 3, slide 12</span>
+  </div>
+  <div class="eq">
+    gap &rarr; slab:&nbsp; 1&middot;sin&#8201;r = n&#8201;sin&#8201;i&prime; &nbsp;&rArr;&nbsp;
+    <span class="red">i&prime; = i</span>
+    <span class="lbl">exit angle = entry angle</span>
+  </div>
+  <div class="eq">critical angle:&nbsp; sin&#8201;i<sub>c</sub> = 1/n</div>
+  <div class="note">
+    Slab 3 is the <b>same medium</b> as slab 1 and the exit angle is the same, so the power ratio is just
+    T = |t|<sup>2</sup> &mdash; the flux factor (Z/Z&prime;)(cos&#8201;r/cos&#8201;i) from Lecture 4 equals 1 here.
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Reflection at <u>one</u> interface</div>
+  <div class="why">Straight from the lecture's Fresnel equations, written for slab (n) &rarr; air (1),
+    i.e. Z = Z<sub>0</sub>/n and Z&prime; = Z<sub>0</sub>.</div>
+  <div class="eq">
+    r<sub>s</sub> =
+    <span class="f"><span class="n">Z&prime;cos&#8201;i &minus; Z&#8201;cos&#8201;r</span><span class="d">Z&prime;cos&#8201;i + Z&#8201;cos&#8201;r</span></span>
+    =
+    <span class="f"><span class="n">n&#8201;cos&#8201;i &minus; cos&#8201;r</span><span class="d">n&#8201;cos&#8201;i + cos&#8201;r</span></span>
+    ,&nbsp;&nbsp;&nbsp;
+    r<sub>p</sub> =
+    <span class="f"><span class="n">Z&#8201;cos&#8201;i &minus; Z&prime;cos&#8201;r</span><span class="d">Z&#8201;cos&#8201;i + Z&prime;cos&#8201;r</span></span>
+    =
+    <span class="f"><span class="n">cos&#8201;i &minus; n&#8201;cos&#8201;r</span><span class="d">cos&#8201;i + n&#8201;cos&#8201;r</span></span>
+    <span class="src">Lec 4, sl. 3&ndash;4</span>
+  </div>
+  <div class="eq">
+    Going the other way (air &rarr; slab) swaps the two media in those same formulas:
+  </div>
+  <div class="eq">
+    <span class="red">r<sub>21</sub> = &minus;r<sub>12</sub></span>&nbsp;&nbsp;and&nbsp;&nbsp;
+    <span class="red">t<sub>12</sub>t<sub>21</sub> = 1 &minus; r<sub>12</sub><sup>2</sup></span>
+    <span class="lbl">swap n &harr; 1 and i &harr; r to check</span>
+  </div>
+  <div class="note">Write r for r<sub>12</sub> from here on. Everything below is identical for s and p &mdash;
+    only the <i>value</i> of r differs.</div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Add up every bounce inside the gap</div>
+  <div class="why">Each crossing of the gap multiplies the amplitude by e<sup>i&beta;</sup>, where &beta; is the
+    phase gained by the z-component of <b>k</b>:&nbsp;
+    &beta; = (&omega;d/c)cos&#8201;r.</div>
+
+  <div class="pnum">5</div>
+</div>
+
+<!-- ============ SHEET 6 ============ -->
+<div class="sheet">
+  <figure style="margin-top:0">
+    <svg viewBox="0 0 500 262" width="410">
+      <rect class="slab" x="30" y="15" width="150" height="225"/>
+      <rect class="slab" x="300" y="15" width="170" height="225"/>
+      <text x="44" y="32">slab (n)</text>
+      <text x="386" y="228">slab (n)</text>
+      <text x="216" y="32">air gap</text>
+      <line class="thin" x1="180" y1="222" x2="300" y2="222"/>
+      <line class="thin" x1="180" y1="217" x2="180" y2="227"/><line class="thin" x1="300" y1="217" x2="300" y2="227"/>
+      <text x="236" y="240">d</text>
+      <path class="ray" d="M 45 232 L 180 192"/>
+      <polygon points="180,192 168,192 172,199" fill="#16233d"/>
+      <text x="46" y="254">incident</text>
+      <path class="ray" d="M 180 192 L 300 152"/>
+      <path class="ray" d="M 300 152 L 180 112"/>
+      <path class="ray" d="M 180 112 L 300 72"/>
+      <path class="ray2" d="M 300 152 L 452 101"/>
+      <polygon points="455,100 444,100 448,107" fill="#c0392b"/>
+      <path class="ray2" d="M 300 72 L 452 21"/>
+      <polygon points="455,20 444,20 448,27" fill="#c0392b"/>
+      <path class="ray2" d="M 180 192 L 48 148"/>
+      <polygon points="45,147 56,147 52,154" fill="#c0392b"/>
+      <path class="ray2" d="M 180 112 L 48 68"/>
+      <polygon points="45,67 56,67 52,74" fill="#c0392b"/>
+      <text x="360" y="152" fill="#c0392b">1st exit</text>
+      <text x="360" y="72" fill="#c0392b">2nd exit</text>
+      <text x="206" y="180">e<tspan dy="-4" font-size="10">i&beta;</tspan></text>
+      <text x="206" y="100">e<tspan dy="-4" font-size="10">i&beta;</tspan></text>
+    </svg>
+    <figcaption>Each crossing costs e<sup>i&beta;</sup>; each extra round trip costs r<sub>21</sub><sup>2</sup>e<sup>2i&beta;</sup>.</figcaption>
+  </figure>
+
+  <div class="eq">
+    t<sub>tot</sub> = t<sub>12</sub>t<sub>21</sub>e<sup>i&beta;</sup>
+    [ 1 + r<sup>2</sup>e<sup>2i&beta;</sup> + r<sup>4</sup>e<sup>4i&beta;</sup> + &hellip; ]
+    =
+    <span class="f"><span class="n">(1&minus;r<sup>2</sup>)&#8201;e<sup>i&beta;</sup></span><span class="d">1 &minus; r<sup>2</sup>e<sup>2i&beta;</sup></span></span>
+    <span class="lbl">1+x+x&sup2;+&hellip; = 1/(1&minus;x)</span>
+  </div>
+
+  <div class="step">Step 4 &nbsp;&mdash;&nbsp; Square it to get the power</div>
+  <div class="eq">
+    | 1 &minus; r<sup>2</sup>e<sup>2i&beta;</sup> |<sup>2</sup>
+    = 1 &minus; 2r<sup>2</sup>cos&#8201;2&beta; + r<sup>4</sup>
+    = (1&minus;r<sup>2</sup>)<sup>2</sup> + 4r<sup>2</sup>sin<sup>2</sup>&beta;
+    <span class="lbl">1&minus;cos2&beta; = 2sin&sup2;&beta;</span>
+  </div>
+  <div class="eq">
+    &rArr;&nbsp; T = |t<sub>tot</sub>|<sup>2</sup> =
+    <span class="f"><span class="n">(1&minus;r<sup>2</sup>)<sup>2</sup></span><span class="d">(1&minus;r<sup>2</sup>)<sup>2</sup>+4r<sup>2</sup>sin<sup>2</sup>&beta;</span></span>
+    =
+    <span class="f"><span class="n">1</span><span class="d">1 + F&#8201;sin<sup>2</sup>&beta;</span></span>
+    ,&nbsp;&nbsp; F &equiv;
+    <span class="f"><span class="n">4r<sup>2</sup></span><span class="d">(1&minus;r<sup>2</sup>)<sup>2</sup></span></span>
+  </div>
+
+  <div class="step">Step 5 &nbsp;&mdash;&nbsp; Put in r<sub>s</sub> and r<sub>p</sub> &rarr; part (a)</div>
+  <div class="why">Only F changes between the two polarizations.</div>
+  <div class="eq">
+    1 &minus; r<sub>s</sub><sup>2</sup> =
+    <span class="f"><span class="n">(n&#8201;cos&#8201;i+cos&#8201;r)<sup>2</sup> &minus; (n&#8201;cos&#8201;i&minus;cos&#8201;r)<sup>2</sup></span><span class="d">(n&#8201;cos&#8201;i+cos&#8201;r)<sup>2</sup></span></span>
+    =
+    <span class="f"><span class="n">4n&#8201;cos&#8201;i&#8201;cos&#8201;r</span><span class="d">(n&#8201;cos&#8201;i+cos&#8201;r)<sup>2</sup></span></span>
+  </div>
+  <div class="eq">
+    &rArr;&nbsp; F<sub>s</sub> =
+    <span class="f"><span class="n">4r<sub>s</sub><sup>2</sup></span><span class="d">(1&minus;r<sub>s</sub><sup>2</sup>)<sup>2</sup></span></span>
+    =
+    <span class="f"><span class="n">(n<sup>2</sup>cos<sup>2</sup>i &minus; cos<sup>2</sup>r)<sup>2</sup></span><span class="d">4n<sup>2</sup>cos<sup>2</sup>i&#8201;cos<sup>2</sup>r</span></span>
+  </div>
+  <div class="eq">
+    now cos<sup>2</sup>r = 1&minus;n<sup>2</sup>sin<sup>2</sup>i, so the numerator collapses:
+    n<sup>2</sup>cos<sup>2</sup>i &minus; 1 + n<sup>2</sup>sin<sup>2</sup>i = <span class="red">n<sup>2</sup>&minus;1</span>
+  </div>
+  <div class="eq">
+    same for p:&nbsp; cos<sup>2</sup>i &minus; n<sup>2</sup>cos<sup>2</sup>r
+    = <span class="red">(n<sup>2</sup>&minus;1)[(n<sup>2</sup>+1)sin<sup>2</sup>i &minus; 1]</span>
+  </div>
+
+  <div class="pnum">6</div>
+</div>
+
+<!-- ============ SHEET 7 ============ -->
+<div class="sheet">
+  <div class="ans" style="margin-top:0">
+    <span class="tag">FINAL ANSWER &mdash; PART (a)</span>
+    <div class="eqc" style="font-size:18px;margin-top:10px">
+      F<sub>s</sub> =
+      <span class="f"><span class="n">(n<sup>2</sup>&minus;1)<sup>2</sup></span><span class="d">4n<sup>2</sup>cos<sup>2</sup>i&#8201;cos<sup>2</sup>r</span></span>
+      ,&nbsp;&nbsp;&nbsp;
+      F<sub>p</sub> =
+      <span class="f"><span class="n">(n<sup>2</sup>&minus;1)<sup>2</sup>[(n<sup>2</sup>+1)sin<sup>2</sup>i&minus;1]<sup>2</sup></span><span class="d">4n<sup>2</sup>cos<sup>2</sup>i&#8201;cos<sup>2</sup>r</span></span>
+    </div>
+    <div class="eqc" style="font-size:18px;margin-top:6px">
+      T<sub>s,p</sub> = [ 1 + F<sub>s,p</sub> sin<sup>2</sup>&beta; ]<sup>&minus;1</sup>,&nbsp;&nbsp;&nbsp;
+      R<sub>s,p</sub> = 1 &minus; T<sub>s,p</sub>,&nbsp;&nbsp;&nbsp;
+      &beta; = (&omega;d/c)&#8201;cos&#8201;r
+    </div>
+  </div>
+
+  <div class="step">Step 6 &nbsp;&mdash;&nbsp; Above the critical angle &rarr; part (b)</div>
+  <div class="why">Now sin&#8201;r = n&#8201;sin&#8201;i &gt; 1, so cos&#8201;r cannot be a real number &mdash; it goes
+    imaginary. This is the evanescent wave of Lecture 4.</div>
+  <div class="eq">
+    cos&#8201;r = i&#8201;&gamma;,&nbsp;
+    &gamma; = <span class="sq">&radic;<span class="rt">n<sup>2</sup>sin<sup>2</sup>i &minus; 1</span></span>
+    <span class="src">Lec 4, slide 8</span>
+    &nbsp;&rArr;&nbsp; &beta; = i&#8201;&alpha;,&nbsp;
+    &alpha; =
+    <span class="f"><span class="n">&omega;d&gamma;</span><span class="d">c</span></span>
+    = 2&pi;&gamma;
+    <span class="f"><span class="n">d</span><span class="d">&lambda;</span></span>
+  </div>
+  <div class="eq">
+    sin<sup>2</sup>&beta; = sin<sup>2</sup>(i&alpha;) = &minus;sinh<sup>2</sup>&alpha;
+    &nbsp;&nbsp;and&nbsp;&nbsp; cos<sup>2</sup>r = &minus;&gamma;<sup>2</sup>
+  </div>
+  <div class="eq">
+    the two minus signs cancel inside F&#8201;sin<sup>2</sup>&beta;, so T stays real and positive.
+  </div>
+
+  <div class="ans">
+    <span class="tag">FINAL ANSWER &mdash; PART (b)</span>
+    <div class="eqc" style="font-size:18px;margin-top:10px">
+      T<sub>s</sub> = [ 1 +
+      <span class="f"><span class="n">(n<sup>2</sup>&minus;1)<sup>2</sup></span><span class="d">4n<sup>2</sup>&gamma;<sup>2</sup>cos<sup>2</sup>i</span></span>
+      sinh<sup>2</sup>&alpha; ]<sup>&minus;1</sup>
+      ,&nbsp;&nbsp;
+      T<sub>p</sub> = [ 1 +
+      <span class="f"><span class="n">(n<sup>2</sup>&minus;1)<sup>2</sup>[(n<sup>2</sup>+1)sin<sup>2</sup>i&minus;1]<sup>2</sup></span><span class="d">4n<sup>2</sup>&gamma;<sup>2</sup>cos<sup>2</sup>i</span></span>
+      sinh<sup>2</sup>&alpha; ]<sup>&minus;1</sup>
+    </div>
+    <div class="sub">
+      The gap is vacuum so its wavelength <i>is</i> &lambda;, and d/&lambda; is exactly the axis Jackson wants.
+      sinh is monotonic &rArr; T falls smoothly from 1 to 0, <b>no oscillation</b>.
+      For d &#8811; &lambda;: T &prop; e<sup>&minus;4&pi;&gamma;d/&lambda;</sup> (photon tunnelling).
+    </div>
+  </div>
+
+  <div class="pnum">7</div>
+</div>
+
+<!-- ============ SHEET 8 ============ -->
+<div class="sheet">
+  <div class="step" style="margin-top:0">The sketch asked for in part (b)</div>
+
+  <figure>
+    <svg viewBox="0 0 520 330" width="450">
+      <line class="thin" x1="70" y1="40" x2="70" y2="290"/>
+      <line class="thin" x1="70" y1="290" x2="500" y2="290"/>
+      <line class="thin" x1="70" y1="40" x2="490" y2="40" style="opacity:.25"/>
+      <line class="thin" x1="70" y1="102" x2="490" y2="102" style="opacity:.25"/>
+      <line class="thin" x1="70" y1="165" x2="490" y2="165" style="opacity:.25"/>
+      <line class="thin" x1="70" y1="227" x2="490" y2="227" style="opacity:.25"/>
+      <line class="thin" x1="210" y1="40" x2="210" y2="290" style="opacity:.25"/>
+      <line class="thin" x1="350" y1="40" x2="350" y2="290" style="opacity:.25"/>
+      <line class="thin" x1="490" y1="40" x2="490" y2="290" style="opacity:.25"/>
+      <text x="44" y="45">1.0</text><text x="44" y="107">0.75</text><text x="44" y="170">0.5</text>
+      <text x="44" y="232">0.25</text><text x="52" y="295">0</text>
+      <text x="63" y="310">0</text><text x="196" y="310">0.5</text><text x="336" y="310">1.0</text><text x="476" y="310">1.5</text>
+      <text x="252" y="326">d / &lambda;</text>
+      <text x="18" y="30">T</text>
+      <polyline class="curveS" points="70,40 74,41 77,42 80,45 84,48 88,53 91,58 94,64 98,71 102,78 105,85 108,93 112,101 116,109 119,117 122,124 126,132 130,140 133,147 136,155 140,162 144,168 147,175 150,181 154,187 158,193 161,198 164,203 168,208 172,213 175,217 178,221 182,225 186,228 189,232 192,235 196,238 200,241 203,244 207,247 210,249 214,251 217,253 220,255 224,257 228,259 231,261 234,263 238,264 242,266 245,267 248,268 252,269 256,271 259,272 262,273 266,274 270,274 273,275 276,276 280,277 284,278 287,278 290,279 294,280 298,280 301,281 304,281 308,282 312,282 315,283 318,283 322,283 326,284 329,284 332,284 336,285 340,285 343,285 346,285 350,286 354,286 357,286 361,286 364,287 368,287 371,287 375,287 378,287 382,287 385,288 388,288 392,288 396,288 399,288 402,288 406,288 410,288 413,288 416,289 420,289 424,289 427,289 430,289 434,289 438,289 441,289 444,289 448,289 452,289 455,289 459,289 462,289 466,289 469,289 472,289 476,289 480,289 483,289 486,290 490,290"/>
+      <polyline class="curveP" points="70,40 74,40 77,41 80,42 84,43 88,45 91,47 94,50 98,53 102,56 105,60 108,64 112,68 116,72 119,77 122,82 126,87 130,92 133,97 136,102 140,108 144,113 147,119 150,124 154,129 158,135 161,140 164,146 168,151 172,156 175,161 178,166 182,171 186,176 189,181 192,185 196,190 200,194 203,198 207,202 210,206 214,210 217,214 220,217 224,221 228,224 231,227 234,230 238,233 242,236 245,238 248,241 252,243 256,246 259,248 262,250 266,252 270,254 273,256 276,257 280,259 284,261 287,262 290,264 294,265 298,266 301,267 304,269 308,270 312,271 315,272 318,273 322,274 326,274 329,275 332,276 336,277 340,277 343,278 346,279 350,279 354,280 357,280 361,281 364,281 368,282 371,282 375,283 378,283 382,284 385,284 388,284 392,284 396,285 399,285 402,285 406,286 410,286 413,286 416,286 420,286 424,287 427,287 430,287 434,287 438,287 441,287 444,288 448,288 452,288 455,288 459,288 462,288 466,288 469,288 472,288 476,289 480,289 483,289 486,289 490,289"/>
+      <text x="150" y="86" fill="#c0392b">T<tspan dy="4" font-size="10">p</tspan></text>
+      <text x="112" y="148">T<tspan dy="4" font-size="10">s</tspan></text>
+      <text x="300" y="72">n = 1.5,&nbsp; i = 45&deg;&nbsp; (i<tspan dy="3" font-size="10">c</tspan><tspan dy="-3"> = 41.8&deg;)</tspan></text>
+      <text x="300" y="98">smooth decay, no oscillation</text>
+    </svg>
+    <figcaption>Transmitted / incident power vs. gap width, above the critical angle.</figcaption>
+  </figure>
+
+  <div class="note" style="margin-top:0">
+    Values used (n = 1.5, i = 45&deg;):&nbsp; d/&lambda; = 0.1 &rarr; T<sub>s</sub> = 0.88, T<sub>p</sub> = 0.95;&nbsp;
+    0.25 &rarr; 0.51, 0.73;&nbsp; 0.5 &rarr; 0.16, 0.33;&nbsp; 1.0 &rarr; 0.017, 0.043.
+  </div>
+
+  <div class="endmark">&#9632;&nbsp; END OF REQUIRED SOLUTION &mdash; everything below is optional &nbsp;&#9632;</div>
+
+  <div class="opt">
+    <span class="tag">OPTIONAL</span><b>Three quick checks on part (a).</b><br>
+    &bull;&nbsp; d = 0 &rArr; &beta; = 0 &rArr; T = 1: the slabs touch, no interface. &#10003;<br>
+    &bull;&nbsp; &beta; = m&pi;, i.e. d&#8201;cos&#8201;r = m&lambda;/2 &rArr; T = 1 &mdash; Fabry&ndash;P&eacute;rot resonance. &#10003;<br>
+    &bull;&nbsp; F<sub>p</sub> = 0 when tan&#8201;i = 1/n &mdash; Brewster's angle, so T<sub>p</sub> = 1 for every d. &#10003;
+  </div>
+
+  <div class="pnum">8</div>
+</div>

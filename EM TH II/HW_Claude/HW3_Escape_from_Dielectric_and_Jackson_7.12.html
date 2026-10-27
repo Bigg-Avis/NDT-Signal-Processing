@@ -1,0 +1,561 @@
+<title>EM Theory 2 — HW 3</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
+:root{--ink:#16233d;--ink-red:#c0392b;--rule:#b9cbdc;--grey:#6b7683;--info:#17788c;--lh:32px;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#6b7480;}
+body{font-family:'Segoe Print','Ink Free','Kalam',cursive;color:var(--ink);font-size:16.5px;line-height:var(--lh);}
+
+.sheet{width:8.5in;min-height:11in;margin:24px auto;padding:64px 62px 70px 78px;background:#fff;
+  background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--lh) - 1px),var(--rule) calc(var(--lh) - 1px) var(--lh));
+  background-position:0 64px;box-shadow:0 6px 22px rgba(0,0,0,.35);position:relative;page-break-after:always;}
+.sheet:last-of-type{page-break-after:auto}
+.pnum{position:absolute;bottom:26px;right:56px;font-size:14px;opacity:.7}
+
+.hdr{display:flex;justify-content:space-between;align-items:baseline;font-size:15px;opacity:.85}
+.title{font-size:24px;font-weight:700;text-align:center;margin:6px 0 2px}
+.title u{text-decoration:none;border-bottom:2.5px solid var(--ink);padding-bottom:2px}
+.qhead{font-size:20px;font-weight:700;margin:22px 0 6px;color:var(--ink-red);
+  border-bottom:2px solid var(--ink-red);display:inline-block;padding-bottom:1px}
+
+/* the question, as asked */
+.stmt{font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.5;background:#f7f8f5;
+  border-left:4px solid #9fb3c8;padding:9px 13px;margin:6px 0 12px;color:#26303f;}
+.stmt b{font-weight:700}
+
+/* THE ANSWER -- always at the top of a problem */
+.ans{border:3px solid var(--ink-red);border-radius:10px;background:#fffdf3;
+  padding:8px 18px 12px;margin:10px 0 16px;position:relative}
+.ans .tag{position:absolute;top:-14px;left:16px;background:#fffdf3;color:var(--ink-red);
+  font-weight:700;font-size:15px;padding:0 8px;letter-spacing:.06em}
+.ans .sub{font-size:14.5px;color:var(--info);margin-top:4px;font-style:italic}
+
+/* steps */
+.step{font-weight:700;font-size:17.5px;margin:16px 0 2px}
+.why{font-size:15px;color:var(--info);margin:0 0 4px 26px;font-style:italic}
+.eq{margin:5px 0 5px 30px}
+.eqc{margin:7px 0;text-align:center}
+.lbl{float:right;font-size:14px;color:var(--info);font-style:italic}
+.note{font-size:15px;margin:6px 0 6px 30px;color:var(--info);font-style:italic}
+
+/* optional / not required */
+.opt{border-left:4px solid #c3cbd4;background:#f6f8fa;color:var(--grey);
+  padding:6px 12px;margin:12px 0 8px 12px;font-size:14.5px;line-height:1.55}
+.opt .tag{display:inline-block;border:1.4px solid #9aa5b1;border-radius:9px;
+  padding:0 8px;font-size:12.5px;letter-spacing:.08em;margin-right:8px}
+.legend{border:1.6px dashed #a9b4bf;border-radius:8px;padding:6px 14px;margin:10px 0 4px;
+  font-size:14.5px;color:var(--grey)}
+
+/* math bits */
+.f{display:inline-flex;flex-direction:column;align-items:center;vertical-align:0.52em;margin:0 .22em;line-height:1.16}
+.f>.n{border-bottom:2px solid currentColor;padding:0 .32em}
+.f>.d{padding:0 .32em}
+.sq{white-space:nowrap}
+.rt{border-top:2px solid currentColor;padding:1px .18em 0 .06em;margin-left:-1px}
+.ov{display:inline-block;border-top:2px solid currentColor;line-height:1;padding-top:1px;margin-top:2px}
+.v,.h{position:relative;display:inline-block;white-space:nowrap}
+.v::after{content:"\2192";position:absolute;left:50%;transform:translateX(-50%);top:-.72em;font-size:.55em;line-height:1}
+.h::after{content:"\005E";position:absolute;left:50%;transform:translateX(-50%);top:-.62em;font-size:.72em;line-height:1}
+sub,sup{font-size:.66em;line-height:0}
+.red{color:var(--ink-red)}
+.bcnum{display:inline-block;border:1.8px solid var(--ink);border-radius:50%;width:1.5em;height:1.5em;
+  line-height:1.35em;text-align:center;font-size:.8em;margin-right:.3em}
+
+figure{margin:12px 0 8px;text-align:center}
+figcaption{font-size:14px;color:var(--info);margin-top:2px;font-style:italic}
+svg{max-width:100%;height:auto}
+.stroke{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round}
+.thin{fill:none;stroke:var(--ink);stroke-width:1;opacity:.55}
+.dash{fill:none;stroke:var(--ink);stroke-width:1.2;stroke-dasharray:5 5;opacity:.7}
+.slab{fill:#e3ecf4;stroke:var(--ink);stroke-width:1.3}
+.ray{fill:none;stroke:var(--ink);stroke-width:1.8}
+.ray2{fill:none;stroke:var(--ink-red);stroke-width:1.6}
+.bvec{fill:none;stroke:var(--ink-red);stroke-width:1.6}
+.curveS{fill:none;stroke:var(--ink);stroke-width:2.2}
+.curveP{fill:none;stroke:var(--ink-red);stroke-width:2.2;stroke-dasharray:7 4}
+text{font-family:'Segoe Print','Ink Free','Kalam',cursive;font-size:13px;fill:var(--ink)}
+
+@media print{
+  html,body{background:#fff}
+  body{font-size:15px;--lh:28px}
+  .sheet{margin:0;box-shadow:none;width:100%;max-width:100%;min-height:0;
+         padding:6px 4px 24px 6px;background-position:0 6px;overflow:hidden}
+  .pnum{bottom:4px;right:6px}
+  .eq{margin:3px 0 3px 26px}
+  .note,.why{margin-left:26px}
+  .step{margin:11px 0 2px}
+  .qhead{margin:12px 0 4px}
+  .ans{margin:10px 0 12px}
+  figure{margin:8px 0 4px}
+  .stmt{margin:5px 0 9px;padding:7px 11px}
+  @page{size:letter;margin:0.45in 0.5in}
+}
+
+.endmark{margin:14px 0 8px;text-align:center;color:#c0392b;font-weight:700;font-size:15.5px;
+  letter-spacing:.05em;border-top:2.5px dashed #c0392b;border-bottom:2.5px dashed #c0392b;padding:4px 0}
+.extrahdr{background:#eef1f4;border:1.6px dashed #9aa5b1;border-radius:8px;padding:6px 14px;
+  margin:0 0 12px;color:#6b7683;font-size:15px;font-weight:700;text-align:center}
+@media print{ .endmark{margin:8px 0 5px;font-size:14px;padding:2px 0} .extrahdr{margin-bottom:8px;padding:4px 12px} }
+
+.note b,.why b,.ans .sub b,figcaption b{color:inherit}
+
+.src{display:inline-block;font-size:11.5px;font-style:normal;color:#17788c;border:1.2px solid #7fb8c4;
+  border-radius:8px;padding:0 6px;margin-left:8px;vertical-align:middle;white-space:nowrap;line-height:1.5}
+.ask{font-size:16px;font-weight:700;color:#16233d;margin:10px 0 2px 6px;border-left:4px solid #c0392b;padding-left:10px}
+.startbox{border:2.5px solid #16233d;border-radius:9px;background:#f4f7fa;padding:8px 16px;margin:12px 0;font-size:15.5px}
+@media print{ .ask{margin:7px 0 2px 12px} .startbox{margin:9px 0;padding:6px 14px} }
+
+.lead{display:inline-block;font-weight:700;color:#16233d;background:#eef2f6;border-left:3px solid #16233d;
+  padding:0 8px;margin-right:8px;border-radius:0 4px 4px 0}
+.lead::after{content:":"}
+.gets{display:inline-block;font-weight:700;color:#c0392b;background:#fdf1ef;border-left:3px solid #c0392b;
+  padding:0 8px;margin-right:8px;border-radius:0 4px 4px 0}
+.gets::after{content:":"}
+@media print{ .lead,.gets{padding:0 6px;margin-right:6px} }
+
+.from{color:#17788c;font-style:italic;font-size:14.5px;margin-left:16px}
+.arw{color:#c0392b;font-weight:700;margin-right:6px}
+
+.says{margin:9px 0 2px 6px;color:var(--ink)}
+.says b{font-weight:700}
+@media print{ .says{margin:6px 0 2px 6px} }
+
+.parthead{display:block;background:#16233d;color:#fff;font-weight:700;font-size:16.5px;
+  padding:4px 16px;border-radius:6px;margin:0 0 10px;print-color-adjust:exact;-webkit-print-color-adjust:exact}
+.parthead i{font-weight:400;font-style:normal;opacity:.85;font-size:15px}
+
+</style>
+
+<!-- ============ SHEET 1 ============ -->
+<div class="sheet">
+  <div class="hdr"><span>Physics 5313 &mdash; Electromagnetic Theory 2</span><span>Homework 3</span></div>
+  <div class="title"><u>HW 3 &mdash; Escape from a Dielectric &amp; Jackson 7.12</u></div>
+
+  <div class="legend">
+    <b style="color:#16233d">black = write it down</b> &nbsp;&middot;&nbsp;
+    <span style="color:#c0392b;font-weight:700">red = the answer</span> &nbsp;&middot;&nbsp;
+    <span style="color:#17788c;font-style:italic">teal = my note, do not copy</span> &nbsp;&middot;&nbsp;
+    <span style="color:#6b7683">grey box = optional</span>
+  </div>
+
+  <div class="qhead">Problem 1 &mdash; Escape from a dielectric</div>
+
+  <div class="stmt">
+    A point source of light is embedded near the flat surface of a dielectric of index <i>n</i>. Treat the emitted
+    light as plane waves (rays) going out <b>isotropically</b>. Find the <b>fraction</b> of rays that can refract
+    out into the vacuum above.
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:22px;margin:10px 0 6px">
+      f =
+      <span class="f"><span class="n">1</span><span class="d">2</span></span>
+      [ 1 &minus; <span class="sq">&radic;<span class="rt">1 &minus; 1/n<sup>2</sup></span></span> ]
+    </div>
+    <div class="sub">
+      Glass (n = 1.5) gives <b>12.7%</b>. For big n it goes as <b>1/4n<sup>2</sup></b>.
+    </div>
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; Which rays escape?</div>
+
+  <div class="says">Let <b>&theta;</b> be the angle a ray makes with the surface normal &mdash; this is its
+    angle of incidence. <b>Snell's law</b> gives:</div>
+  <div class="eq">
+    n&#8201;sin&#8201;&theta; = n&prime;&#8201;sin&#8201;r
+    <span class="src">Lec 4, slide 7</span>
+  </div>
+
+  <div class="says">Above is vacuum, so n&prime; = 1:</div>
+  <div class="eq">sin&#8201;r = n&#8201;sin&#8201;&theta;</div>
+
+  <div class="says">But sin&#8201;r cannot exceed 1. So a refracted ray exists only if</div>
+  <div class="eq">
+    n&#8201;sin&#8201;&theta; &le; 1,&nbsp;&nbsp; that is&nbsp;&nbsp;
+    <span class="red">&theta; &lt; i<sub>0</sub></span>,&nbsp;&nbsp; where&nbsp;
+    <span class="red">sin&#8201;i<sub>0</sub> = 1/n</span>
+  </div>
+
+  <div class="says">If &theta; &gt; i<sub>0</sub>, sin&#8201;r would have to exceed 1 &mdash; impossible. No
+    refracted ray exists, so the wave is <b>totally internally reflected</b>.
+    <span class="src">Lec 4, slide 8</span></div>
+
+  <div class="says">So only rays aimed steeply upward escape. Together they fill the <b>escape cone</b> &mdash;
+    a cone of <b>half-angle i<sub>0</sub></b> about the normal. Rays aimed downward never reach the surface.</div>
+
+  <div class="pnum">1</div>
+</div>
+
+<!-- ============ SHEET 2 ============ -->
+<div class="sheet">
+  <figure style="margin-top:0">
+    <svg viewBox="0 0 520 262" width="412">
+      <rect x="20" y="10" width="480" height="70" fill="#f2f7fb"/>
+      <polygon points="260,195 161,80 359,80" fill="#dfeaf5" stroke="none"/>
+      <line class="thin" x1="20" y1="80" x2="500" y2="80" style="opacity:1;stroke-width:1.8"/>
+      <text x="28" y="28">vacuum &nbsp; n&prime; = 1</text>
+      <text x="28" y="102">dielectric &nbsp; n</text>
+      <line class="dash" x1="260" y1="205" x2="260" y2="26"/>
+      <text x="266" y="36">normal</text>
+      <line class="ray" x1="260" y1="195" x2="161" y2="80"/>
+      <line class="ray" x1="260" y1="195" x2="359" y2="80"/>
+      <line class="ray2" x1="161" y1="80" x2="104" y2="77"/>
+      <polygon points="100,76 111,74 110,81" fill="#c0392b"/>
+      <line class="ray2" x1="359" y1="80" x2="416" y2="77"/>
+      <polygon points="420,76 409,74 410,81" fill="#c0392b"/>
+      <text x="66" y="64" fill="#c0392b">grazing, r = 90&deg;</text>
+      <text x="358" y="64" fill="#c0392b">grazing, r = 90&deg;</text>
+      <line class="ray" x1="260" y1="195" x2="240" y2="80"/>
+      <line class="ray2" x1="240" y1="80" x2="229" y2="42"/>
+      <polygon points="228,38 225,49 234,47" fill="#c0392b"/>
+      <text x="176" y="30" fill="#c0392b">escapes</text>
+      <line class="ray" x1="260" y1="195" x2="420" y2="80"/>
+      <line class="ray" x1="420" y1="80" x2="478" y2="122" style="stroke-dasharray:6 4"/>
+      <polygon points="482,125 472,119 470,127" fill="#16233d"/>
+      <text x="356" y="152">totally reflected</text>
+      <text x="356" y="170">(&theta; &gt; i<tspan dy="3" font-size="10">0</tspan><tspan dy="-3">)</tspan></text>
+      <path class="thin" style="opacity:1;stroke:#c0392b;stroke-width:1.5" d="M 260 115 A 80 80 0 0 0 246 116"/>
+      <text x="243" y="103" fill="#c0392b">&theta;</text>
+      <path class="thin" style="opacity:1;stroke-width:1.5" d="M 260 133 A 62 62 0 0 1 300 148"/>
+      <text x="281" y="124">i<tspan dy="3" font-size="10">0</tspan></text>
+      <circle cx="260" cy="195" r="5" fill="#c0392b"/>
+      <text x="186" y="216">point source</text>
+      <text x="46" y="150">escape cone,</text>
+      <text x="46" y="170">half-angle i<tspan dy="3" font-size="10">0</tspan></text>
+    </svg>
+    <figcaption>
+      <b>&theta;</b> = angle of any ray from the normal. <b>i<sub>0</sub></b> = the <b>critical angle</b>, the
+      largest &theta; that still escapes. <b>Grazing</b>: at &theta; = i<sub>0</sub>,
+      sin&#8201;r = n&#8201;sin&#8201;i<sub>0</sub> = 1, so r = 90&deg; &mdash; the refracted ray emerges along the
+      surface.
+    </figcaption>
+  </figure>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Solid angle of the escape cone</div>
+
+  <div class="says">The source shines the same in every direction. So the fraction of light that escapes is just
+    the fraction of <b>directions</b> that escape.</div>
+
+  <div class="says">To name a direction in 3D you need <b>two</b> angles:</div>
+  <div class="eq">
+    <b>&theta;</b> = <b>polar angle</b> &mdash; how far you tilt from the normal
+    <span class="from">(like a slope angle)</span>
+  </div>
+  <div class="eq">
+    <b>&phi;</b> = <b>azimuthal angle</b> &mdash; the rotation about the normal
+    <span class="from">(like a compass bearing)</span>
+  </div>
+
+  <div class="note">
+    The picture above is a <b>flat slice</b> &mdash; it shows one &phi; only. Spin that whole picture around the
+    dashed normal line and the triangle sweeps out the real 3D cone. That spin <i>is</i> &phi;.
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 260 168" width="215">
+      <line class="dash" x1="130" y1="160" x2="130" y2="16"/>
+      <path class="stroke" d="M 130 148 L 78 58"/>
+      <path class="stroke" d="M 130 148 L 182 58"/>
+      <ellipse cx="130" cy="58" rx="52" ry="15" fill="#dfeaf5" stroke="#16233d" stroke-width="1.4"/>
+      <path class="thin" style="opacity:1;stroke-width:1.5" d="M 130 108 A 40 40 0 0 1 152 115"/>
+      <text x="134" y="122">&theta;</text>
+      <path class="bvec" d="M 96 66 A 52 15 0 0 0 168 64"/>
+      <polygon points="172,62 162,60 164,69" fill="#c0392b"/>
+      <text x="176" y="52" fill="#c0392b">&phi;</text>
+      <circle cx="130" cy="148" r="4" fill="#c0392b"/>
+      <text x="14" y="150">source</text>
+      <text x="136" y="22">up</text>
+    </svg>
+    <figcaption>&theta; opens the cone; &phi; runs around its rim.</figcaption>
+  </figure>
+
+  <div class="pnum">2</div>
+</div>
+
+<!-- ============ SHEET 3 ============ -->
+<div class="sheet">
+  <div class="says" style="margin-top:0">A small patch of directions has height d&theta; and width
+    sin&#8201;&theta;&#8201;d&phi;, so its <b>solid angle</b> is</div>
+  <div class="eq">d&Omega; = sin&#8201;&theta;&#8201;d&theta;&#8201;d&phi;</div>
+  <div class="note">
+    Why sin&#8201;&theta;? Circles near the top of a sphere are small. At &theta; = 0 the circle is a point
+    (sin 0 = 0); at &theta; = 90&deg; it is the widest circle (sin 90&deg; = 1).
+  </div>
+
+  <div class="says">Integrate over every direction in the cone: &theta; from 0 to i<sub>0</sub>, and &phi; all
+    the way round from 0 to 2&pi;, since the cone looks the same from every side:</div>
+  <div class="eq">
+    &Omega;<sub>escape</sub> =
+    <span style="font-size:1.3em">&int;</span><sub>0</sub><sup>&#8201;2&pi;</sup>d&phi;
+    <span style="font-size:1.3em">&int;</span><sub>0</sub><sup>&#8201;i<sub>0</sub></sup>sin&#8201;&theta;&#8201;d&theta;
+    = 2&pi;&#8201;[&minus;cos&#8201;&theta;]<sub>0</sub><sup>&#8201;i<sub>0</sub></sup>
+    = 2&pi;(1 &minus; cos&#8201;i<sub>0</sub>)
+  </div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Convert to a fraction of all directions</div>
+  <div class="says">All directions together make 4&pi; steradians, so the escaping fraction is</div>
+  <div class="eq">
+    f =
+    <span class="f"><span class="n">&Omega;<sub>escape</sub></span><span class="d">4&pi;</span></span>
+    =
+    <span class="f"><span class="n">2&pi;(1 &minus; cos&#8201;i<sub>0</sub>)</span><span class="d">4&pi;</span></span>
+    =
+    <span class="f"><span class="n">1 &minus; cos&#8201;i<sub>0</sub></span><span class="d">2</span></span>
+  </div>
+
+  <div class="step">Step 4 &nbsp;&mdash;&nbsp; Express the answer in terms of n</div>
+  <div class="says">From Step 1, sin&#8201;i<sub>0</sub> = 1/n. Using sin<sup>2</sup> + cos<sup>2</sup> = 1:</div>
+  <div class="eq">
+    cos&#8201;i<sub>0</sub> = <span class="sq">&radic;<span class="rt">1 &minus; sin<sup>2</sup>i<sub>0</sub></span></span>
+    = <span class="sq">&radic;<span class="rt">1 &minus; 1/n<sup>2</sup></span></span>
+  </div>
+  <div class="says">Substitute into Step 3:</div>
+
+  <div class="ans">
+    <span class="tag">FINAL ANSWER</span>
+    <div class="eqc" style="font-size:22px;margin:10px 0 6px">
+      f =
+      <span class="f"><span class="n">1</span><span class="d">2</span></span>
+      [ 1 &minus; <span class="sq">&radic;<span class="rt">1 &minus; 1/n<sup>2</sup></span></span> ]
+    </div>
+  </div>
+  <div class="endmark">&#9632;&nbsp; END OF REQUIRED SOLUTION &mdash; everything below is optional &nbsp;&#9632;</div>
+
+  <div class="opt">
+    <span class="tag">OPTIONAL</span><b>Checks.</b> n &rarr; 1 gives f &rarr; &frac12; (no index step, so
+    everything going up escapes) &#10003;&nbsp; big n gives f &asymp; 1/4n<sup>2</sup> &#10003;&nbsp;
+    water 17.0% | glass 12.7% | diamond 4.5% | GaAs 2.1% &mdash; which is why LEDs need domes.
+  </div>
+
+  <div class="pnum">3</div>
+</div>
+
+<!-- ============ SHEET 4 ============ -->
+<div class="sheet">
+  <div class="qhead" style="margin-top:0">Problem 2 &mdash; Jackson 7.12</div>
+
+  <div class="stmt">
+    The time dependence of electrical disturbances in good conductors is governed by the frequency-dependent
+    conductivity (7.58). Consider <b>longitudinal</b> electric fields in a conductor, using Ohm's law, the
+    continuity equation, and the differential form of Coulomb's law.<br>
+    <b>(a)</b> Show that the time-Fourier-transformed charge density satisfies
+    [&sigma;(&omega;) &minus; i&omega;&epsilon;<sub>0</sub>]&rho;(<b>x</b>,&omega;) = 0.<br>
+    <b>(b)</b> Using &sigma;(&omega;) = &sigma;<sub>0</sub>/(1 &minus; i&omega;&tau;) with
+    &sigma;<sub>0</sub> = &epsilon;<sub>0</sub>&omega;<sub>p</sub><sup>2</sup>&tau;, show that for
+    &omega;<sub>p</sub>&tau; &#8811; 1 any initial disturbance oscillates at the plasma frequency and decays with
+    constant &lambda; = 1/2&tau;.
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div style="margin-top:6px"><b>(a)</b>&nbsp;
+      [&sigma;(&omega;) &minus; i&omega;&epsilon;<sub>0</sub>]&#8201;&rho;(<b>x</b>,&omega;) = 0</div>
+    <div style="margin-top:6px"><b>(b)</b>&nbsp;
+      &omega;<sup>2</sup> + i&omega;/&tau; &minus; &omega;<sub>p</sub><sup>2</sup> = 0 &nbsp;&rArr;&nbsp;
+      &omega; &asymp; &plusmn;&omega;<sub>p</sub> &minus;
+      <span class="f"><span class="n">i</span><span class="d">2&tau;</span></span>
+      &nbsp;&rArr;&nbsp;
+      &rho; &prop; e<sup>&#8723;i&omega;<sub>p</sub>t</sup>&#8201;e<sup>&minus;t/2&tau;</sup></div>
+    <div class="sub">&mdash; it <b>oscillates</b> at &omega;<sub>p</sub> and <b>decays</b> with
+      &lambda; = 1/2&tau;.</div>
+  </div>
+
+  <div class="says">Every step below is demanded by a phrase in the question. Nothing is invented:</div>
+  <table style="width:100%;border-collapse:collapse;font-size:14.5px;margin:2px 0 8px 6px">
+    <tr><td style="padding:1px 10px 1px 0;vertical-align:top">&ldquo;using Ohm's law, the continuity equation, and the differential form of Coulomb's law&rdquo;</td><td style="padding:1px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap;text-align:right">Step 0</td></tr>
+    <tr><td style="padding:1px 10px 1px 0;vertical-align:top">&ldquo;the <b>frequency-dependent</b> conductivity &sigma;(&omega;)&rdquo; &mdash; only meaningful one &omega; at a time</td><td style="padding:1px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap;text-align:right">Step 1</td></tr>
+    <tr><td style="padding:1px 10px 1px 0;vertical-align:top">&ldquo;the <b>time-Fourier-transformed</b> charge density&rdquo;</td><td style="padding:1px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap;text-align:right">Step 1</td></tr>
+    <tr><td style="padding:1px 10px 1px 0;vertical-align:top">the target holds only &rho;(<b>x</b>,&omega;) &mdash; no <span class="v">J</span>, no <span class="v">E</span></td><td style="padding:1px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap;text-align:right">Step 2</td></tr>
+    <tr><td style="padding:1px 10px 1px 0;vertical-align:top">&ldquo;<b>using the representation</b> &sigma;(&omega;) = &sigma;<sub>0</sub>/(1&minus;i&omega;&tau;), <b>where</b> &sigma;<sub>0</sub> = &epsilon;<sub>0</sub>&omega;<sub>p</sub><sup>2</sup>&tau;&rdquo;</td><td style="padding:1px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap;text-align:right">Step 3</td></tr>
+    <tr><td style="padding:1px 10px 1px 0;vertical-align:top"><i>nothing &mdash; this part is just algebra</i></td><td style="padding:1px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap;text-align:right">Step 4</td></tr>
+    <tr><td style="padding:1px 10px 1px 0;vertical-align:top">&ldquo;<b>in the approximation</b> &omega;<sub>p</sub>&tau; &#8811; 1&rdquo;</td><td style="padding:1px 0;vertical-align:top;color:#c0392b;font-weight:700;white-space:nowrap;text-align:right">Step 5</td></tr>
+  </table>
+
+  <div class="says">Step 0 sets up both parts. <b>Steps 1&ndash;2 answer part (a)</b>; <b>Steps 3&ndash;5 answer part (b)</b>.</div>
+
+  <div class="step">Step 0 &nbsp;&mdash;&nbsp; The laws we use</div>
+  <div class="says">The problem tells us to use the first three.</div>
+
+  <div class="eq">
+    <span class="v">J</span> = &sigma;(&omega;)&#8201;<span class="v">E</span>
+    <span class="from">(Ohm &mdash; current follows the field)</span>
+  </div>
+  <div class="eq">
+    &nabla;&middot;<span class="v">J</span> + &part;&rho;/&part;t = 0
+    <span class="from">(continuity &mdash; charge is conserved)</span>
+  </div>
+  <div class="eq">
+    &nabla;&middot;<span class="v">E</span> = &rho;/&epsilon;<sub>0</sub>
+    <span class="from">(Coulomb, differential form)</span>
+  </div>
+  <div class="eq">
+    &omega;<sub>p</sub><sup>2</sup> =
+    <span class="f"><span class="n">Ne<sup>2</sup></span><span class="d">&epsilon;<sub>0</sub>m</span></span>
+    <span class="from">(plasma frequency)</span>
+    <span class="src">Lec 6</span>
+  </div>
+
+  <div class="note">
+    <b>Notation.</b> He writes &sigma;<sub>0</sub> = Ne<sup>2</sup>/(m&gamma;<sub>0</sub>); Jackson
+    writes &sigma;<sub>0</sub> = &epsilon;<sub>0</sub>&omega;<sub>p</sub><sup>2</sup>&tau; = Ne<sup>2</sup>&tau;/m.
+    Same thing, so <b>&tau; = 1/&gamma;<sub>0</sub></b>.
+  </div>
+
+  <div class="pnum">4</div>
+</div>
+
+<!-- ============ SHEET 5 ============ -->
+<div class="sheet">
+  <div class="parthead">PART (a) &nbsp;<i>&mdash; show that [ &sigma;(&omega;) &minus; i&omega;&epsilon;<sub>0</sub> ]&#8201;&rho;(<b>x</b>,&omega;) = 0</i></div>
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; Fourier transform in time</div>
+
+  <div class="says">The continuity equation contains &part;&rho;/&part;t. Part (b) asks which frequency the charge
+    settles at, and a frequency cannot be read off a differential equation &mdash; only off an algebraic one. So
+    the derivative has to go.</div>
+
+  <div class="says">Assume every quantity oscillates at a single frequency &omega;:</div>
+  <div class="eq">
+    f(<b>x</b>,t) = f(<b>x</b>,&omega;)&#8201;e<sup>&minus;i&omega;t</sup>
+    <span class="from">f stands for &rho;, <span class="v">J</span> or <span class="v">E</span></span>
+  </div>
+  <div class="says">f(<b>x</b>,&omega;) is the <b>amplitude</b>: it depends on position only, and all of the time
+    dependence sits in e<sup>&minus;i&omega;t</sup>.</div>
+
+  <div class="says">Differentiating in time therefore acts on the exponential alone:</div>
+  <div class="eq">
+    <span class="f"><span class="n">&part;&rho;</span><span class="d">&part;t</span></span>
+    = &rho;(<b>x</b>,&omega;)&#8201;(&minus;i&omega;)&#8201;e<sup>&minus;i&omega;t</sup>
+    = &minus;i&omega;&#8201;&rho;
+    <span class="from">since &rho;(<b>x</b>,&omega;)e<sup>&minus;i&omega;t</sup> is &rho; itself</span>
+  </div>
+  <div class="says">That is, <b>a time derivative is equivalent to multiplication by &minus;i&omega;</b>:&nbsp;
+    <span class="red">&part;/&part;t &rarr; &minus;i&omega;</span></div>
+
+  <div class="says">Substituting into the continuity equation, every term carries e<sup>&minus;i&omega;t</sup>,
+    which is never zero and therefore cancels:</div>
+  <div class="eq">
+    &nabla;&middot;<span class="v">J</span>(<b>x</b>,&omega;) &minus; i&omega;&rho;(<b>x</b>,&omega;) = 0
+  </div>
+  <div class="note">
+    &ldquo;Fourier transform in time&rdquo; is the formal name for this substitution &mdash; and it is the phrase
+    the question itself uses when it asks for the <i>time-Fourier-transformed</i> charge density.
+  </div>
+
+  <div class="pnum">5</div>
+</div>
+
+<div class="sheet">
+  <div class="step" style="margin-top:0">Step 2 &nbsp;&mdash;&nbsp; Substitute Ohm's law, then Coulomb's law &rarr; part (a)</div>
+  <div class="says">We want an equation in &rho; alone. Substitute
+    <span class="v">J</span> = &sigma;(&omega;)<span class="v">E</span>:</div>
+  <div class="eq">&sigma;(&omega;)&#8201;&nabla;&middot;<span class="v">E</span> &minus; i&omega;&rho; = 0</div>
+
+  <div class="says">Now substitute &nabla;&middot;<span class="v">E</span> = &rho;/&epsilon;<sub>0</sub>:</div>
+  <div class="eq">
+    <span class="f"><span class="n">&sigma;(&omega;)</span><span class="d">&epsilon;<sub>0</sub></span></span>
+    &rho; &minus; i&omega;&rho; = 0
+  </div>
+
+  <div class="says">Multiply by &epsilon;<sub>0</sub> and factor out &rho;:</div>
+
+  <div class="ans">
+    <span class="tag">FINAL ANSWER &mdash; PART (a)</span>
+    <div class="eqc" style="font-size:20px;margin:10px 0 4px">
+      [ &sigma;(&omega;) &minus; i&omega;&epsilon;<sub>0</sub> ]&#8201;&rho;(<b>x</b>,&omega;) = 0
+    </div>
+  </div>
+  <div class="note">
+    Divide by (&minus;i&omega;) and this is [&epsilon;<sub>0</sub> + i&sigma;/&omega;]&rho; = 0 &mdash; his
+    conductor permittivity <span class="src">Lec 7, slide 2</span> set to zero.
+  </div>
+
+
+  <div class="pnum">6</div>
+</div>
+
+<!-- ============ SHEET 6 ============ -->
+<div class="sheet">
+  <div class="parthead">PART (b) &nbsp;<i>&mdash; show it oscillates at &omega;<sub>p</sub> and decays with &lambda; = 1/2&tau;</i></div>
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Take part (a)'s equation and put in the given &sigma;(&omega;)</div>
+  <div class="says">Part (b) says &ldquo;<b>using the representation</b> &sigma;(&omega;) = &sigma;<sub>0</sub>/(1&minus;i&omega;&tau;)&rdquo;.
+    Using it <b>where?</b> &mdash; in the equation part (a) has just produced. So start by writing that down again:</div>
+  <div class="eq">
+    [ &sigma;(&omega;) &minus; i&omega;&epsilon;<sub>0</sub> ]&#8201;&rho;(<b>x</b>,&omega;) = 0
+    <span class="from">(the answer to part (a))</span>
+  </div>
+  <div class="says">A real disturbance has &rho; &ne; 0, so the bracket itself must vanish:</div>
+  <div class="eq">&sigma;(&omega;) = i&omega;&epsilon;<sub>0</sub></div>
+
+  <div class="says">Substitute the given &sigma;(&omega;) = &sigma;<sub>0</sub>/(1&minus;i&omega;&tau;) and
+    clear the fraction:</div>
+  <div class="eq">
+    &sigma;<sub>0</sub> = i&omega;&epsilon;<sub>0</sub>(1 &minus; i&omega;&tau;)
+    = i&omega;&epsilon;<sub>0</sub> + &omega;<sup>2</sup>&epsilon;<sub>0</sub>&tau;
+  </div>
+
+  <div class="says">Substitute the given &sigma;<sub>0</sub> =
+    &epsilon;<sub>0</sub>&omega;<sub>p</sub><sup>2</sup>&tau;, then divide by &epsilon;<sub>0</sub>&tau;:</div>
+  <div class="eqc" style="font-size:18px">
+    <span style="border:2px solid #16233d;border-radius:7px;padding:2px 14px">
+      &omega;<sup>2</sup> + <span class="f"><span class="n">i&omega;</span><span class="d">&tau;</span></span>
+      &minus; &omega;<sub>p</sub><sup>2</sup> = 0
+    </span>
+  </div>
+
+  <div class="step">Step 4 &nbsp;&mdash;&nbsp; Solve the quadratic</div>
+  <div class="says">This is a quadratic in &omega;. With a = 1, b = i/&tau;,
+    c = &minus;&omega;<sub>p</sub><sup>2</sup>, and (i/&tau;)<sup>2</sup> = &minus;1/&tau;<sup>2</sup>:</div>
+  <div class="eq">
+    &omega; = &minus;
+    <span class="f"><span class="n">i</span><span class="d">2&tau;</span></span>
+    &plusmn; <span class="sq">&radic;<span class="rt">&omega;<sub>p</sub><sup>2</sup> &minus; 1/4&tau;<sup>2</sup></span></span>
+  </div>
+
+  <div class="step">Step 5 &nbsp;&mdash;&nbsp; Use &omega;<sub>p</sub>&tau; &#8811; 1</div>
+  <div class="says">Since &omega;<sub>p</sub>&tau; &#8811; 1, the term 1/4&tau;<sup>2</sup> is negligible beside
+    &omega;<sub>p</sub><sup>2</sup>, so the square root is just &omega;<sub>p</sub>:</div>
+  <div class="eq">
+    &omega; &asymp; &plusmn;&omega;<sub>p</sub> &minus;
+    <span class="f"><span class="n">i</span><span class="d">2&tau;</span></span>
+  </div>
+
+  <div class="says">Since &rho;(t) &prop; e<sup>&minus;i&omega;t</sup>, put this &omega; back in:</div>
+  <div class="eq">
+    &rho;(t) &prop; e<sup>&#8723;i&omega;<sub>p</sub>t</sup> &middot; e<sup>&minus;t/2&tau;</sup>
+  </div>
+  <div class="says">The <b>real</b> part of &omega; gives the oscillation; the <b>imaginary</b> part gives the
+    decay.</div>
+
+  <div class="ans">
+    <span class="tag">FINAL ANSWER &mdash; PART (b)</span>
+    <div class="eqc" style="font-size:19px;margin:8px 0 4px">
+      oscillates at &nbsp;&omega;<sub>p</sub>&nbsp;,&nbsp;&nbsp; decays with &nbsp;&lambda; =
+      <span class="f"><span class="n">1</span><span class="d">2&tau;</span></span>
+    </div>
+  </div>
+  <div class="endmark">&#9632;&nbsp; END OF REQUIRED SOLUTION &mdash; everything below is optional &nbsp;&#9632;</div>
+
+  <div class="pnum">7</div>
+</div>
+
+<div class="sheet">
+  <div class="extrahdr">EXTRA &mdash; not required for the answer</div>
+  <div class="opt">
+    <span class="tag">OPTIONAL</span><b>Why you must not use the DC value &sigma;<sub>0</sub>.</b>
+    It gives &omega; = &minus;i&sigma;<sub>0</sub>/&epsilon;<sub>0</sub>, which is purely imaginary &mdash; so
+    <b>no oscillation at all</b>, and a decay
+    &lambda;<sub>w</sub> = &sigma;<sub>0</sub>/&epsilon;<sub>0</sub> = &omega;<sub>p</sub><sup>2</sup>&tau;.
+    For &omega;<sub>p</sub>&tau; = 100 that is 20&#8201;000&times; too fast &mdash; Jackson's &ldquo;(wrong) decay
+    constant&rdquo;. The disturbance happens at &omega; &asymp; &omega;<sub>p</sub>, where &omega;&tau; is huge,
+    so the DC value simply does not apply.
+  </div>
+
+  <div class="opt">
+    <span class="tag">OPTIONAL</span><b>The decay is exact.</b> The imaginary part of both roots is
+    <i>exactly</i> &minus;1/2&tau; whenever &omega;<sub>p</sub>&tau; &gt; &frac12;; only the oscillation frequency is
+    approximated. For &omega;<sub>p</sub>&tau; = 100 the exact roots are &plusmn;99.9987/&tau; &minus; 0.5i/&tau;.
+  </div>
+
+  <div class="pnum">8</div>
+</div>

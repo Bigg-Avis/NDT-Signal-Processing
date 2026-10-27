@@ -1,0 +1,635 @@
+<title>EM Theory 2 — HW 2</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap');
+:root{--ink:#16233d;--ink-red:#c0392b;--rule:#b9cbdc;--grey:#6b7683;--info:#17788c;--lh:32px;}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#6b7480;}
+body{font-family:'Segoe Print','Ink Free','Kalam',cursive;color:var(--ink);font-size:16.5px;line-height:var(--lh);}
+
+.sheet{width:8.5in;min-height:11in;margin:24px auto;padding:64px 62px 70px 78px;background:#fff;
+  background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--lh) - 1px),var(--rule) calc(var(--lh) - 1px) var(--lh));
+  background-position:0 64px;box-shadow:0 6px 22px rgba(0,0,0,.35);position:relative;page-break-after:always;}
+.sheet:last-of-type{page-break-after:auto}
+.pnum{position:absolute;bottom:26px;right:56px;font-size:14px;opacity:.7}
+
+.hdr{display:flex;justify-content:space-between;align-items:baseline;font-size:15px;opacity:.85}
+.title{font-size:24px;font-weight:700;text-align:center;margin:6px 0 2px}
+.title u{text-decoration:none;border-bottom:2.5px solid var(--ink);padding-bottom:2px}
+.qhead{font-size:20px;font-weight:700;margin:22px 0 6px;color:var(--ink-red);
+  border-bottom:2px solid var(--ink-red);display:inline-block;padding-bottom:1px}
+
+/* the question, as asked */
+.stmt{font-family:Georgia,'Times New Roman',serif;font-size:14px;line-height:1.5;background:#f7f8f5;
+  border-left:4px solid #9fb3c8;padding:9px 13px;margin:6px 0 12px;color:#26303f;}
+.stmt b{font-weight:700}
+
+/* THE ANSWER -- always at the top of a problem */
+.ans{border:3px solid var(--ink-red);border-radius:10px;background:#fffdf3;
+  padding:8px 18px 12px;margin:10px 0 16px;position:relative}
+.ans .tag{position:absolute;top:-14px;left:16px;background:#fffdf3;color:var(--ink-red);
+  font-weight:700;font-size:15px;padding:0 8px;letter-spacing:.06em}
+.ans .sub{font-size:14.5px;color:var(--info);margin-top:4px;font-style:italic}
+
+/* steps */
+.step{font-weight:700;font-size:17.5px;margin:16px 0 2px}
+.why{font-size:15px;color:var(--info);margin:0 0 4px 26px;font-style:italic}
+.eq{margin:5px 0 5px 30px}
+.eqc{margin:7px 0;text-align:center}
+.lbl{float:right;font-size:14px;color:var(--info);font-style:italic}
+.note{font-size:15px;margin:6px 0 6px 30px;color:var(--info);font-style:italic}
+
+/* optional / not required */
+.opt{border-left:4px solid #c3cbd4;background:#f6f8fa;color:var(--grey);
+  padding:6px 12px;margin:12px 0 8px 12px;font-size:14.5px;line-height:1.55}
+.opt .tag{display:inline-block;border:1.4px solid #9aa5b1;border-radius:9px;
+  padding:0 8px;font-size:12.5px;letter-spacing:.08em;margin-right:8px}
+.legend{border:1.6px dashed #a9b4bf;border-radius:8px;padding:6px 14px;margin:10px 0 4px;
+  font-size:14.5px;color:var(--grey)}
+
+/* math bits */
+.f{display:inline-flex;flex-direction:column;align-items:center;vertical-align:0.52em;margin:0 .22em;line-height:1.16}
+.f>.n{border-bottom:2px solid currentColor;padding:0 .32em}
+.f>.d{padding:0 .32em}
+.sq{white-space:nowrap}
+.rt{border-top:2px solid currentColor;padding:1px .18em 0 .06em;margin-left:-1px}
+.ov{display:inline-block;border-top:2px solid currentColor;line-height:1;padding-top:1px;margin-top:2px}
+.v,.h{position:relative;display:inline-block;white-space:nowrap}
+.v::after{content:"\2192";position:absolute;left:50%;transform:translateX(-50%);top:-.72em;font-size:.55em;line-height:1}
+.h::after{content:"\005E";position:absolute;left:50%;transform:translateX(-50%);top:-.62em;font-size:.72em;line-height:1}
+sub,sup{font-size:.66em;line-height:0}
+.red{color:var(--ink-red)}
+.bcnum{display:inline-block;border:1.8px solid var(--ink);border-radius:50%;width:1.5em;height:1.5em;
+  line-height:1.35em;text-align:center;font-size:.8em;margin-right:.3em}
+
+figure{margin:12px 0 8px;text-align:center}
+figcaption{font-size:14px;color:var(--info);margin-top:2px;font-style:italic}
+svg{max-width:100%;height:auto}
+.stroke{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round}
+.thin{fill:none;stroke:var(--ink);stroke-width:1;opacity:.55}
+.dash{fill:none;stroke:var(--ink);stroke-width:1.2;stroke-dasharray:5 5;opacity:.7}
+.slab{fill:#e3ecf4;stroke:var(--ink);stroke-width:1.3}
+.ray{fill:none;stroke:var(--ink);stroke-width:1.8}
+.ray2{fill:none;stroke:var(--ink-red);stroke-width:1.6}
+.bvec{fill:none;stroke:var(--ink-red);stroke-width:1.6}
+.curveS{fill:none;stroke:var(--ink);stroke-width:2.2}
+.curveP{fill:none;stroke:var(--ink-red);stroke-width:2.2;stroke-dasharray:7 4}
+text{font-family:'Segoe Print','Ink Free','Kalam',cursive;font-size:13px;fill:var(--ink)}
+
+@media print{
+  html,body{background:#fff}
+  body{font-size:15px;--lh:28px}
+  .sheet{margin:0;box-shadow:none;width:100%;max-width:100%;min-height:0;
+         padding:6px 4px 24px 6px;background-position:0 6px;overflow:hidden}
+  .pnum{bottom:4px;right:6px}
+  .eq{margin:3px 0 3px 26px}
+  .note,.why{margin-left:26px}
+  .step{margin:11px 0 2px}
+  .qhead{margin:12px 0 4px}
+  .ans{margin:10px 0 12px}
+  figure{margin:8px 0 4px}
+  .stmt{margin:5px 0 9px;padding:7px 11px}
+  @page{size:letter;margin:0.45in 0.5in}
+}
+
+.endmark{margin:14px 0 8px;text-align:center;color:#c0392b;font-weight:700;font-size:15.5px;
+  letter-spacing:.05em;border-top:2.5px dashed #c0392b;border-bottom:2.5px dashed #c0392b;padding:4px 0}
+.extrahdr{background:#eef1f4;border:1.6px dashed #9aa5b1;border-radius:8px;padding:6px 14px;
+  margin:0 0 12px;color:#6b7683;font-size:15px;font-weight:700;text-align:center}
+@media print{ .endmark{margin:8px 0 5px;font-size:14px;padding:2px 0} .extrahdr{margin-bottom:8px;padding:4px 12px} }
+
+.note b,.why b,.ans .sub b,figcaption b{color:inherit}
+
+.src{display:inline-block;font-size:11.5px;font-style:normal;color:#17788c;border:1.2px solid #7fb8c4;
+  border-radius:8px;padding:0 6px;margin-left:8px;vertical-align:middle;white-space:nowrap;line-height:1.5}
+.ask{font-size:16px;font-weight:700;color:#16233d;margin:10px 0 2px 6px;border-left:4px solid #c0392b;padding-left:10px}
+.startbox{border:2.5px solid #16233d;border-radius:9px;background:#f4f7fa;padding:8px 16px;margin:12px 0;font-size:15.5px}
+@media print{ .ask{margin:7px 0 2px 12px} .startbox{margin:9px 0;padding:6px 14px} }
+
+</style>
+
+<!-- ============ SHEET 1 ============ -->
+<div class="sheet">
+  <div class="hdr"><span>Physics 5313 &mdash; Electromagnetic Theory 2</span><span>Homework 2</span></div>
+  <div class="title"><u>HW 2 &mdash; Fresnel Equations (s pol.) &amp; Brewster's Angle</u></div>
+
+  <div class="legend">
+    <b style="color:#16233d">How to read this:</b>
+    <span style="color:#16233d;font-weight:700">black = write this down</span> &nbsp;&middot;&nbsp;
+    <span style="color:#c0392b;font-weight:700">red = the answer</span> &nbsp;&middot;&nbsp;
+    <span style="color:#17788c;font-style:italic">teal = explanation, no need to copy</span> &nbsp;&middot;&nbsp;
+    <span style="color:#6b7683">grey box = optional</span> &nbsp;&middot;&nbsp;
+    <span style="color:#17788c;font-style:italic">tags like</span>
+    <span class="src">Lec 3, slide 9</span>
+    <span style="color:#17788c;font-style:italic">give the source slide.</span>
+  </div>
+
+  <div class="qhead">Problem 1 &mdash; Fresnel equations for s polarization</div>
+
+  <div class="stmt">
+    A plane wave goes from medium (&mu;,&nbsp;&epsilon;) into medium (&mu;&prime;,&nbsp;&epsilon;&prime;) across the plane
+    z = 0, at angle of incidence <i>i</i>. The electric field is <b>perpendicular to the plane of incidence</b>
+    (s polarization). Find the reflected and transmitted amplitudes &mdash; i.e. derive Jackson Eq.&nbsp;(7.39).
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div style="margin-top:8px">Impedance form (Lecture 4), Z = <span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>:</div>
+    <div class="eqc" style="font-size:19px;margin:4px 0 2px">
+      <span class="f"><span class="n">E<sub>0</sub>&prime;</span><span class="d">E<sub>0</sub></span></span>
+      =
+      <span class="f"><span class="n">2Z&prime;cos&#8201;i</span><span class="d">Z&prime;cos&#8201;i + Z&#8201;cos&#8201;r</span></span>
+      ,&nbsp;&nbsp;&nbsp;&nbsp;
+      <span class="f"><span class="n">E<sub>0</sub>&Prime;</span><span class="d">E<sub>0</sub></span></span>
+      =
+      <span class="f"><span class="n">Z&prime;cos&#8201;i &minus; Z&#8201;cos&#8201;r</span><span class="d">Z&prime;cos&#8201;i + Z&#8201;cos&#8201;r</span></span>
+    </div>
+    <div style="margin-top:8px">The <u>same</u> result in n, n&prime;, i &mdash; <b>this is Eq.&nbsp;(7.39)</b>, the form asked for:</div>
+    <div class="eqc" style="font-size:18px;margin:6px 0 0">
+      <span class="f"><span class="n">E<sub>0</sub>&prime;</span><span class="d">E<sub>0</sub></span></span>
+      = <span class="f"><span class="n">2n&#8201;cos&#8201;i</span><span class="d">n&#8201;cos&#8201;i + <span class="f" style="font-size:.9em"><span class="n">&mu;</span><span class="d">&mu;&prime;</span></span> <span class="sq">&radic;<span class="rt">n&prime;<sup>2</sup>&minus;n<sup>2</sup>sin<sup>2</sup>i</span></span></span></span>
+    </div>
+    <div class="eqc" style="font-size:18px;margin:8px 0 2px">
+      <span class="f"><span class="n">E<sub>0</sub>&Prime;</span><span class="d">E<sub>0</sub></span></span>
+      = <span class="f"><span class="n">n&#8201;cos&#8201;i &minus; <span class="f" style="font-size:.9em"><span class="n">&mu;</span><span class="d">&mu;&prime;</span></span> <span class="sq">&radic;<span class="rt">n&prime;<sup>2</sup>&minus;n<sup>2</sup>sin<sup>2</sup>i</span></span></span><span class="d">n&#8201;cos&#8201;i + <span class="f" style="font-size:.9em"><span class="n">&mu;</span><span class="d">&mu;&prime;</span></span> <span class="sq">&radic;<span class="rt">n&prime;<sup>2</sup>&minus;n<sup>2</sup>sin<sup>2</sup>i</span></span></span></span>
+    </div>
+  </div>
+
+  <div class="step">Step 0 &nbsp;&mdash;&nbsp; How the professor sets up <u>any</u> interface problem</div>
+  <div class="why">Lecture 3, slides 6&ndash;12 &mdash; learn this recipe once; every reflection problem follows it.</div>
+
+  <div class="ask">1. Write three waves and list what is unknown</div>
+  <div class="eq">
+    incident&nbsp;(known):&nbsp;
+    <span class="v">E</span> = <span class="v">E</span><sub>0</sub>e<sup>&#8201;i(<span class="v">k</span>&middot;<span class="v">x</span>&minus;&omega;t)</sup>,&nbsp;&nbsp;
+    <span class="v">B</span> = <span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span>
+    <span class="f"><span class="n"><span class="v">k</span>&times;<span class="v">E</span></span><span class="d">k</span></span>
+    <span class="src">Lec 3, slide 8</span>
+  </div>
+  <div class="eq">
+    reflected:&nbsp; <span class="v">E</span>&Prime; = <span class="v">E</span><sub>0</sub>&Prime;e<sup>&#8201;i(<span class="v">k</span>&Prime;&middot;<span class="v">x</span>&minus;&omega;&Prime;t)</sup>
+    &nbsp;&nbsp;&nbsp; transmitted:&nbsp; <span class="v">E</span>&prime; = <span class="v">E</span><sub>0</sub>&prime;e<sup>&#8201;i(<span class="v">k</span>&prime;&middot;<span class="v">x</span>&minus;&omega;&prime;t)</sup>
+    <span class="src">Lec 3, slides 8&ndash;9</span>
+  </div>
+  <div class="eq">
+    <b>unknown:</b>&nbsp;
+    <span class="v">E</span><sub>0</sub>&prime;,&nbsp; <span class="v">E</span><sub>0</sub>&Prime;,&nbsp;
+    <span class="v">k</span>&prime;,&nbsp; <span class="v">k</span>&Prime;,&nbsp; &omega;&prime;,&nbsp; &omega;&Prime;
+    <span class="lbl">the professor's own list, slide 9</span>
+  </div>
+
+  <div class="pnum">1</div>
+</div>
+
+<!-- ============ SHEET 2 ============ -->
+<div class="sheet">
+  <div class="ask" style="margin-top:0">2. Kinematics first &mdash; this kills the direction unknowns</div>
+  <div class="note" style="margin-top:0">
+    The boundary conditions hold at <i>every</i> point of z = 0 and <i>every</i> time &mdash; only possible if all
+    three phases are equal there.
+  </div>
+  <div class="eq">
+    &omega; = &omega;&prime; = &omega;&Prime;&nbsp;&nbsp;and&nbsp;&nbsp;
+    <span class="v">k</span>&middot;<span class="v">x</span> = <span class="v">k</span>&prime;&middot;<span class="v">x</span> = <span class="v">k</span>&Prime;&middot;<span class="v">x</span>
+    <span class="src">Lec 3, slide 11</span>
+  </div>
+  <div class="eq">
+    &rArr;&nbsp; k&#8201;sin&#8201;i = k&Prime;sin&#8201;r&prime; = k&prime;sin&#8201;r
+    &nbsp;&rArr;&nbsp;
+    <span class="red">r&prime; = i</span>&nbsp;&nbsp;and&nbsp;&nbsp;
+    <span class="red">n&#8201;sin&#8201;i = n&prime;sin&#8201;r</span>
+    <span class="src">Lec 3, slide 12</span>
+  </div>
+
+  <div class="ask">3. Dynamics second &mdash; only the amplitudes are left</div>
+  <div class="note" style="margin-top:0">
+    Two unknowns remain, <span class="v">E</span><sub>0</sub>&prime; and <span class="v">E</span><sub>0</sub>&Prime;,
+    so we need two equations. They come from Maxwell at the surface:
+  </div>
+  <div class="eq"><span class="bcnum">1</span> [ &epsilon;(<span class="v">E</span><sub>0</sub>+<span class="v">E</span><sub>0</sub>&Prime;) &minus; &epsilon;&prime;<span class="v">E</span><sub>0</sub>&prime; ] &middot; <span class="h">n</span> = 0
+    <span class="lbl">D<sub>&#8869;</sub> continuous</span></div>
+  <div class="eq"><span class="bcnum">2</span> ( <span class="v">E</span><sub>0</sub>+<span class="v">E</span><sub>0</sub>&Prime; &minus; <span class="v">E</span><sub>0</sub>&prime; ) &times; <span class="h">n</span> = 0
+    <span class="lbl">E<sub>&#8741;</sub> continuous</span></div>
+  <div class="eq"><span class="bcnum">3</span> [ <span class="v">k</span>&times;<span class="v">E</span><sub>0</sub> + <span class="v">k</span>&Prime;&times;<span class="v">E</span><sub>0</sub>&Prime; &minus; <span class="v">k</span>&prime;&times;<span class="v">E</span><sub>0</sub>&prime; ] &middot; <span class="h">n</span> = 0
+    <span class="lbl">B<sub>&#8869;</sub> continuous</span></div>
+  <div class="eq"><span class="bcnum">4</span> [ <span class="f"><span class="n">1</span><span class="d">&mu;</span></span>(<span class="v">k</span>&times;<span class="v">E</span><sub>0</sub> + <span class="v">k</span>&Prime;&times;<span class="v">E</span><sub>0</sub>&Prime;) &minus; <span class="f"><span class="n">1</span><span class="d">&mu;&prime;</span></span>(<span class="v">k</span>&prime;&times;<span class="v">E</span><sub>0</sub>&prime;) ] &times; <span class="h">n</span> = 0
+    <span class="lbl">H<sub>&#8741;</sub> continuous</span>
+    <span class="src">Lec 3, slide 10 = Jackson 7.37</span></div>
+
+  <div class="ask">4. Choose a polarization</div>
+  <div class="note" style="margin-top:0">
+    <b>E</b> can point anywhere perpendicular to <b>k</b>. Split into the two natural cases: <b>E</b> <i>in</i> the
+    plane of incidence (p) &mdash; done in class, Lecture 4 slides 2&ndash;3 &mdash; and <b>E</b> <i>perpendicular</i>
+    to it (s), which is this homework (Lecture 4 slide 4, marked &ldquo;HW 2&rdquo;).
+  </div>
+
+  <div class="startbox">
+    <b>STARTING POINT</b> &mdash; this is all you carry into Step 1:
+    <div style="margin-top:4px">
+      &bull;&nbsp; the four boundary conditions <span class="bcnum" style="font-size:.65em">1</span>&ndash;<span class="bcnum" style="font-size:.65em">4</span> above;&nbsp;&nbsp;
+      &bull;&nbsp; r&prime; = i and n&#8201;sin&#8201;i = n&prime;sin&#8201;r;&nbsp;&nbsp;
+      &bull;&nbsp; s polarization &rArr; <b>E</b> &#8869; plane of incidence.
+    </div>
+  </div>
+
+  <div class="pnum">2</div>
+</div>
+
+<!-- ============ SHEET 3 ============ -->
+<div class="sheet">
+  <div class="step" style="margin-top:0">Step 1 &nbsp;&mdash;&nbsp; Set up coordinates and write the vectors</div>
+  <div class="why">Same axes as the professor's picture (Lecture 3, slide 7): interface at z = 0 so n&#770; = z&#770;,
+    plane of incidence = x&ndash;z. Then &ldquo;E perpendicular to the plane of incidence&rdquo; means
+    <b>E along y&#770;</b>.</div>
+
+  <figure>
+    <svg viewBox="0 0 500 286" width="420">
+      <rect x="25" y="14" width="450" height="132" fill="#eef4fa"/>
+      <line class="thin" x1="25" y1="146" x2="475" y2="146"/>
+      <polygon points="475,146 466,142 466,150" fill="#16233d" opacity=".55"/>
+      <text x="479" y="151">x</text>
+      <line class="thin" x1="240" y1="276" x2="240" y2="16"/>
+      <polygon points="240,14 236,24 244,24" fill="#16233d" opacity=".55"/>
+      <text x="247" y="24">z&nbsp;=&nbsp;n&#770;</text>
+      <path class="ray" d="M 152 252 L 240 146"/>
+      <polygon points="240,146 228,150 234,158" fill="#16233d"/>
+      <text x="130" y="268">k</text>
+      <path class="ray" d="M 240 146 L 328 252"/>
+      <polygon points="328,252 316,245 323,240" fill="#16233d"/>
+      <text x="333" y="266">k&Prime; (reflected)</text>
+      <path class="ray" d="M 240 146 L 296 30"/>
+      <polygon points="296,30 290,42 299,43" fill="#16233d"/>
+      <text x="303" y="26">k&prime; (transmitted)</text>
+      <g class="stroke">
+        <circle cx="188" cy="210" r="7" fill="#fff"/><line x1="183" y1="205" x2="193" y2="215"/><line x1="193" y1="205" x2="183" y2="215"/>
+        <circle cx="292" cy="210" r="7" fill="#fff"/><line x1="287" y1="205" x2="297" y2="215"/><line x1="297" y1="205" x2="287" y2="215"/>
+        <circle cx="282" cy="58" r="7" fill="#fff"/><line x1="277" y1="53" x2="287" y2="63"/><line x1="287" y1="53" x2="277" y2="63"/>
+      </g>
+      <text x="152" y="228">E<tspan dy="3" font-size="10">0</tspan></text>
+      <text x="302" y="228">E<tspan dy="3" font-size="10">0</tspan><tspan dy="-3">&Prime;</tspan></text>
+      <text x="292" y="76">E<tspan dy="3" font-size="10">0</tspan><tspan dy="-3">&prime;</tspan></text>
+      <text x="221" y="188">i</text><text x="249" y="188">r&prime;</text><text x="264" y="108">r</text>
+      <text x="36" y="196">&mu;, &epsilon;&nbsp; (index n)</text>
+      <text x="352" y="112">&mu;&prime;, &epsilon;&prime;&nbsp; (index n&prime;)</text>
+      <text x="34" y="278">&#8855; = E pointing into the page</text>
+    </svg>
+    <figcaption>Angles named as the professor does: i incident, r&prime; reflected, r transmitted.
+      Step 0 already showed r&prime; = i.</figcaption>
+  </figure>
+
+  <div class="eq">
+    <span class="v">E</span><sub>0</sub> = E<sub>0</sub><span class="h">y</span>,&nbsp;&nbsp;
+    <span class="v">E</span><sub>0</sub>&Prime; = E<sub>0</sub>&Prime;<span class="h">y</span>,&nbsp;&nbsp;
+    <span class="v">E</span><sub>0</sub>&prime; = E<sub>0</sub>&prime;<span class="h">y</span>
+    <span class="lbl">the two unknowns are E<sub>0</sub>&prime;, E<sub>0</sub>&Prime;</span>
+  </div>
+  <div class="eq">
+    <span class="v">k</span> = k(sin&#8201;i&nbsp;<span class="h">x</span> + cos&#8201;i&nbsp;<span class="h">z</span>),&nbsp;&nbsp;&nbsp;
+    <span class="v">k</span>&prime; = k&prime;(sin&#8201;r&nbsp;<span class="h">x</span> + cos&#8201;r&nbsp;<span class="h">z</span>)
+  </div>
+  <div class="eq">
+    <span class="v">k</span>&Prime; = k(sin&#8201;r&prime;&nbsp;<span class="h">x</span> &minus; cos&#8201;r&prime;&nbsp;<span class="h">z</span>)
+    = k(sin&#8201;i&nbsp;<span class="h">x</span> &minus; cos&#8201;i&nbsp;<span class="h">z</span>)
+    <span class="lbl">using r&prime; = i from Step 0</span>
+  </div>
+  <div class="note">
+    <b>Where these three lines come from</b><br>
+    &bull;&nbsp; <b>E along y&#770;</b> &mdash; the plane of incidence is x&ndash;z, so &ldquo;perpendicular to it&rdquo;
+    can only mean &plusmn;y&#770;. Allowed for all three waves because <b>k&middot;E = 0</b> and all three
+    <b>k</b> lie in the x&ndash;z plane.<br>
+    &bull;&nbsp; <b>k and k&prime;</b> &mdash; a direction at angle &theta; <i>measured from the normal z&#770;</i> is
+    sin&#8201;&theta;&#8201;x&#770; + cos&#8201;&theta;&#8201;z&#770;. Multiply by the magnitudes
+    |k| = &omega;&radic;(&mu;&epsilon;), |k&prime;| = &omega;&radic;(&mu;&prime;&epsilon;&prime;).
+    <span class="src">Lec 3, slide 9</span><br>
+    &bull;&nbsp; <b>k&Prime;</b> &mdash; minus on z&#770; because the reflected wave goes back <i>down</i>; magnitude
+    is <b>k</b>, not k&Prime;, since |k&Prime;| = &omega;&Prime;&radic;(&mu;&epsilon;) = &omega;&radic;(&mu;&epsilon;) = k.
+    <span class="src">Lec 3, slide 9</span>
+  </div>
+
+  <div class="pnum">3</div>
+</div>
+
+<!-- ============ SHEET 4 ============ -->
+<div class="sheet">
+  <div class="step" style="margin-top:0">Step 2 &nbsp;&mdash;&nbsp; Which of the four boundary conditions are useful?</div>
+  <div class="why">The professor ticks the two that work and moves on (Lecture 4, slide 2). For s polarization
+    they turn out to be the same two he used for p: <b>&#9313;</b> and <b>&#9315;</b>.</div>
+  <div class="startbox" style="font-size:14.5px;padding:6px 14px;margin:8px 0">
+    <b>Reminder &mdash; the four conditions from p.&nbsp;2</b> (Lec 3, slide 10):<br>
+    <span class="bcnum">1</span> D<sub>&#8869;</sub> continuous (normal <b>D</b>) &nbsp;&nbsp;
+    <span class="bcnum">2</span> E<sub>&#8741;</sub> continuous (tangential <b>E</b>)<br>
+    <span class="bcnum">3</span> B<sub>&#8869;</sub> continuous (normal <b>B</b>) &nbsp;&nbsp;
+    <span class="bcnum">4</span> H<sub>&#8741;</sub> continuous (tangential <b>H</b>)
+  </div>
+
+
+  <div class="eq"><span class="bcnum">1</span> <b>D<sub>&#8869;</sub>:</b> <b>E</b> is along y&#770;, which is
+    tangential, so D<sub>&#8869;</sub> = 0 on both sides &rArr; <span class="red">0 = 0, nothing.</span></div>
+  <div class="eq"><span class="bcnum">3</span> <b>B<sub>&#8869;</sub>:</b> gives
+    k&#8201;sin&#8201;i&#8201;(E<sub>0</sub>+E<sub>0</sub>&Prime;) = k&prime;sin&#8201;r&#8201;E<sub>0</sub>&prime;,
+    and Snell (k&#8201;sin&#8201;i = k&prime;sin&#8201;r) lets you divide that common factor off both sides,
+    leaving E<sub>0</sub>+E<sub>0</sub>&Prime; = E<sub>0</sub>&prime; &mdash; the <b>same equation as</b>
+    <b>&#9313;</b> &rArr; <span class="red">nothing new.</span></div>
+  <div class="eq"><b>&#10003;</b> <span class="bcnum">2</span> and
+    <b>&#10003;</b> <span class="bcnum">4</span> are the two that give the answer.</div>
+
+  <div class="step">Step 3 &nbsp;&mdash;&nbsp; Write out <span class="bcnum">2</span> and <span class="bcnum">4</span></div>
+  <div class="why">Read the tangential components straight off the figure, using
+    |H| = |E|/Z from the impedance relation (Lecture 2).</div>
+
+  <div class="eq">
+    <span class="bcnum">2</span> &rArr;&nbsp;
+    <span class="v">E</span><sub>&#8741;</sub> + <span class="v">E</span><sub>&#8741;</sub>&Prime;
+    = <span class="v">E</span><sub>&#8741;</sub>&prime;
+    <span class="lbl">E is along y&#770;, i.e. <b>entirely</b> tangential &rarr; no cos</span>
+  </div>
+  <div class="eqc" style="font-size:18px">
+    <span style="border:2px solid #16233d;border-radius:7px;padding:2px 14px">
+      E<sub>0</sub> + E<sub>0</sub>&Prime; = E<sub>0</sub>&prime;
+    </span>
+    &nbsp;&nbsp;<span style="color:#17788c">&#8230;(I)</span>
+  </div>
+
+  <div class="eq">
+    <span class="bcnum">4</span> &rArr;&nbsp;
+    <span class="v">H</span><sub>&#8741;</sub> + <span class="v">H</span><sub>&#8741;</sub>&Prime;
+    = <span class="v">H</span><sub>&#8741;</sub>&prime;
+    <span class="lbl">H lies <b>in</b> the plane &rarr; tangential part = H&#8201;cos</span>
+  </div>
+  <div class="eqc" style="font-size:18px">
+    <span style="border:2px solid #16233d;border-radius:7px;padding:2px 14px">
+      <span class="f"><span class="n">E<sub>0</sub></span><span class="d">Z</span></span>cos&#8201;i
+      &minus;
+      <span class="f"><span class="n">E<sub>0</sub>&Prime;</span><span class="d">Z</span></span>cos&#8201;i
+      =
+      <span class="f"><span class="n">E<sub>0</sub>&prime;</span><span class="d">Z&prime;</span></span>cos&#8201;r
+    </span>
+    &nbsp;&nbsp;<span style="color:#17788c">&#8230;(II)</span>
+  </div>
+  <div class="note">
+    The minus sign: <b>H</b> &prop; k&#770;&nbsp;&times;&nbsp;<b>E</b>, and the incident and reflected waves travel
+    opposite ways in z, so their tangential (x&#770;) parts point opposite ways &mdash; exactly the same minus that
+    appears in the professor's p&#8209;polarization equation
+    E<sub>0</sub>cos&#8201;i &minus; E<sub>0</sub>&Prime;cos&#8201;i = E<sub>0</sub>&prime;cos&#8201;r.
+  </div>
+  <div class="note" style="margin-top:2px">
+    Compare with his p case: there <b>H</b> was &#8869; the plane (no cos) and <b>E</b> was in it (with cos).
+    For s the two swap over. (I) and (II) are Jackson's Eq. (7.38).
+  </div>
+
+  <div class="pnum">4</div>
+</div>
+
+<!-- ============ SHEET 5 ============ -->
+<div class="sheet">
+  <div class="step" style="margin-top:0">Step 4 &nbsp;&mdash;&nbsp; Solve the two equations</div>
+  <div class="why">Use (I) to remove E<sub>0</sub>&Prime;, then read off E<sub>0</sub>&prime;.</div>
+  <div class="eq">From (I): E<sub>0</sub>&Prime; = E<sub>0</sub>&prime; &minus; E<sub>0</sub>. Put into (II):</div>
+  <div class="eq">
+    <span class="f"><span class="n">cos&#8201;i</span><span class="d">Z</span></span>
+    ( 2E<sub>0</sub> &minus; E<sub>0</sub>&prime; )
+    =
+    <span class="f"><span class="n">cos&#8201;r</span><span class="d">Z&prime;</span></span>
+    E<sub>0</sub>&prime;
+    &nbsp;&rArr;&nbsp;
+    <span class="f"><span class="n">2E<sub>0</sub>cos&#8201;i</span><span class="d">Z</span></span>
+    = E<sub>0</sub>&prime;
+    <span class="f"><span class="n">Z&prime;cos&#8201;i + Z&#8201;cos&#8201;r</span><span class="d">Z&#8201;Z&prime;</span></span>
+  </div>
+
+  <div class="ans" style="border-color:#9aa5b1">
+    <span class="tag" style="color:#6b7683">STEP 4 &mdash; halfway, not Eq. (7.39) yet</span>
+    <div class="eqc" style="font-size:19px;margin-top:10px">
+      <span class="f"><span class="n">E<sub>0</sub>&prime;</span><span class="d">E<sub>0</sub></span></span>
+      =
+      <span class="f"><span class="n">2Z&prime;cos&#8201;i</span><span class="d">Z&prime;cos&#8201;i + Z&#8201;cos&#8201;r</span></span>
+      ,&nbsp;&nbsp;&nbsp;
+      <span class="f"><span class="n">E<sub>0</sub>&Prime;</span><span class="d">E<sub>0</sub></span></span>
+      =
+      <span class="f"><span class="n">E<sub>0</sub>&prime;</span><span class="d">E<sub>0</sub></span></span> &minus; 1
+      =
+      <span class="f"><span class="n">Z&prime;cos&#8201;i &minus; Z&#8201;cos&#8201;r</span><span class="d">Z&prime;cos&#8201;i + Z&#8201;cos&#8201;r</span></span>
+    </div>
+  </div>
+  <div class="note" style="margin-top:2px">
+    This matches the professor's Lecture 4 slide exactly &mdash; but it still contains Z, Z&prime; and cos&#8201;r.
+    Eq. (7.39) uses n, n&prime; and i only, so one more step is needed.
+  </div>
+
+  <div class="step">Step 5 &nbsp;&mdash;&nbsp; Rewrite it the way Jackson does</div>
+  <div class="why">Two substitutions: replace Z by n, then remove r using Snell.</div>
+  <div class="eq">
+    <b>(a)</b>&nbsp; n = c<span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span>&nbsp;&rArr;&nbsp;
+    Z = <span class="sq">&radic;<span class="rt">&mu;/&epsilon;</span></span>
+    = <span class="f"><span class="n">&mu;</span><span class="d"><span class="sq">&radic;<span class="rt">&mu;&epsilon;</span></span></span></span>
+    = <span class="f"><span class="n">&mu;c</span><span class="d">n</span></span>
+    ,&nbsp;&nbsp; Z&prime; = <span class="f"><span class="n">&mu;&prime;c</span><span class="d">n&prime;</span></span>
+  </div>
+  <div class="note">
+    Both come straight off one slide <span class="src">Lec 2, plane waves in a nonconducting medium</span>:
+    v<sub>p</sub> = 1/&radic;(&mu;&epsilon;) and n = c/v<sub>p</sub> give &radic;(&mu;&epsilon;) = n/c, and Z = &radic;(&mu;/&epsilon;).
+    The one trick is to multiply inside the root by &mu;:&nbsp;
+    &radic;(&mu;/&epsilon;) = &radic;(&mu;<sup>2</sup>/&mu;&epsilon;) = &mu;/&radic;(&mu;&epsilon;) = &mu;/(n/c) = &mu;c/n.
+  </div>
+  <div class="eq">
+    <span class="f"><span class="n">E<sub>0</sub>&prime;</span><span class="d">E<sub>0</sub></span></span>
+    =
+    <span class="f"><span class="n">2(&mu;&prime;c/n&prime;)cos&#8201;i</span><span class="d">(&mu;&prime;c/n&prime;)cos&#8201;i + (&mu;c/n)cos&#8201;r</span></span>
+    =
+    <span class="f"><span class="n">2n&#8201;cos&#8201;i</span><span class="d">n&#8201;cos&#8201;i + (&mu;/&mu;&prime;)&#8201;n&prime;cos&#8201;r</span></span>
+    <span class="lbl">&times; nn&prime;/(&mu;&prime;c)</span>
+  </div>
+  <div class="eq">
+    <b>(b)</b>&nbsp; Snell n&#8201;sin&#8201;i = n&prime;sin&#8201;r &nbsp;&rArr;&nbsp;
+    n&prime;cos&#8201;r = <span class="sq">&radic;<span class="rt">n&prime;<sup>2</sup> &minus; n<sup>2</sup>sin<sup>2</sup>i</span></span>
+  </div>
+
+  <div class="ans">
+    <span class="tag">FINAL ANSWER = JACKSON (7.39)</span>
+    <div class="eqc" style="font-size:18px;margin-top:10px">
+      <span class="f"><span class="n">E<sub>0</sub>&prime;</span><span class="d">E<sub>0</sub></span></span>
+      = <span class="f"><span class="n">2n&#8201;cos&#8201;i</span><span class="d">n&#8201;cos&#8201;i + <span class="f" style="font-size:.9em"><span class="n">&mu;</span><span class="d">&mu;&prime;</span></span> <span class="sq">&radic;<span class="rt">n&prime;<sup>2</sup>&minus;n<sup>2</sup>sin<sup>2</sup>i</span></span></span></span>
+    </div>
+    <div class="eqc" style="font-size:18px;margin-top:10px">
+      <span class="f"><span class="n">E<sub>0</sub>&Prime;</span><span class="d">E<sub>0</sub></span></span>
+      = <span class="f"><span class="n">n&#8201;cos&#8201;i &minus; <span class="f" style="font-size:.9em"><span class="n">&mu;</span><span class="d">&mu;&prime;</span></span> <span class="sq">&radic;<span class="rt">n&prime;<sup>2</sup>&minus;n<sup>2</sup>sin<sup>2</sup>i</span></span></span><span class="d">n&#8201;cos&#8201;i + <span class="f" style="font-size:.9em"><span class="n">&mu;</span><span class="d">&mu;&prime;</span></span> <span class="sq">&radic;<span class="rt">n&prime;<sup>2</sup>&minus;n<sup>2</sup>sin<sup>2</sup>i</span></span></span></span>
+    </div>
+  </div>
+  <div class="endmark">&#9632;&nbsp; END OF REQUIRED SOLUTION &mdash; everything below is optional &nbsp;&#9632;</div>
+
+  <div class="opt">
+    <span class="tag">OPTIONAL</span><b>Quick checks.</b> No interface (n = n&prime;): Z = Z&prime;, r = i
+    &rArr; E<sub>0</sub>&Prime;/E<sub>0</sub> = 0, E<sub>0</sub>&prime;/E<sub>0</sub> = 1. &#10003;&nbsp;
+    Energy: R + T = 1, using (a&minus;b)<sup>2</sup> + 4ab = (a+b)<sup>2</sup> with a = Z&prime;cos&#8201;i,
+    b = Z&#8201;cos&#8201;r. &#10003;
+  </div>
+
+  <div class="pnum">5</div>
+</div>
+
+<!-- ============ SHEET 6 ============ -->
+<div class="sheet">
+  <div class="qhead" style="margin-top:0">Problem 2 &mdash; Brewster's angle</div>
+
+  <div class="stmt">
+    Show that for <b>p polarization</b> (E parallel to the plane of incidence) there is an angle at which
+    nothing is reflected, and find it. Take &mu; = &mu;&prime;. &mdash; Jackson Eq.&nbsp;(7.43).
+  </div>
+
+  <div class="ans">
+    <span class="tag">ANSWER</span>
+    <div class="eqc" style="font-size:24px;margin:10px 0 6px">
+      i<sub>B</sub> = tan<sup>&minus;1</sup>
+      <span class="f"><span class="n">n&prime;</span><span class="d">n</span></span>
+    </div>
+    <div class="sub">Only p polarization has such an angle. Air &rarr; glass: 56.3&deg;; glass &rarr; air: 33.7&deg;.</div>
+  </div>
+
+  <div class="step">Step 0 &nbsp;&mdash;&nbsp; Where does this start?</div>
+  <div class="why">You do <b>not</b> redo Problem 1. The professor already derived the p-polarization
+    coefficient in class by exactly the same four-boundary-condition route; you start from his result.</div>
+  <div class="eq">
+    <span class="f"><span class="n">E<sub>0</sub>&Prime;</span><span class="d">E<sub>0</sub></span></span>
+    =
+    <span class="f"><span class="n">Z&#8201;cos&#8201;i &minus; Z&prime;cos&#8201;r</span><span class="d">Z&#8201;cos&#8201;i + Z&prime;cos&#8201;r</span></span>
+    <span class="src">Lec 4, slides 3 &amp; 13</span>
+    <span class="lbl">Z and Z&prime; swapped vs. s</span>
+  </div>
+  <div class="note">
+    Compare with the s result on p. 4: the only difference is which impedance sits with cos&#8201;i.
+    That swap is the entire reason Brewster's angle exists for p and not for s.
+  </div>
+
+  <div class="step">Step 1 &nbsp;&mdash;&nbsp; When is the reflected amplitude zero?</div>
+  <div class="why">A fraction is zero when its numerator is zero.</div>
+  <div class="eq">
+    E<sub>0</sub>&Prime; = 0&nbsp;&nbsp;&hArr;&nbsp;&nbsp;
+    <span class="red">Z&#8201;cos&#8201;i = Z&prime;cos&#8201;r</span>
+  </div>
+
+  <div class="step">Step 2 &nbsp;&mdash;&nbsp; Write it in terms of n</div>
+  <div class="why">Put Z = &mu;c/n (same bridge as Problem 1, Step 5). With &mu; = &mu;&prime; the &mu;c cancels.</div>
+  <div class="eq">
+    <span class="f"><span class="n">&mu;c</span><span class="d">n</span></span>cos&#8201;i
+    =
+    <span class="f"><span class="n">&mu;c</span><span class="d">n&prime;</span></span>cos&#8201;r
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp;
+    <span style="border:2px solid #16233d;border-radius:7px;padding:2px 12px">n&prime;cos&#8201;i = n&#8201;cos&#8201;r</span>
+    &nbsp;<span style="color:#17788c">&#8230;(A)</span>
+  </div>
+  <div class="eq">
+    and Snell always holds:&nbsp;
+    <span style="border:2px solid #16233d;border-radius:7px;padding:2px 12px">n&#8201;sin&#8201;i = n&prime;sin&#8201;r</span>
+    &nbsp;<span style="color:#17788c">&#8230;(B)</span>
+  </div>
+
+  <div class="pnum">6</div>
+</div>
+
+<!-- ============ SHEET 7 ============ -->
+<div class="sheet">
+  <div class="step" style="margin-top:0">Step 3 &nbsp;&mdash;&nbsp; Combine (A) and (B)</div>
+  <div class="why">Multiply them together &mdash; the n's cancel and a double angle appears.</div>
+  <div class="eq">
+    n&#8201;n&prime;&#8201;sin&#8201;i&#8201;cos&#8201;i = n&#8201;n&prime;&#8201;sin&#8201;r&#8201;cos&#8201;r
+    &nbsp;&rArr;&nbsp; sin&#8201;i&#8201;cos&#8201;i = sin&#8201;r&#8201;cos&#8201;r
+    &nbsp;&rArr;&nbsp; sin&#8201;2i = sin&#8201;2r
+  </div>
+  <div class="eq">
+    Two possibilities: 2i = 2r (means n = n&prime;, no interface &mdash; reject), or 2i = 180&deg; &minus; 2r:
+  </div>
+  <div class="eqc" style="font-size:18px">
+    <span style="border:2px solid #16233d;border-radius:7px;padding:2px 14px">i<sub>B</sub> + r = 90&deg;</span>
+  </div>
+
+  <div class="step">Step 4 &nbsp;&mdash;&nbsp; Put that back into Snell</div>
+  <div class="eq">
+    n&#8201;sin&#8201;i<sub>B</sub> = n&prime;sin(90&deg; &minus; i<sub>B</sub>) = n&prime;cos&#8201;i<sub>B</sub>
+    &nbsp;&nbsp;&rArr;&nbsp;&nbsp; tan&#8201;i<sub>B</sub> = n&prime;/n
+  </div>
+
+  <div class="ans">
+    <span class="tag">FINAL ANSWER = JACKSON (7.43)</span>
+    <div class="eqc" style="font-size:23px;margin:10px 0 6px">
+      i<sub>B</sub> = tan<sup>&minus;1</sup>
+      <span class="f"><span class="n">n&prime;</span><span class="d">n</span></span>
+      &nbsp;&nbsp;&nbsp;<span style="font-size:.72em">(equivalently&nbsp; i<sub>B</sub> + r = 90&deg;)</span>
+    </div>
+  </div>
+  <div class="endmark">&#9632;&nbsp; END OF REQUIRED SOLUTION &mdash; everything below is optional &nbsp;&#9632;</div>
+
+  <div class="opt">
+    <span class="tag">OPTIONAL</span><b>Same answer without the double-angle trick.</b>
+    From (A) cos&#8201;r = (n&prime;/n)cos&#8201;i and from (B) sin&#8201;r = (n/n&prime;)sin&#8201;i. Then
+    sin<sup>2</sup>r + cos<sup>2</sup>r = 1 gives
+    (n<sup>2</sup>/n&prime;<sup>2</sup>)sin<sup>2</sup>i + (n&prime;<sup>2</sup>/n<sup>2</sup>)cos<sup>2</sup>i = 1,
+    hence sin<sup>2</sup>i<sub>B</sub> = n&prime;<sup>2</sup>/(n<sup>2</sup>+n&prime;<sup>2</sup>) and
+    cos<sup>2</sup>i<sub>B</sub> = n<sup>2</sup>/(n<sup>2</sup>+n&prime;<sup>2</sup>), so
+    tan&#8201;i<sub>B</sub> = n&prime;/n. &#10003;
+  </div>
+
+  <div class="pnum">7</div>
+</div>
+
+<!-- ============ SHEET 8 : extra ============ -->
+<div class="sheet">
+  <div class="extrahdr">EXTRA &mdash; none of this page is required for the answer</div>
+
+  <div class="step" style="margin-top:0">Why s polarization has no Brewster angle</div>
+  <div class="eq">
+    From Problem 1, E<sub>0</sub>&Prime; = 0 would need Z&prime;cos&#8201;i = Z&#8201;cos&#8201;r, i.e.
+    (with &mu; = &mu;&prime;)&nbsp; n&#8201;cos&#8201;i = n&prime;cos&#8201;r.
+  </div>
+  <div class="eq">
+    Combine with Snell n&#8201;sin&#8201;i = n&prime;sin&#8201;r &mdash; <b>square both and add</b>:
+    n<sup>2</sup> = n&prime;<sup>2</sup> &mdash; only if there is no interface at all.
+  </div>
+  <div class="note">
+    So r<sub>s</sub> never vanishes, at any angle. Light reflected at i<sub>B</sub> is therefore 100%
+    s polarized &mdash; that is how polarizing sunglasses and camera filters remove glare.
+  </div>
+
+  <div class="step">Physical picture</div>
+  <div class="note" style="margin-top:0">
+    i<sub>B</sub> + r = 90&deg; means the reflected direction is perpendicular to the refracted one. For p
+    polarization the transmitted <b>E</b>&prime; is perpendicular to <b>k</b>&prime;, so it points <i>exactly
+    along</i> the reflected direction &mdash; and <b>a dipole radiates nothing along its own axis</b>.
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 520 330" width="440">
+      <line class="thin" x1="70" y1="40" x2="70" y2="290"/>
+      <line class="thin" x1="70" y1="290" x2="500" y2="290"/>
+      <line class="thin" x1="70" y1="40" x2="490" y2="40" style="opacity:.25"/>
+      <line class="thin" x1="70" y1="102" x2="490" y2="102" style="opacity:.25"/>
+      <line class="thin" x1="70" y1="165" x2="490" y2="165" style="opacity:.25"/>
+      <line class="thin" x1="70" y1="227" x2="490" y2="227" style="opacity:.25"/>
+      <line class="thin" x1="163" y1="40" x2="163" y2="290" style="opacity:.25"/>
+      <line class="thin" x1="257" y1="40" x2="257" y2="290" style="opacity:.25"/>
+      <line class="thin" x1="350" y1="40" x2="350" y2="290" style="opacity:.25"/>
+      <line class="thin" x1="443" y1="40" x2="443" y2="290" style="opacity:.25"/>
+      <text x="44" y="45">1.0</text><text x="44" y="107">0.75</text><text x="44" y="170">0.5</text>
+      <text x="44" y="232">0.25</text><text x="52" y="295">0</text>
+      <text x="63" y="310">0&deg;</text><text x="150" y="310">20&deg;</text><text x="244" y="310">40&deg;</text>
+      <text x="337" y="310">60&deg;</text><text x="430" y="310">80&deg;</text>
+      <text x="240" y="327">angle of incidence &nbsp;i</text>
+      <text x="16" y="30">|r|</text>
+      <line class="dash" x1="333" y1="290" x2="333" y2="62" style="stroke:#c0392b;opacity:.9"/>
+      <text x="286" y="56" fill="#c0392b">i<tspan dy="3" font-size="10">B</tspan><tspan dy="-3"> = 56.3&deg;</tspan></text>
+      <polyline class="curveS" points="70,240 74,240 77,240 80,240 84,240 88,240 91,240 94,240 98,240 102,240 105,239 108,239 112,239 116,239 119,239 122,239 126,239 130,238 133,238 136,238 140,238 144,237 147,237 150,237 154,237 158,236 161,236 164,236 168,235 172,235 175,235 178,234 182,234 186,233 189,233 192,232 196,232 200,231 203,231 206,230 210,230 214,229 217,229 220,228 224,228 228,227 231,226 234,226 238,225 242,224 245,223 248,222 252,222 256,221 259,220 262,219 266,218 270,217 273,216 276,215 280,214 284,213 287,212 290,211 294,210 298,208 301,207 304,206 308,205 312,203 315,202 318,200 322,199 326,197 329,196 332,194 336,192 340,191 343,189 346,187 350,185 354,183 357,181 360,179 364,177 368,174 371,172 374,170 378,167 382,165 385,162 388,160 392,157 396,154 399,151 402,148 406,145 410,142 413,139 416,135 420,132 424,128 427,125 430,121 434,117 438,113 441,109 444,105 448,101 452,96 455,92 458,87 462,83 466,78 469,73 472,68 476,62 480,57 483,51 486,46 490,40"/>
+      <polyline class="curveP" points="70,240 74,240 77,240 80,240 84,240 88,240 91,240 94,240 98,240 102,240 105,241 108,241 112,241 116,241 119,241 122,241 126,241 130,242 133,242 136,242 140,242 144,243 147,243 150,243 154,243 158,244 161,244 164,244 168,245 172,245 175,245 178,246 182,246 186,247 189,247 192,248 196,248 200,249 203,249 206,250 210,250 214,251 217,251 220,252 224,253 228,253 231,254 234,255 238,256 242,256 245,257 248,258 252,259 256,260 259,261 262,262 266,263 270,264 273,265 276,266 280,267 284,268 287,269 290,271 294,272 298,273 301,275 304,276 308,278 312,279 315,281 318,283 322,284 326,286 329,288 332,290 336,288 340,286 343,284 346,282 350,279 354,277 357,274 360,272 364,269 368,266 371,264 374,261 378,257 382,254 385,251 388,247 392,244 396,240 399,236 402,232 406,227 410,223 413,218 416,213 420,208 424,203 427,198 430,192 434,186 438,179 441,173 444,166 448,159 452,151 455,143 458,135 462,127 466,118 469,108 472,98 476,88 480,77 483,65 486,53 490,40"/>
+      <text x="196" y="220">|r<tspan dy="3" font-size="10">s</tspan><tspan dy="-3">|</tspan></text>
+      <text x="196" y="272" fill="#c0392b">|r<tspan dy="3" font-size="10">p</tspan><tspan dy="-3">|</tspan></text>
+      <text x="100" y="76">air &rarr; glass:&nbsp; n = 1, n&prime; = 1.5</text>
+      <text x="100" y="102">|r<tspan dy="3" font-size="10">p</tspan><tspan dy="-3">| touches zero at i</tspan><tspan dy="3" font-size="10">B</tspan><tspan dy="-3">; |r</tspan><tspan dy="3" font-size="10">s</tspan><tspan dy="-3">| never does</tspan></text>
+    </svg>
+    <figcaption>Same shape as the left panel of the Lecture 4 &ldquo;Brewster's angle&rdquo; slide.</figcaption>
+  </figure>
+
+  <div class="opt">
+    <span class="tag">OPTIONAL</span><b>Number check.</b>
+    Air &rarr; glass: i<sub>B</sub> = tan<sup>&minus;1</sup>1.5 = 56.3&deg;; Jackson writes &ldquo;&asymp; 56&deg;&rdquo;. &#10003;
+    Glass &rarr; air: 33.7&deg;, below the critical angle 41.8&deg;. &#10003;
+  </div>
+
+  <div class="pnum">8</div>
+</div>
